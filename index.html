@@ -8,22 +8,60 @@
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
           
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  <script type="text/javascript" src="assets/javascript/"></script>
+  <meta charset="UTF-8">
 </head>
 <body>
+<video autoplay loop muted  id="background">   
+        <source src="http://ui.specbee.com/sample/bird.mp4" type="video/mp4">
+</video>
 
-<div class="container">
 	<div class="center-align">
 		<header>
 			<h1>Dinner and a Movie
 			(Make different font)</h1>
 		</header>
 	</div>
+<div class="formDiv col s12">
+	<form class="center-align">
 
+		<input  type="text" id="movie" placeholder="Movie">
+        <input  type="number" id="distanceMovie" placeholder="Distance">
+        <button class="red lighten-3 btn" type="submit" id="submitMovie"> Submit </button>
+        
 
-	<div class="scenter-align col s12">
-	<button class="waves-effect waves-light btn col s6 formbutton">Movie</button> 
-	<button class="waves-effect waves-light btn col s6 formbutton">Dinner</button>
+	    <input  type="text" id="restaurant" placeholder="Food">
+        <input  type="number" id="distanceRestaurant" placeholder="Distance">
+        <button class="red lighten-3 btn submit-restaurant" type="submit" id="submitRestaurant"> Submit</button>         					   
+	</form>
 </div>
+
+
+<div class="movieOutputDiv">
+	<div class="movieList">
+		<div class="movieSquare col s6">
+			<img src="https://3.bp.blogspot.com/-W__wiaHUjwI/Vt3Grd8df0I/AAAAAAAAA78/7xqUNj8ujtY/s1600/image02.png">
+		</div>
+
+		<div class="movieSquare col s6">
+			<img src="https://3.bp.blogspot.com/-W__wiaHUjwI/Vt3Grd8df0I/AAAAAAAAA78/7xqUNj8ujtY/s1600/image02.png">
+		</div>
+
+		<div class="movieSquare col s6">
+		<img src="https://3.bp.blogspot.com/-W__wiaHUjwI/Vt3Grd8df0I/AAAAAAAAA78/7xqUNj8ujtY/s1600/image02.png">
+		</div>
+
+		<div class="movieSquare col s6">
+		<img src="https://3.bp.blogspot.com/-W__wiaHUjwI/Vt3Grd8df0I/AAAAAAAAA78/7xqUNj8ujtY/s1600/image02.png">
+		</div>
+
+	</div>
+</div>
+
+
+
+
 
 
 

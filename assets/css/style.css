@@ -1,3 +1,52 @@
 .formbutton{
-	width:300px;
+	width:400px;
+	border-radius:10px;
+}
+
+#background {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    background: url(polina.jpg) no-repeat;
+    background-size: cover;
+}
+
+#movie, #restaurant{
+	width:650px;
+
+}
+
+#distanceMovie,#distanceRestaurant{
+	width:80px;
+}
+
+.formDiv{
+	margin-top:200px;
+	margin-bottom:100px;
+	background-color: black;
+	opacity:0.5;
+	padding:100px;
+}
+
+.movieOutputDiv{
+	margin-top:200px;
+	margin-bottom:100px;
+	background-color: black;
+	opacity:0.5;
+	padding:100px;
+
+}
+
+.movieSquare{
+	width:50px;
+	height:100px;
+	background-color:black !IMPORTANT;
+
 }
