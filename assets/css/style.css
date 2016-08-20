@@ -23,35 +23,26 @@
 
 }
 
+
 #distanceMovie,#distanceRestaurant{
 	width:80px;
 }
 
 .formDiv{
-	margin-top:200px;
-	margin-bottom:100px;
-	background-color: black;
-	opacity:0.5;
-	padding:100px;
+	background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+	height:100px;
 }
 
-.movieOutputDiv{
-	margin-top:200px;
+.outputDiv{
 	margin-bottom:100px;
-	background-color: black;
-	opacity:0.5;
+	background: rgba(0, 0, 0, 0.8);
+    color: #fff;
 	padding:100px;
 	height:500px;
 }
 
-.restaurantOutputDiv{
-	margin-top:200px;
-	margin-bottom:100px;
-	background-color: black;
-	opacity:0.5;
-	padding:100px;
-	height:500px;
-}
+
 
 .movieSquare{
 	width:50px;
