@@ -12,6 +12,7 @@ var database = firebase.database();
 var compute = {
 
     startAddress: '',
+    resultCounter: 1,
 
     getAddress: function() {
         var addressSentence = $('#addressInput').val().trim();
@@ -91,16 +92,21 @@ var compute = {
         });
     },
 
-    getRest: function(geoObj) {
+    getRest: function(geoObj, newQueryURL) {
         var lat = geoObj.lat;
         var lng = geoObj.lng;
         var searchCriteria;
+        var queryURL;
         if (geoObj.searchCriteria) {
             searchCriteria = geoObj.searchCriteria;
         } else {
             searchCriteria = 'rating';
         }
-        var queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
+        if (newQueryURL) {
+            queryURL = newQueryURL;
+        } else {
+            queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
+        }
         $.ajax({url: queryURL, method: 'GET'})
         .then(function(response) {
             var name;
@@ -118,18 +124,17 @@ var compute = {
                 link = response.restaurants[i].restaurant.url;
                 render.displayRest(name, location, cuisine, rating, priceRange, link);
             }
+            if (response.restaurants.length === 20 && compute.resultCounter < 22) {
+                compute.resultCounter += 20;
+                var newQuery = "https://developers.zomato.com/api/v2.1/search?start=" + compute.resultCounter + "&lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
+                compute.getRest(geoObj, newQuery);
+            }
         });
     }
 
 };
 
 var render = {
-
-    clearInput: function() {
-        $('#addressInput').val("");
-        $('#cityInput').val("");
-        $('#stateInput').val("");
-    },
 
     displayRest: function(name, location, cuisine, rating, priceRange, link) {
         var nameP = $('<p>');
@@ -209,18 +214,6 @@ var render = {
         $('#mapOutput').append(blankP);
     },
 
-    clearRestTable: function() {
-        $('#restaurantTable').empty();
-    },
-
-    clearRestChoice: function() {
-        $('#restChoiceOutput').empty();
-    },
-
-    clearMapOutput: function() {
-        $('#mapOutput').empty();
-    },
-
     displayRestChoice: function(name, location, cuisine, rating, priceRange, link) {
         var nameP = $('<p>');
         var locationP = $('<p>');
@@ -251,6 +244,24 @@ var render = {
         $('#restChoiceOutput').append(linkA);
         $('#restChoiceOutput').append(choiceBtn);
         $('#restChoiceOutput').append(blankP);
+    },
+
+    clearInput: function() {
+        $('#addressInput').val("");
+        $('#cityInput').val("");
+        $('#stateInput').val("");
+    },
+
+    clearRestTable: function() {
+        $('#restaurantTable').empty();
+    },
+
+    clearRestChoice: function() {
+        $('#restChoiceOutput').empty();
+    },
+
+    clearMapOutput: function() {
+        $('#mapOutput').empty();
     }
 
 };
