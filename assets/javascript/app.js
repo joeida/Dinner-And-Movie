@@ -268,9 +268,9 @@ var render = {
     },
 
     clearInput: function() {
-        $('#addressInput').val("");
-        $('#cityInput').val("");
-        $('#stateInput').val("");
+        $('#address').val("");
+        $('#city').val("");
+        $('#state').val("");
     },
 
     clearRestTable: function() {
