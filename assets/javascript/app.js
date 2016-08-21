@@ -11,6 +11,8 @@ var database = firebase.database();
 
 var compute = {
 
+    startAddress: '',
+
     getAddress: function() {
         var addressSentence = $('#addressInput').val().trim();
         var addressList = addressSentence.split(' ');
@@ -73,6 +75,7 @@ var compute = {
             var lat = response.results[0].geometry.location.lat;
             var lng = response.results[0].geometry.location.lng;
             var address = response.results[0].formatted_address;
+            compute.startAddress = address;
             var addressList = address.split(', ');
             console.log(address);
             console.log(addressList);
@@ -189,13 +192,15 @@ var render = {
         $('#restaurantTable').append(blankP);
     },
 
-    displayRestMap: function(origin, destination) {
+    displayRestDistanceMap: function(origin, destination) {
+        render.clearMapOutput();
         var queryBegin = 'https://www.google.com/maps/embed/v1/directions?key=AIzaSyD5L9bqnVgrw-XfE1nZbhREaDukQJVPDQs&';
         var queryOrigin = 'origin=los+angeles+California&';
         var queryDestination = 'destination=glendale+California&';
         var queryEnd = 'avoid=tolls|highways';
         var queryURL = queryBegin + queryOrigin + queryDestination + queryEnd;
-        var iframe = $('<iframe>');
+        console.log(queryURL);
+        var iframe = $('<iframe>')
         var blankP = $('<p>');
         iframe.attr('id', 'restaurantMap');
         iframe.attr('width', '450');
@@ -204,16 +209,40 @@ var render = {
         iframe.attr('style', 'border:0');
         iframe.attr('src', queryURL);
         iframe.attr('allowfullscreen');
-        $('#restaurantTable').append(iframe);
-        $('#restaurantTable').append(blankP);
+        $('#mapOutput').append(iframe);
+        $('#mapOutput').append(blankP);
+    },
+
+    displayRestMap: function(destination) {
+        render.clearMapOutput();
+        var queryBegin = 'https://www.google.com/maps/embed/v1/search?key=AIzaSyD5L9bqnVgrw-XfE1nZbhREaDukQJVPDQs&q='
+        var queryDestination = destination.split(' ').join('+');
+        var queryURL = queryBegin + queryDestination;
+        console.log(queryURL);
+        var iframe = $('<iframe>')
+        var blankP = $('<p>');
+        iframe.attr('id', 'restaurantMap');
+        iframe.attr('width', '450');
+        iframe.attr('height', '250');
+        iframe.attr('frameborder', '0');
+        iframe.attr('style', 'border:0');
+        iframe.attr('src', queryURL);
+        iframe.attr('allowfullscreen');
+        $('#mapOutput').append(iframe);
+        $('#mapOutput').append(blankP);
     },
 
     clearRestChoice: function() {
         $('#restaurantOutput').empty();
     },
 
+    clearMapOutput: function() {
+        $('#mapOutput').empty();
+    },
+
     displayRestChoice: function(name, location, cuisine, rating, priceRange, link) {
         console.log(name, location, cuisine, rating, priceRange, link);
+        console.log(compute.startAddress);
     }
 
 };
@@ -258,6 +287,11 @@ database.ref('/restaurant').on("value", function(snapshot) {
     var priceRange = snapshot.val().priceRange;
     var link = snapshot.val().link;
     render.displayRestChoice(name, location, cuisine, rating, priceRange, link);
+    if (compute.startAddress) {
+        render.displayRestDistanceMap(compute.startAddress, location);
+    } else {
+        render.displayRestMap(location);
+    }
 });
 
 
