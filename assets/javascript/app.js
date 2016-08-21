@@ -67,37 +67,15 @@ var compute = {
             queryList.push(state);
         }
         query = queryList.join(',+');
-        console.log(query);
         var queryURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + query + "&key=AIzaSyBZgPjyk5ho6Axhr_2dU1Ay3M7rU71HXvs";
-        console.log(queryURL);
         $.ajax({url: queryURL, method: 'GET'})
         .then(function(response) {
             var lat = response.results[0].geometry.location.lat;
             var lng = response.results[0].geometry.location.lng;
             var address = response.results[0].formatted_address;
             compute.startAddress = address;
+            db.setRestOnLoad();
             var addressList = address.split(', ');
-            console.log(address);
-            console.log(addressList);
-            console.log(addressList.length);
-            if (addressList.length === 3) {
-                var city = addressList[0];
-                var state = addressList[1];
-                var country = addressList[2];
-                console.log('city: ' + city);
-                console.log('state: ' + state);
-                console.log('country: ' + country);
-            }
-            if (addressList.length === 4) {
-                var street = addressList[0];
-                var city = addressList[1];
-                var state = addressList[2];
-                var country = addressList[3];
-                console.log('street: ' + street);
-                console.log('city: ' + city);
-                console.log('state: ' + state);
-                console.log('country: ' + country);
-            }
             var geoObj = {
                 lat: lat,
                 lng: lng,
@@ -106,7 +84,6 @@ var compute = {
             return geoObj;
         })
         .then (function(geoObj) {
-            console.log(geoObj);
             compute.getRest(geoObj);
         })
         .fail (function(error) {
@@ -123,21 +100,18 @@ var compute = {
         } else {
             searchCriteria = 'rating';
         }
-        console.log(lat, lng, searchCriteria);
         // if (geoObj.page === 2) {
         //     var queryURL = "https://developers.zomato.com/api/v2.1/search?start=21&lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
         // }
         var queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
         $.ajax({url: queryURL, method: 'GET'})
         .then(function(response) {
-            console.log(response);
             var name;
             var location;
             var cuisine;
             var rating;
             var priceRange;
             var link;
-            console.log(response.restaurants.length);
             for (var i = 0; i < response.restaurants.length; i++) {
                 name = response.restaurants[i].restaurant.name;
                 location = response.restaurants[i].restaurant.location.address;
@@ -195,11 +169,11 @@ var render = {
     displayRestDistanceMap: function(origin, destination) {
         render.clearMapOutput();
         var queryBegin = 'https://www.google.com/maps/embed/v1/directions?key=AIzaSyD5L9bqnVgrw-XfE1nZbhREaDukQJVPDQs&';
-        var queryOrigin = 'origin=los+angeles+California&';
-        var queryDestination = 'destination=glendale+California&';
+        var queryOrigin = 'origin=' + origin.split(', ').join('+') + '&';
+        var destinationList = destination.split(', ').join('+');
+        var queryDestination = 'destination=' + destinationList.split(' ').join('+') + '&';
         var queryEnd = 'avoid=tolls|highways';
         var queryURL = queryBegin + queryOrigin + queryDestination + queryEnd;
-        console.log(queryURL);
         var iframe = $('<iframe>')
         var blankP = $('<p>');
         iframe.attr('id', 'restaurantMap');
@@ -216,9 +190,9 @@ var render = {
     displayRestMap: function(destination) {
         render.clearMapOutput();
         var queryBegin = 'https://www.google.com/maps/embed/v1/search?key=AIzaSyD5L9bqnVgrw-XfE1nZbhREaDukQJVPDQs&q='
-        var queryDestination = destination.split(' ').join('+');
+        var destinationList = destination.split(', ').join('+');
+        var queryDestination = destinationList.split(' ').join('+');
         var queryURL = queryBegin + queryDestination;
-        console.log(queryURL);
         var iframe = $('<iframe>')
         var blankP = $('<p>');
         iframe.attr('id', 'restaurantMap');
@@ -233,7 +207,7 @@ var render = {
     },
 
     clearRestChoice: function() {
-        $('#restaurantOutput').empty();
+        $('#restChoiceOutput').empty();
     },
 
     clearMapOutput: function() {
@@ -241,10 +215,71 @@ var render = {
     },
 
     displayRestChoice: function(name, location, cuisine, rating, priceRange, link) {
-        console.log(name, location, cuisine, rating, priceRange, link);
-        console.log(compute.startAddress);
+        var nameP = $('<p>');
+        var locationP = $('<p>');
+        var cuisineP = $('<p>');
+        var ratingP = $('<p>');
+        var priceRangeP = $('<p>');
+        var linkA = $('<a>');
+        var choiceBtn = $('<button>');
+        var blankP = $('<p>');
+        choiceBtn.addClass('removeRestaurant btn btn-sm btn-danger');
+        choiceBtn.text('Remove From Itinerary');
+        nameP.text('Restaurant: ' + name);
+        locationP.text('Location: ' + location);
+        cuisineP.text('Cuisine: ' + cuisine);
+        ratingP.text('User Rating: ' + rating);
+        priceRangeP.text('Price Range: ' + priceRange);
+        var linkGlyph = $('<span>');
+        linkGlyph.addClass('glyphicon glyphicon-info-sign');
+        linkA.attr('href', link);
+        linkA.attr('target', '_blank');
+        linkA.text(' more info ');
+        linkA.prepend(linkGlyph);
+        $('#restChoiceOutput').append(nameP);
+        $('#restChoiceOutput').append(locationP);
+        $('#restChoiceOutput').append(cuisineP);
+        $('#restChoiceOutput').append(ratingP);
+        $('#restChoiceOutput').append(priceRangeP);
+        $('#restChoiceOutput').append(linkA);
+        $('#restChoiceOutput').append(choiceBtn);
+        $('#restChoiceOutput').append(blankP);
     }
 
+};
+
+var db = {
+    setRest: function(restObj) {
+        database.ref('/restaurant').set(restObj);
+    },
+
+    setRestOnLoad: function () {
+        database.ref('/restaurant').once("value", function(snapshot) {
+            var name = snapshot.val().name;
+            var location = snapshot.val().location;
+            var cuisine = snapshot.val().cuisine;
+            var rating = snapshot.val().rating;
+            var priceRange = snapshot.val().priceRange;
+            var link = snapshot.val().link;
+            var restClearObj = {
+                name: name,
+                location: location,
+                cuisine: cuisine,
+                rating: rating,
+                priceRange: priceRange,
+            };
+            var restObj = {
+                name: name,
+                location: location,
+                cuisine: cuisine,
+                rating: rating,
+                priceRange: priceRange,
+                link: link
+            };
+            database.ref('/restaurant').set(restClearObj);
+            database.ref('/restaurant').set(restObj);
+        });
+    }
 };
 
 
@@ -252,8 +287,6 @@ $('#getRestBtn').on('click', function() {
 
     var addressObj = compute.getAddress();
     var searchCriteria = compute.getSearchCriteria();
-    console.log(addressObj);
-    console.log(searchCriteria);
     compute.getGeo(addressObj, searchCriteria);
 
     return false;
@@ -275,7 +308,7 @@ $('#restaurantTable').on('click', '.addRestaurant', function() {
         priceRange: priceRange,
         link: link
     };
-    database.ref('/restaurant').set(restObj);
+    db.setRest(restObj);
 });
 
 database.ref('/restaurant').on("value", function(snapshot) {
@@ -293,5 +326,4 @@ database.ref('/restaurant').on("value", function(snapshot) {
         render.displayRestMap(location);
     }
 });
-
 
