@@ -223,7 +223,7 @@ var render = {
         var linkA = $('<a>');
         var choiceBtn = $('<button>');
         var blankP = $('<p>');
-        choiceBtn.addClass('removeRestaurant btn btn-sm btn-danger');
+        choiceBtn.addClass('removeRest btn btn-sm btn-danger');
         choiceBtn.text('Remove From Itinerary');
         nameP.text('Restaurant: ' + name);
         locationP.text('Location: ' + location);
@@ -279,6 +279,10 @@ var db = {
             database.ref('/restaurant').set(restClearObj);
             database.ref('/restaurant').set(restObj);
         });
+    },
+
+    removeRest: function() {
+        database.ref('/restaurant').remove();
     }
 };
 
@@ -311,19 +315,29 @@ $('#restaurantTable').on('click', '.addRestaurant', function() {
     db.setRest(restObj);
 });
 
+$('#restChoiceOutput').on('click', '.removeRest', function() {
+    db.removeRest();
+    render.clearMapOutput();
+});
+
 database.ref('/restaurant').on("value", function(snapshot) {
-    render.clearRestChoice();
-    var name = snapshot.val().name;
-    var location = snapshot.val().location;
-    var cuisine = snapshot.val().cuisine;
-    var rating = snapshot.val().rating;
-    var priceRange = snapshot.val().priceRange;
-    var link = snapshot.val().link;
-    render.displayRestChoice(name, location, cuisine, rating, priceRange, link);
-    if (compute.startAddress) {
-        render.displayRestDistanceMap(compute.startAddress, location);
+    if (snapshot.val() !== null) {
+        render.clearRestChoice();
+        var name = snapshot.val().name;
+        var location = snapshot.val().location;
+        var cuisine = snapshot.val().cuisine;
+        var rating = snapshot.val().rating;
+        var priceRange = snapshot.val().priceRange;
+        var link = snapshot.val().link;
+        render.displayRestChoice(name, location, cuisine, rating, priceRange, link);
+        if (compute.startAddress) {
+            render.displayRestDistanceMap(compute.startAddress, location);
+        } else {
+            render.displayRestMap(location);
+        }
     } else {
-        render.displayRestMap(location);
+        render.clearRestChoice();
+        render.clearMapOutput();
     }
 });
 
