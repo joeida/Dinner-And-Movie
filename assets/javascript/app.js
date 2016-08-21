@@ -15,14 +15,14 @@ var compute = {
     resultCounter: 1,
 
     getAddress: function() {
-        var addressSentence = $('#addressInput').val().trim();
+        var addressSentence = $('#address').val().trim();
         if (addressSentence) {
             var addressList = addressSentence.split(' ');
         } else {
             var addressList = '';
         }
-        var city = $('#cityInput').val().trim();
-        var state = $('#stateInput').val().trim();
+        var city = $('#city').val().trim();
+        var state = $('#state').val().trim();
         if (addressList === '' && city === '' && state === '') {
             return 'empty';
         } else {
@@ -36,7 +36,7 @@ var compute = {
     },
 
     getZip: function() {
-        var zip = $('#zipInput').val().trim();
+        var zip = $('#zip').val().trim();
         var zipValid = /^\d{5}$/;
         if (zip.match(zipValid)) { 
             var zipObj = {
@@ -183,14 +183,14 @@ var render = {
         linkA.attr('target', '_blank');
         linkA.text(' more info ');
         linkA.prepend(linkGlyph);
-        $('#restaurantTable').append(nameP);
-        $('#restaurantTable').append(locationP);
-        $('#restaurantTable').append(cuisineP);
-        $('#restaurantTable').append(ratingP);
-        $('#restaurantTable').append(priceRangeP);
-        $('#restaurantTable').append(linkA);
-        $('#restaurantTable').append(choiceBtn);
-        $('#restaurantTable').append(blankP);
+        $('#restaurantOutput').append(nameP);
+        $('#restaurantOutput').append(locationP);
+        $('#restaurantOutput').append(cuisineP);
+        $('#restaurantOutput').append(ratingP);
+        $('#restaurantOutput').append(priceRangeP);
+        $('#restaurantOutput').append(linkA);
+        $('#restaurantOutput').append(choiceBtn);
+        $('#restaurantOutput').append(blankP);
     },
 
     displayRestDistanceMap: function(origin, destination) {
@@ -272,7 +272,7 @@ var render = {
     },
 
     clearRestTable: function() {
-        $('#restaurantTable').empty();
+        $('#restaurantOutput').empty();
     },
 
     clearRestChoice: function() {
@@ -348,7 +348,7 @@ $('#getRestBtn').on('click', function() {
 
 });
 
-$('#restaurantTable').on('click', '.addRestaurant', function() {
+$('#restaurantOutput').on('click', '.addRestaurant', function() {
     var name = $(this).attr('data-name');
     var location = $(this).attr('data-location');
     var cuisine = $(this).attr('data-cuisine');
