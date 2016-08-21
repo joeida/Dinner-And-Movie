@@ -128,6 +128,12 @@ var compute = {
 
 var render = {
 
+    clearInput: function() {
+        $('#addressInput').val("");
+        $('#cityInput').val("");
+        $('#stateInput').val("");
+    },
+
     displayRest: function(name, location, cuisine, rating, priceRange, link) {
         var nameP = $('<p>');
         var locationP = $('<p>');
@@ -291,6 +297,7 @@ $('#getRestBtn').on('click', function() {
 
     var addressObj = compute.getAddress();
     var searchCriteria = compute.getSearchCriteria();
+    render.clearInput();
     compute.getGeo(addressObj, searchCriteria);
 
     return false;
