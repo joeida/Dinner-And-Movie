@@ -150,7 +150,14 @@ var render = {
         var linkA = $('<a>');
         var choiceBtn = $('<button>');
         var blankP = $('<p>');
-        choiceBtn.addClass('restaurant btn btn-success');
+        choiceBtn.addClass('addRestaurant btn btn-sm btn-success');
+        choiceBtn.attr('data-name', name);
+        choiceBtn.attr('data-location', location);
+        choiceBtn.attr('data-cuisine', cuisine);
+        choiceBtn.attr('data-rating', rating);
+        choiceBtn.attr('data-priceRange', priceRange);
+        choiceBtn.attr('data-link', link);
+        choiceBtn.text('Add to Itinerary');
         nameP.text('Restaurant: ' + name);
         locationP.text('Location: ' + location);
         cuisineP.text('Cuisine: ' + cuisine);
@@ -160,7 +167,7 @@ var render = {
         linkGlyph.addClass('glyphicon glyphicon-info-sign');
         linkA.attr('href', link);
         linkA.attr('target', '_blank');
-        linkA.text(' more info');
+        linkA.text(' more info ');
         linkA.prepend(linkGlyph);
         $('#restaurantTable').append(nameP);
         $('#restaurantTable').append(locationP);
@@ -168,6 +175,7 @@ var render = {
         $('#restaurantTable').append(ratingP);
         $('#restaurantTable').append(priceRangeP);
         $('#restaurantTable').append(linkA);
+        $('#restaurantTable').append(choiceBtn);
         $('#restaurantTable').append(blankP);
     },
 
@@ -188,7 +196,8 @@ var render = {
         iframe.attr('allowfullscreen');
         $('#restaurantTable').append(iframe);
         $('#restaurantTable').append(blankP);
-    }
+    },
+
 };
 
 
@@ -203,3 +212,21 @@ $('#getRestBtn').on('click', function() {
     return false;
 
 });
+
+$('#restaurantTable').on('click', '.addRestaurant', function() {
+    var name = $(this).attr('data-name');
+    var location = $(this).attr('data-location');
+    var cuisine = $(this).attr('data-cuisine');
+    var rating = $(this).attr('data-rating');
+    var priceRange = $(this).attr('data-priceRange');
+    var link = $(this).attr('data-link');
+    console.log(name);
+    console.log(location);
+    console.log(cuisine);
+    console.log(rating);
+    console.log(priceRange);
+    console.log(link);
+});
+
+
+
