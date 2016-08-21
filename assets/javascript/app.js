@@ -1,3 +1,13 @@
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyChEpHft8Prp9izbllvR5Ilkkedq7XLvXE",
+    authDomain: "dinner-and-movie.firebaseapp.com",
+    databaseURL: "https://dinner-and-movie.firebaseio.com",
+    storageBucket: "dinner-and-movie.appspot.com",
+};
+firebase.initializeApp(config);
+
+var database = firebase.database();
 
 var compute = {
 
@@ -198,6 +208,14 @@ var render = {
         $('#restaurantTable').append(blankP);
     },
 
+    clearRestChoice: function() {
+        $('#restaurantOutput').empty();
+    },
+
+    displayRestChoice: function(name, location, cuisine, rating, priceRange, link) {
+        console.log(name, location, cuisine, rating, priceRange, link);
+    }
+
 };
 
 
@@ -220,13 +238,26 @@ $('#restaurantTable').on('click', '.addRestaurant', function() {
     var rating = $(this).attr('data-rating');
     var priceRange = $(this).attr('data-priceRange');
     var link = $(this).attr('data-link');
-    console.log(name);
-    console.log(location);
-    console.log(cuisine);
-    console.log(rating);
-    console.log(priceRange);
-    console.log(link);
+    var restObj = {
+        name: name,
+        location: location,
+        cuisine: cuisine,
+        rating: rating,
+        priceRange: priceRange,
+        link: link
+    };
+    database.ref('/restaurant').set(restObj);
 });
 
+database.ref('/restaurant').on("value", function(snapshot) {
+    render.clearRestChoice();
+    var name = snapshot.val().name;
+    var location = snapshot.val().location;
+    var cuisine = snapshot.val().cuisine;
+    var rating = snapshot.val().rating;
+    var priceRange = snapshot.val().priceRange;
+    var link = snapshot.val().link;
+    render.displayRestChoice(name, location, cuisine, rating, priceRange, link);
+});
 
 
