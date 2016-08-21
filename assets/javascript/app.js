@@ -1,8 +1,15 @@
+// SELECT
+$(document).ready(function() {
+    $('select').material_select();
+});
 
 // CAROUSEL
    $(document).ready(function(){
       $('.carousel').carousel();
+      $('.carousel-slider').slider({full_width: true});
     });
+
+        
   
  // MODAL
     $(document).ready(function(){
@@ -27,3 +34,6 @@
     }
   });
 });
+
+
+
