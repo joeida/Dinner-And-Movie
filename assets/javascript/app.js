@@ -164,7 +164,7 @@ var render = {
         var linkA = $('<a>');
         var choiceBtn = $('<button>');
         var blankP = $('<p>');
-        choiceBtn.addClass('addRestaurant btn btn-sm btn-success');
+        choiceBtn.addClass('addRestaurant waves-effect waves-light btn');
         choiceBtn.attr('data-name', name);
         choiceBtn.attr('data-location', location);
         choiceBtn.attr('data-cuisine', cuisine);
@@ -177,12 +177,13 @@ var render = {
         cuisineP.text('Cuisine: ' + cuisine);
         ratingP.text('User Rating: ' + rating);
         priceRangeP.text('Price Range: ' + priceRange);
-        var linkGlyph = $('<span>');
-        linkGlyph.addClass('glyphicon glyphicon-info-sign');
+        var linkGlyph = $('<i>');
+        // linkGlyph.addClass('small material-icons');
+        // linkGlyph.text(info_outline);
         linkA.attr('href', link);
         linkA.attr('target', '_blank');
         linkA.text(' more info ');
-        linkA.prepend(linkGlyph);
+        // linkA.prepend(linkGlyph);
         $('#restaurantOutput').append(nameP);
         $('#restaurantOutput').append(locationP);
         $('#restaurantOutput').append(cuisineP);
@@ -242,19 +243,20 @@ var render = {
         var linkA = $('<a>');
         var choiceBtn = $('<button>');
         var blankP = $('<p>');
-        choiceBtn.addClass('removeRest btn btn-sm btn-danger');
+        choiceBtn.addClass('removeRest waves-effect waves-light btn');
         choiceBtn.text('Remove From Itinerary');
         nameP.text('Restaurant: ' + name);
         locationP.text('Location: ' + location);
         cuisineP.text('Cuisine: ' + cuisine);
         ratingP.text('User Rating: ' + rating);
         priceRangeP.text('Price Range: ' + priceRange);
-        var linkGlyph = $('<span>');
-        linkGlyph.addClass('glyphicon glyphicon-info-sign');
+        var linkGlyph = $('<i>');
+        // linkGlyph.addClass('small material-icons');
+        // linkGlyph.text(info_outline);
         linkA.attr('href', link);
         linkA.attr('target', '_blank');
         linkA.text(' more info ');
-        linkA.prepend(linkGlyph);
+        // linkA.prepend(linkGlyph);
         $('#restChoiceOutput').append(nameP);
         $('#restChoiceOutput').append(locationP);
         $('#restChoiceOutput').append(cuisineP);
@@ -326,7 +328,7 @@ var db = {
 };
 
 
-$('#getRestBtn').on('click', function() {
+$('#submit').on('click', function() {
 
     render.clearRestTable();
     var addressObj = compute.getAddress();
