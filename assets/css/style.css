@@ -1,3 +1,7 @@
+body{
+    margin:0;
+    padding:0;
+}
 
 #background {
     position: fixed;
@@ -14,17 +18,13 @@
     background-size: cover;
 }
 
+/*INPUT FIELDS*/
 #movie, #restaurant{
 	width:650px;
-
-}
-
-form{
-    padding-top:20px;
 }
 
 #zip{
-	width:50px;
+	width:100px;
 }
 
 #searchcriteria{
@@ -33,18 +33,19 @@ form{
 }
 
 #state,#city{
-    width:80px;
+    width:100px;
 }
 
 #address{
-    width:400px;
+    width:500px;
 }
 
 .formDiv{
 	background: rgba(0, 0, 0, 0.9);
     color: #fff;
-	height:125px;
-    margin-bottom:200px;
+	width:100%;
+    position:fixed;
+    margin:0;
 }
 
 .outputDiv{
@@ -55,6 +56,7 @@ form{
 	height:500px;
 }
 
+/*OUTPUTS*/
 .restaurantOutput{
     overflow:scroll;
 }
@@ -71,6 +73,8 @@ form{
 
 .input-field{
     width:50px;
+    margin:0px !IMPORTANT;
+    position:relative;
 }
 .movieSquare{
 	width:50px;
