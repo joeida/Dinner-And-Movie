@@ -273,29 +273,31 @@ var db = {
 
     setRestOnLoad: function () {
         database.ref('/restaurant').once("value", function(snapshot) {
-            var name = snapshot.val().name;
-            var location = snapshot.val().location;
-            var cuisine = snapshot.val().cuisine;
-            var rating = snapshot.val().rating;
-            var priceRange = snapshot.val().priceRange;
-            var link = snapshot.val().link;
-            var restClearObj = {
-                name: name,
-                location: location,
-                cuisine: cuisine,
-                rating: rating,
-                priceRange: priceRange,
-            };
-            var restObj = {
-                name: name,
-                location: location,
-                cuisine: cuisine,
-                rating: rating,
-                priceRange: priceRange,
-                link: link
-            };
-            database.ref('/restaurant').set(restClearObj);
-            database.ref('/restaurant').set(restObj);
+            if (snapshot.val() !== null) {
+                var name = snapshot.val().name;
+                var location = snapshot.val().location;
+                var cuisine = snapshot.val().cuisine;
+                var rating = snapshot.val().rating;
+                var priceRange = snapshot.val().priceRange;
+                var link = snapshot.val().link;
+                var restClearObj = {
+                    name: name,
+                    location: location,
+                    cuisine: cuisine,
+                    rating: rating,
+                    priceRange: priceRange,
+                };
+                var restObj = {
+                    name: name,
+                    location: location,
+                    cuisine: cuisine,
+                    rating: rating,
+                    priceRange: priceRange,
+                    link: link
+                };
+                database.ref('/restaurant').set(restClearObj);
+                database.ref('/restaurant').set(restObj);
+            }
         });
     },
 
