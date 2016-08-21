@@ -16,26 +16,38 @@ var compute = {
 
     getAddress: function() {
         var addressSentence = $('#addressInput').val().trim();
-        var addressList = addressSentence.split(' ');
+        if (addressSentence) {
+            var addressList = addressSentence.split(' ');
+        } else {
+            var addressList = '';
+        }
         var city = $('#cityInput').val().trim();
         var state = $('#stateInput').val().trim();
-        var addressObj = {
-            addressList: addressList,
-            city: city,
-            state: state
+        if (addressList === '' && city === '' && state === '') {
+            return 'empty';
+        } else {
+            var addressObj = {
+                addressList: addressList,
+                city: city,
+                state: state
+            };
+            return addressObj;
         }
-        return addressObj;
     },
 
-    checkZip: function() {
+    getZip: function() {
         var zip = $('#zipInput').val().trim();
         var zipValid = /^\d{5}$/;
         if (zip.match(zipValid)) { 
-            console.log('valid zip input');
-            return zip;
+            var zipObj = {
+                zip: zip
+            };
+            return zipObj;
+        } else if (zip === '') {
+            return 'empty';
         } else {
-            console.log('invalid zip input'); 
-        } 
+            return 'invalid';
+        }
     },
 
     getSearchCriteria: function() {
@@ -57,6 +69,8 @@ var compute = {
         var addressList = addressObj.addressList;
         var city = addressObj.city;
         var state = addressObj.state;
+        var zip = addressObj.zip;
+
         if (addressList) {
             var addressQuery = addressList.join('+');
             queryList.push(addressQuery);
@@ -66,6 +80,9 @@ var compute = {
         }
         if (state) {
             queryList.push(state);
+        }
+        if (zip) {
+            queryList.push(zip);
         }
         query = queryList.join(',+');
         var queryURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + query + "&key=AIzaSyBZgPjyk5ho6Axhr_2dU1Ay3M7rU71HXvs";
@@ -128,6 +145,8 @@ var compute = {
                 compute.resultCounter += 20;
                 var newQuery = "https://developers.zomato.com/api/v2.1/search?start=" + compute.resultCounter + "&lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
                 compute.getRest(geoObj, newQuery);
+            } else {
+                compute.resultCounter = 1;
             }
         });
     }
@@ -311,9 +330,19 @@ $('#getRestBtn').on('click', function() {
 
     render.clearRestTable();
     var addressObj = compute.getAddress();
+    var zipObj = compute.getZip();
     var searchCriteria = compute.getSearchCriteria();
-    render.clearInput();
-    compute.getGeo(addressObj, searchCriteria);
+    if (zipObj === 'invalid') {
+        console.log('invalid zip code');
+    } else if (zipObj === 'empty' && addressObj === 'empty') {
+        console.log('zip code and address field empty');
+    } else if (zipObj && typeof zipObj === 'object') {
+        render.clearInput();
+        compute.getGeo(zipObj, searchCriteria);
+    } else {
+        render.clearInput();
+        compute.getGeo(addressObj, searchCriteria);
+    }
 
     return false;
 
