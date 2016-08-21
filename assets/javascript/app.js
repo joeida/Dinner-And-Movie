@@ -209,6 +209,10 @@ var render = {
         $('#mapOutput').append(blankP);
     },
 
+    clearRestTable: function() {
+        $('#restaurantTable').empty();
+    },
+
     clearRestChoice: function() {
         $('#restChoiceOutput').empty();
     },
@@ -292,6 +296,7 @@ var db = {
 
 $('#getRestBtn').on('click', function() {
 
+    render.clearRestTable();
     var addressObj = compute.getAddress();
     var searchCriteria = compute.getSearchCriteria();
     render.clearInput();
