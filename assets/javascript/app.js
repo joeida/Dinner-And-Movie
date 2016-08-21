@@ -100,9 +100,6 @@ var compute = {
         } else {
             searchCriteria = 'rating';
         }
-        // if (geoObj.page === 2) {
-        //     var queryURL = "https://developers.zomato.com/api/v2.1/search?start=21&lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
-        // }
         var queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
         $.ajax({url: queryURL, method: 'GET'})
         .then(function(response) {
