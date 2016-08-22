@@ -95,22 +95,26 @@ input {
 /*MODALS*/
 .outputsChoices{
     border:solid;
-    width:800px;
+    width:100%;
     height:300px;
 }
-
+.movieRestoModal{
+    border:solid;
+    width:60%;   
+    height:300px;
+}
 .movieOutputModal{
     border:solid;
-    width:800px;
+    width:100%;
     height:150px;
 }
 .restaurantOuputModal{
     border:solid;
-    width:800px;
+    width:100%;
     height:150px;
 }
 .mapOutputModal{
     border:solid;
     height:300px;
-    width:200px;
+    width:35%;
 }
