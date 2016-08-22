@@ -174,6 +174,9 @@ var render = {
         var linkA = $('<a>');
         var choiceBtn = $('<button>');
         var blankP = $('<p>');
+        var btnGlyph = $('<i>');
+        btnGlyph.addClass('small material-icons');
+        btnGlyph.text('queue');
         choiceBtn.addClass('addRestaurant green darken-1 btn');
         choiceBtn.attr('data-name', name);
         choiceBtn.attr('data-location', location);
@@ -181,7 +184,8 @@ var render = {
         choiceBtn.attr('data-rating', rating);
         choiceBtn.attr('data-priceRange', priceRange);
         choiceBtn.attr('data-link', link);
-        choiceBtn.text('Add to Itinerary');
+        choiceBtn.text(' Add to Itinerary');
+        choiceBtn.prepend(btnGlyph);
         nameP.text('Restaurant: ' + name);
         locationP.text('Location: ' + location);
         cuisineP.text('Cuisine: ' + cuisine);
@@ -189,7 +193,7 @@ var render = {
         priceRangeP.text('Price Range: ' + priceRange);
         var linkGlyph = $('<i>');
         linkGlyph.addClass('small material-icons');
-        linkGlyph.text('info_outline');
+        linkGlyph.text('info');
         linkA.attr('href', link);
         linkA.attr('target', '_blank');
         linkA.text(' more info ');
@@ -256,8 +260,12 @@ var render = {
         var linkA = $('<a>');
         var choiceBtn = $('<button>');
         var blankP = $('<p>');
+        var btnGlyph = $('<i>');
+        btnGlyph.addClass('small material-icons');
+        btnGlyph.text('not_interested');
         choiceBtn.addClass('removeRest red lighten-1 btn');
-        choiceBtn.text('Remove From Itinerary');
+        choiceBtn.text(' Remove From Itinerary');
+        choiceBtn.prepend(btnGlyph);
         nameP.text('Restaurant: ' + name);
         locationP.text('Location: ' + location);
         cuisineP.text('Cuisine: ' + cuisine);
@@ -265,7 +273,7 @@ var render = {
         priceRangeP.text('Price Range: ' + priceRange);
         var linkGlyph = $('<i>');
         linkGlyph.addClass('small material-icons');
-        linkGlyph.text('info_outline');
+        linkGlyph.text('info');
         linkA.attr('href', link);
         linkA.attr('target', '_blank');
         linkA.text(' more info ');
