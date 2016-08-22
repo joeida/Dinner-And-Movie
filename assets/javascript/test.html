@@ -2,10 +2,20 @@
 <html>
 <head>
 	<title>Test for Movie JS</title>
-	<script src="https://code.jquery.com/jquery.js"></script>
-	<script src="appMovie.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
 </head>
 <body>
+	<form>
+		<label for="zipCode">Enter Zip Code</label>
+		<input type="text" id="zipCode" name="zip" required>
+		<input id="zipInput" type="submit" value="Enter">
+	</form>
+	<div id="movieContainer"></div>
+	<div id="showtimeContainer"></div>
 
 </body>
+	<script src="https://code.jquery.com/jquery.js"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCXM-2P4McxM6KX4Nr4dURfIYOVSUKhPo&libraries=places"></script>
+	<script src="moment.js"></script>
+	<script src="app.js"></script>
 </html>
