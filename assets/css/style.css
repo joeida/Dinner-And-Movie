@@ -19,11 +19,11 @@ body{
     z-index: -100;
     -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
-    background: url(polina.jpg) no-repeat;
+    background:no-repeat;
     background-size: cover;
 }
 
-header {
+header{
    background: rgba(0, 0, 0, 0.8);
    color:white;
    z-index: 200;
@@ -48,11 +48,6 @@ header {
 	width:100px;
 }
 
-#searchcriteria{
-    width:150px;
-    padding:0;
-}
-
 #state,#city{
     width:100px;
 }
@@ -60,9 +55,12 @@ header {
 #address{
     width:500px;
     margin:0;
-
 }
 
+input {
+   line-height: normal;
+   max-width: 200px;
+}
 
 /*OUTPUTS*/
 .outputDiv{
@@ -72,7 +70,7 @@ header {
     color: #fff;
 	padding:100px;
 	height:500px;
-     overflow:scroll;
+    overflow:scroll;
 }
 
 
@@ -83,7 +81,7 @@ header {
 }
 
 .input-field{
-    width:50px;
+    width:60px;
     margin:0px !IMPORTANT;
     position:relative;
 }
@@ -92,4 +90,27 @@ header {
 	height:100px;
 	background-color:black !IMPORTANT;
 
+}
+
+/*MODALS*/
+.outputsChoices{
+    border:solid;
+    width:800px;
+    height:300px;
+}
+
+.movieOutputModal{
+    border:solid;
+    width:800px;
+    height:150px;
+}
+.restaurantOuputModal{
+    border:solid;
+    width:800px;
+    height:150px;
+}
+.mapOutputModal{
+    border:solid;
+    height:300px;
+    width:200px;
 }

@@ -21,7 +21,7 @@
 
 <header>
 <!-- Form -->
-<div class="formDiv"> 
+<div class="formDiv "> 
 <a name="input"></a> 
 	<form>
 	<!-- Address ID: address-->
@@ -29,11 +29,15 @@
 	<!-- Zip ID: zip -->
         <input  type="number" id="zip" placeholder="Zip">
      <!-- Dropdown -->	
- 	<select id="searchCriteria">
-           <option>Rating</option>
-           <option>Cost</option>
-           <option>Distance</option>
-    </select>
+ 	 <div class="input-field">
+ 	<button type="navbutton">
+     <select id="searchCriteria">
+          <option>Rating</option>
+          <option>Cost</option>
+          <option>Distance</option>
+   </select>
+   </button>
+  </div>
     <!-- Zip ID: city -->
         <input  type="text" id="city" placeholder="City">
     <!-- Address ID: state-->
@@ -93,6 +97,18 @@
     <div class="modal-content">
       <h4>Modal Header</h4>
       <p>This is where the itinerary will go</p>
+      <div class="outputsChoices">
+      <div class="movieOutputModal">
+      MOVIE
+      </div>
+      <div class="restaurantOutputModal">
+      RESTO
+      </div>
+
+      <div class="mapOutputModal">
+      MAP
+      </div>
+      </div>
     </div>
   </div>
 
