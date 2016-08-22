@@ -185,7 +185,7 @@ var render = {
         infoTr.append(cuisineTd);
         var ratingTd = $('<td>');
         ratingTd.css('padding', '0');
-        ratingTd.text('User Rating: ');
+        ratingTd.text(' User Rating: ');
         for (var i = 0; i < Math.round(rating); i++) {
             var ratingGlyph = $('<i>');
             ratingGlyph.addClass('tiny material-icons');
@@ -305,7 +305,7 @@ var render = {
         infoTr.append(cuisineTd);
         var ratingTd = $('<td>');
         ratingTd.css('padding', '0');
-        ratingTd.text('User Rating: ');
+        ratingTd.text(' User Rating: ');
         for (var i = 0; i < Math.round(rating); i++) {
             var ratingGlyph = $('<i>');
             ratingGlyph.addClass('tiny material-icons');
