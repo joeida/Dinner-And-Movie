@@ -174,7 +174,7 @@ var render = {
         var linkA = $('<a>');
         var choiceBtn = $('<button>');
         var blankP = $('<p>');
-        choiceBtn.addClass('addRestaurant waves-effect waves-light btn');
+        choiceBtn.addClass('addRestaurant green darken-1 btn');
         choiceBtn.attr('data-name', name);
         choiceBtn.attr('data-location', location);
         choiceBtn.attr('data-cuisine', cuisine);
@@ -256,7 +256,7 @@ var render = {
         var linkA = $('<a>');
         var choiceBtn = $('<button>');
         var blankP = $('<p>');
-        choiceBtn.addClass('removeRest waves-effect waves-light btn');
+        choiceBtn.addClass('removeRest red lighten-1 btn');
         choiceBtn.text('Remove From Itinerary');
         nameP.text('Restaurant: ' + name);
         locationP.text('Location: ' + location);
@@ -285,6 +285,7 @@ var render = {
         $('#address').val("");
         $('#city').val("");
         $('#state').val("");
+        $('#zip').val("");
     },
 
     // Clear list of restaurants in html before each list render
