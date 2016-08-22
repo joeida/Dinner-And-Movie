@@ -178,12 +178,12 @@ var render = {
         ratingP.text('User Rating: ' + rating);
         priceRangeP.text('Price Range: ' + priceRange);
         var linkGlyph = $('<i>');
-        // linkGlyph.addClass('small material-icons');
-        // linkGlyph.text(info_outline);
+        linkGlyph.addClass('small material-icons');
+        linkGlyph.text('info_outline');
         linkA.attr('href', link);
         linkA.attr('target', '_blank');
         linkA.text(' more info ');
-        // linkA.prepend(linkGlyph);
+        linkA.prepend(linkGlyph);
         $('#restaurantOutput').append(nameP);
         $('#restaurantOutput').append(locationP);
         $('#restaurantOutput').append(cuisineP);
@@ -251,12 +251,12 @@ var render = {
         ratingP.text('User Rating: ' + rating);
         priceRangeP.text('Price Range: ' + priceRange);
         var linkGlyph = $('<i>');
-        // linkGlyph.addClass('small material-icons');
-        // linkGlyph.text(info_outline);
+        linkGlyph.addClass('small material-icons');
+        linkGlyph.text('info_outline');
         linkA.attr('href', link);
         linkA.attr('target', '_blank');
         linkA.text(' more info ');
-        // linkA.prepend(linkGlyph);
+        linkA.prepend(linkGlyph);
         $('#restChoiceOutput').append(nameP);
         $('#restChoiceOutput').append(locationP);
         $('#restChoiceOutput').append(cuisineP);
@@ -268,9 +268,9 @@ var render = {
     },
 
     clearInput: function() {
-        $('#addressInput').val("");
-        $('#cityInput').val("");
-        $('#stateInput').val("");
+        $('#address').val("");
+        $('#city').val("");
+        $('#state').val("");
     },
 
     clearRestTable: function() {
