@@ -345,7 +345,7 @@ var render = {
         var btnGlyph = $('<i>');
         btnGlyph.addClass('tiny material-icons');
         btnGlyph.text('not_interested');
-        choiceBtn.addClass('addRestaurant red lighten-1 btn-small');
+        choiceBtn.addClass('removeRest red lighten-1 btn-small');
         choiceBtn.css('color', 'white');
         choiceBtn.text(' Remove From Itinerary');
         choiceBtn.prepend(btnGlyph);
