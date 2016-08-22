@@ -186,7 +186,7 @@ var render = {
         cuisineTd.text('Cuisine: ' + cuisine);
         cuisineTr.append(cuisineTd);
         var ratingTd = $('<td>');
-        ratingTd.css('padding', '0');
+        ratingTd.css('padding', '0 5px 0 0');
         ratingTd.text('User Rating: ');
         for (var i = 0; i < Math.round(rating); i++) {
             var ratingGlyph = $('<i>');
@@ -196,15 +196,14 @@ var render = {
         }
         infoTr.append(ratingTd);
         var priceTd = $('<td>');
-        priceTd.css('padding', '0');
-        priceTd.text(' Price Range: ');
+        priceTd.css('padding', '0 5px 0 0');
+        priceTd.text('Price Range: ');
         for (var ii = 0; ii < priceRange; ii++) {
             var priceGlyph = $('<i>');
             priceGlyph.addClass('tiny material-icons');
             priceGlyph.text('credit_card');
             priceTd.append(priceGlyph);
         }
-        priceTd.append(' ');
         infoTr.append(priceTd);
         var linkTd = $('<td>');
         var linkA = $('<a>');
@@ -309,7 +308,7 @@ var render = {
         cuisineTd.text('Cuisine: ' + cuisine);
         cuisineTr.append(cuisineTd);
         var ratingTd = $('<td>');
-        ratingTd.css('padding', '0');
+        ratingTd.css('padding', '0 5px 0 0');
         ratingTd.text('User Rating: ');
         for (var i = 0; i < Math.round(rating); i++) {
             var ratingGlyph = $('<i>');
@@ -319,15 +318,14 @@ var render = {
         }
         infoTr.append(ratingTd);
         var priceTd = $('<td>');
-        priceTd.css('padding', '0');
-        priceTd.text(' Price Range: ');
+        priceTd.css('padding', '0 5px 0 0');
+        priceTd.text('Price Range: ');
         for (var ii = 0; ii < priceRange; ii++) {
             var priceGlyph = $('<i>');
             priceGlyph.addClass('tiny material-icons');
             priceGlyph.text('credit_card');
             priceTd.append(priceGlyph);
         }
-        priceTd.append(' ');
         infoTr.append(priceTd);
         var linkTd = $('<td>');
         var linkA = $('<a>');
