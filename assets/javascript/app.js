@@ -9,11 +9,13 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+// Compute Values
 var compute = {
 
     startAddress: '',
     resultCounter: 1,
 
+    // Get address in form of street, city, and state and return address object
     getAddress: function() {
         var addressSentence = $('#address').val().trim();
         if (addressSentence) {
@@ -35,6 +37,7 @@ var compute = {
         }
     },
 
+    // Get zip code, verify format, and return appropriate value
     getZip: function() {
         var zip = $('#zip').val().trim();
         var zipValid = /^\d{5}$/;
@@ -50,6 +53,7 @@ var compute = {
         }
     },
 
+    // Translate chosen search criteria into required value needed in API to sort results correctly
     getSearchCriteria: function() {
         var searchCriteria = $('#searchCriteria').val().trim();
         if (searchCriteria === 'Rating') {
@@ -63,6 +67,8 @@ var compute = {
         }
     },
 
+    // Using address and search criteria, use Google Geo API to get Latitude and Longitude of location chosen
+    // After results obtained, run get Restaurant method which queries zomato restaurant search API based on geo location
     getGeo: function (addressObj, searchCriteria) {
         var query = '';
         var queryList = [];
@@ -109,6 +115,8 @@ var compute = {
         });
     },
 
+    // Using zomato API, obtain list of restaurants based on geo coordinates in lattitude and longitude
+    // Display results onto page output location
     getRest: function(geoObj, newQueryURL) {
         var lat = geoObj.lat;
         var lng = geoObj.lng;
@@ -153,8 +161,10 @@ var compute = {
 
 };
 
+// Output data onto html page
 var render = {
 
+    // Display list of restaurants on restaurant output location in html
     displayRest: function(name, location, cuisine, rating, priceRange, link) {
         var nameP = $('<p>');
         var locationP = $('<p>');
@@ -194,6 +204,7 @@ var render = {
         $('#restaurantOutput').append(blankP);
     },
 
+    // Display google map of initial query location to location of chosen restaurant
     displayRestDistanceMap: function(origin, destination) {
         render.clearMapOutput();
         var queryBegin = 'https://www.google.com/maps/embed/v1/directions?key=AIzaSyD5L9bqnVgrw-XfE1nZbhREaDukQJVPDQs&';
@@ -215,6 +226,7 @@ var render = {
         $('#mapOutput').append(blankP);
     },
 
+    // Display google map of location of restaurant chosen when no initial location is available
     displayRestMap: function(destination) {
         render.clearMapOutput();
         var queryBegin = 'https://www.google.com/maps/embed/v1/search?key=AIzaSyD5L9bqnVgrw-XfE1nZbhREaDukQJVPDQs&q='
@@ -234,6 +246,7 @@ var render = {
         $('#mapOutput').append(blankP);
     },
 
+    // Display chosen restaurant in itinerary output field on html page
     displayRestChoice: function(name, location, cuisine, rating, priceRange, link) {
         var nameP = $('<p>');
         var locationP = $('<p>');
@@ -267,20 +280,24 @@ var render = {
         $('#restChoiceOutput').append(blankP);
     },
 
+    // Clear input fields after submitting request
     clearInput: function() {
         $('#address').val("");
         $('#city').val("");
         $('#state').val("");
     },
 
+    // Clear list of restaurants in html before each list render
     clearRestTable: function() {
         $('#restaurantOutput').empty();
     },
 
+    // Clear itinerary restaurant choice field before each output render
     clearRestChoice: function() {
         $('#restChoiceOutput').empty();
     },
 
+    // Clear map output field before each map render
     clearMapOutput: function() {
         $('#mapOutput').empty();
     }
@@ -288,10 +305,12 @@ var render = {
 };
 
 var db = {
+    // Write restaurant object to database restaurant reference object
     setRest: function(restObj) {
         database.ref('/restaurant').set(restObj);
     },
 
+    // Cause database change on page load to initiate map render
     setRestOnLoad: function () {
         database.ref('/restaurant').once("value", function(snapshot) {
             if (snapshot.val() !== null) {
@@ -322,6 +341,7 @@ var db = {
         });
     },
 
+    // Remove restaurant object from database upon clicking the restaurant remove button in itinerary
     removeRest: function() {
         database.ref('/restaurant').remove();
     }
@@ -330,6 +350,7 @@ var db = {
 
 $(document).ready(function() {
 
+    // Process address input upon clicking the submit button
     $('#submit').on('click', function() {
 
         render.clearRestTable();
@@ -352,6 +373,7 @@ $(document).ready(function() {
 
     });
 
+    // Process add restaurant button upon clicking on the specific restaurant in generated restaurant list
     $('#restaurantOutput').on('click', '.addRestaurant', function() {
         var name = $(this).attr('data-name');
         var location = $(this).attr('data-location');
@@ -370,56 +392,51 @@ $(document).ready(function() {
         db.setRest(restObj);
     });
 
+    // Process remove restaurant button upon clicking on the specific restaurant in the generated restaurant itinerary location
     $('#restChoiceOutput').on('click', '.removeRest', function() {
         db.removeRest();
         render.clearMapOutput();
     });
 
-});
-
-database.ref('/restaurant').on("value", function(snapshot) {
-    if (snapshot.val() !== null) {
-        render.clearRestChoice();
-        var name = snapshot.val().name;
-        var location = snapshot.val().location;
-        var cuisine = snapshot.val().cuisine;
-        var rating = snapshot.val().rating;
-        var priceRange = snapshot.val().priceRange;
-        var link = snapshot.val().link;
-        render.displayRestChoice(name, location, cuisine, rating, priceRange, link);
-        if (compute.startAddress) {
-            render.displayRestDistanceMap(compute.startAddress, location);
+    // Process values upon changes in the restaurant database reference object
+    database.ref('/restaurant').on("value", function(snapshot) {
+        if (snapshot.val() !== null) {
+            render.clearRestChoice();
+            var name = snapshot.val().name;
+            var location = snapshot.val().location;
+            var cuisine = snapshot.val().cuisine;
+            var rating = snapshot.val().rating;
+            var priceRange = snapshot.val().priceRange;
+            var link = snapshot.val().link;
+            render.displayRestChoice(name, location, cuisine, rating, priceRange, link);
+            if (compute.startAddress) {
+                render.displayRestDistanceMap(compute.startAddress, location);
+            } else {
+                render.displayRestMap(location);
+            }
         } else {
-            render.displayRestMap(location);
+            render.clearRestChoice();
+            render.clearMapOutput();
         }
-    } else {
-        render.clearRestChoice();
-        render.clearMapOutput();
-    }
-});
+
+    });
+
 // SELECT
-$(document).ready(function() {
     $('select').material_select();
-});
 
 // CAROUSEL
-    $(document).ready(function(){
-        $('.carousel').carousel();
-        $('.carousel-slider').slider({full_width: true});
-    });
+    $('.carousel').carousel();
+    $('.carousel-slider').slider({full_width: true});
 
-        
-  
  // MODAL
-    $(document).ready(function(){
-        $('.modal-trigger').leanModal();
-    });
+    $('.modal-trigger').leanModal();
+});
           
-    $('#modal1').openModal();
-    $('#modal1').closeModal();
+$('#modal1').openModal();
+$('#modal1').closeModal();
 
 // SMOOTH SCROLLING
-    $(function() {
+$(function() {
     $('a[href*="#"]:not([href="#"])').click(function() {
         if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
             var target = $(this.hash);
@@ -427,9 +444,9 @@ $(document).ready(function() {
         if (target.length) {
             $('html, body').animate({
             scrollTop: target.offset().top
-        }, 1000);
-        return false;
-      }
-    }
-  });
+                }, 1000);
+            return false;
+            }
+        }
+    });
 });
