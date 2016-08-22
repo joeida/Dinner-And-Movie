@@ -166,18 +166,65 @@ var render = {
 
     // Display list of restaurants on restaurant output location in html
     displayRest: function(name, location, cuisine, rating, priceRange, link) {
-        var nameP = $('<p>');
-        var locationP = $('<p>');
-        var cuisineP = $('<p>');
-        var ratingP = $('<p>');
-        var priceRangeP = $('<p>');
+        var nameTr = $('<tr>');
+        var nameTh = $('<th>');
+        nameTh.attr('colspan', '3');
+        nameTh.css('padding', '0');
+        nameTh.text(name);
+        nameTr.append(nameTh);
+        var locationTr = $('<tr>');
+        var locationTd = $('<td>');
+        locationTd.attr('colspan', '3');
+        locationTd.css('padding', '0');
+        locationTd.text(location);
+        locationTr.append(locationTd);
+        var infoTr = $('<tr>');
+        var cuisineTr = $('<tr>');
+        var cuisineTd = $('<td>');
+        cuisineTd.attr('colspan', '3');
+        cuisineTd.css('padding', '0');
+        cuisineTd.text('Cuisine: ' + cuisine);
+        cuisineTr.append(cuisineTd);
+        var ratingTd = $('<td>');
+        ratingTd.css('padding', '0');
+        ratingTd.text('User Rating: ');
+        for (var i = 0; i < Math.round(rating); i++) {
+            var ratingGlyph = $('<i>');
+            ratingGlyph.addClass('tiny material-icons');
+            ratingGlyph.text('grade');
+            ratingTd.append(ratingGlyph);
+        }
+        infoTr.append(ratingTd);
+        var priceTd = $('<td>');
+        priceTd.css('padding', '0');
+        priceTd.text('Price Range: ');
+        for (var ii = 0; ii < priceRange; ii++) {
+            var priceGlyph = $('<i>');
+            priceGlyph.addClass('tiny material-icons');
+            priceGlyph.text('credit_card');
+            priceTd.append(priceGlyph);
+        }
+        infoTr.append(priceTd);
+        var linkTd = $('<td>');
         var linkA = $('<a>');
+        var linkGlyph = $('<i>');
+        linkGlyph.addClass('tiny material-icons');
+        linkGlyph.text('info');
+        linkA.attr('href', link);
+        linkA.attr('target', '_blank');
+        linkA.text(' more info');
+        linkA.prepend(linkGlyph);
+        linkTd.css('padding', '0');
+        linkTd.html(linkA);
+        infoTr.append(linkTd);
+        var buttonTr = $('<tr>');
+        var buttonTd = $('<td>');
         var choiceBtn = $('<button>');
-        var blankP = $('<p>');
         var btnGlyph = $('<i>');
-        btnGlyph.addClass('small material-icons');
+        btnGlyph.addClass('tiny material-icons');
         btnGlyph.text('queue');
-        choiceBtn.addClass('addRestaurant green darken-1 btn');
+        choiceBtn.addClass('addRestaurant green darken-1 btn-small');
+        choiceBtn.css('color', 'white');
         choiceBtn.attr('data-name', name);
         choiceBtn.attr('data-location', location);
         choiceBtn.attr('data-cuisine', cuisine);
@@ -186,26 +233,15 @@ var render = {
         choiceBtn.attr('data-link', link);
         choiceBtn.text(' Add to Itinerary');
         choiceBtn.prepend(btnGlyph);
-        nameP.text('Restaurant: ' + name);
-        locationP.text('Location: ' + location);
-        cuisineP.text('Cuisine: ' + cuisine);
-        ratingP.text('User Rating: ' + rating);
-        priceRangeP.text('Price Range: ' + priceRange);
-        var linkGlyph = $('<i>');
-        linkGlyph.addClass('small material-icons');
-        linkGlyph.text('info');
-        linkA.attr('href', link);
-        linkA.attr('target', '_blank');
-        linkA.text(' more info ');
-        linkA.prepend(linkGlyph);
-        $('#restaurantOutput').append(nameP);
-        $('#restaurantOutput').append(locationP);
-        $('#restaurantOutput').append(cuisineP);
-        $('#restaurantOutput').append(ratingP);
-        $('#restaurantOutput').append(priceRangeP);
-        $('#restaurantOutput').append(linkA);
-        $('#restaurantOutput').append(choiceBtn);
-        $('#restaurantOutput').append(blankP);
+        buttonTd.attr('colspan', '3');
+        buttonTd.css('padding', '0 0 10px 0');
+        buttonTd.html(choiceBtn);
+        buttonTr.append(buttonTd);
+        $('#restaurantOutput').append(nameTr);
+        $('#restaurantOutput').append(locationTr);
+        $('#restaurantOutput').append(cuisineTr);
+        $('#restaurantOutput').append(infoTr);
+        $('#restaurantOutput').append(buttonTr);
     },
 
     // Display google map of initial query location to location of chosen restaurant
@@ -252,40 +288,76 @@ var render = {
 
     // Display chosen restaurant in itinerary output field on html page
     displayRestChoice: function(name, location, cuisine, rating, priceRange, link) {
-        var nameP = $('<p>');
-        var locationP = $('<p>');
-        var cuisineP = $('<p>');
-        var ratingP = $('<p>');
-        var priceRangeP = $('<p>');
+        var nameTr = $('<tr>');
+        var nameTh = $('<th>');
+        nameTh.attr('colspan', '3');
+        nameTh.css('padding', '0');
+        nameTh.text(name);
+        nameTr.append(nameTh);
+        var locationTr = $('<tr>');
+        var locationTd = $('<td>');
+        locationTd.attr('colspan', '3');
+        locationTd.css('padding', '0');
+        locationTd.text(location);
+        locationTr.append(locationTd);
+        var infoTr = $('<tr>');
+        var cuisineTr = $('<tr>');
+        var cuisineTd = $('<td>');
+        cuisineTd.attr('colspan', '3');
+        cuisineTd.css('padding', '0');
+        cuisineTd.text('Cuisine: ' + cuisine);
+        cuisineTr.append(cuisineTd);
+        var ratingTd = $('<td>');
+        ratingTd.css('padding', '0');
+        ratingTd.text('User Rating: ');
+        for (var i = 0; i < Math.round(rating); i++) {
+            var ratingGlyph = $('<i>');
+            ratingGlyph.addClass('tiny material-icons');
+            ratingGlyph.text('grade');
+            ratingTd.append(ratingGlyph);
+        }
+        infoTr.append(ratingTd);
+        var priceTd = $('<td>');
+        priceTd.css('padding', '0');
+        priceTd.text('Price Range: ');
+        for (var ii = 0; ii < priceRange; ii++) {
+            var priceGlyph = $('<i>');
+            priceGlyph.addClass('tiny material-icons');
+            priceGlyph.text('credit_card');
+            priceTd.append(priceGlyph);
+        }
+        infoTr.append(priceTd);
+        var linkTd = $('<td>');
         var linkA = $('<a>');
-        var choiceBtn = $('<button>');
-        var blankP = $('<p>');
-        var btnGlyph = $('<i>');
-        btnGlyph.addClass('small material-icons');
-        btnGlyph.text('not_interested');
-        choiceBtn.addClass('removeRest red lighten-1 btn');
-        choiceBtn.text(' Remove From Itinerary');
-        choiceBtn.prepend(btnGlyph);
-        nameP.text('Restaurant: ' + name);
-        locationP.text('Location: ' + location);
-        cuisineP.text('Cuisine: ' + cuisine);
-        ratingP.text('User Rating: ' + rating);
-        priceRangeP.text('Price Range: ' + priceRange);
         var linkGlyph = $('<i>');
-        linkGlyph.addClass('small material-icons');
+        linkGlyph.addClass('tiny material-icons');
         linkGlyph.text('info');
         linkA.attr('href', link);
         linkA.attr('target', '_blank');
-        linkA.text(' more info ');
+        linkA.text(' more info');
         linkA.prepend(linkGlyph);
-        $('#restChoiceOutput').append(nameP);
-        $('#restChoiceOutput').append(locationP);
-        $('#restChoiceOutput').append(cuisineP);
-        $('#restChoiceOutput').append(ratingP);
-        $('#restChoiceOutput').append(priceRangeP);
-        $('#restChoiceOutput').append(linkA);
-        $('#restChoiceOutput').append(choiceBtn);
-        $('#restChoiceOutput').append(blankP);
+        linkTd.css('padding', '0');
+        linkTd.html(linkA);
+        infoTr.append(linkTd);
+        var buttonTr = $('<tr>');
+        var buttonTd = $('<td>');
+        var choiceBtn = $('<button>');
+        var btnGlyph = $('<i>');
+        btnGlyph.addClass('tiny material-icons');
+        btnGlyph.text('not_interested');
+        choiceBtn.addClass('addRestaurant red lighten-1 btn-small');
+        choiceBtn.css('color', 'white');
+        choiceBtn.text(' Remove From Itinerary');
+        choiceBtn.prepend(btnGlyph);
+        buttonTd.attr('colspan', '3');
+        buttonTd.css('padding', '0 0 10px 0');
+        buttonTd.html(choiceBtn);
+        buttonTr.append(buttonTd);
+        $('#restChoiceOutput').append(nameTr);
+        $('#restChoiceOutput').append(locationTr);
+        $('#restChoiceOutput').append(cuisineTr);
+        $('#restChoiceOutput').append(infoTr);
+        $('#restChoiceOutput').append(buttonTr);
     },
 
     // Clear input fields after submitting request
