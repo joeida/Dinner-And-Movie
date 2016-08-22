@@ -67,9 +67,20 @@ var compute = {
         }
     },
 
+    // Translate chosen search criteria into required value needed in API to sort results correctly
+    getSearchOrder: function() {
+        var searchOrder = $('#searchOrder').val().trim();
+        if (searchOrder === 'High') {
+            return 'desc';
+        }
+        if (searchOrder === 'Low') {
+            return 'asc';
+        }
+    },
+
     // Using address and search criteria, use Google Geo API to get Latitude and Longitude of location chosen
     // After results obtained, run get Restaurant method which queries zomato restaurant search API based on geo location
-    getGeo: function (addressObj, searchCriteria) {
+    getGeo: function (addressObj, searchCriteria, searchOrder) {
         var query = '';
         var queryList = [];
         var addressList = addressObj.addressList;
@@ -103,7 +114,8 @@ var compute = {
             var geoObj = {
                 lat: lat,
                 lng: lng,
-                searchCriteria: searchCriteria
+                searchCriteria: searchCriteria,
+                searchOrder: searchOrder
             };
             return geoObj;
         })
@@ -121,17 +133,24 @@ var compute = {
         var lat = geoObj.lat;
         var lng = geoObj.lng;
         var searchCriteria;
+        var searchOrder;
         var queryURL;
         if (geoObj.searchCriteria) {
             searchCriteria = geoObj.searchCriteria;
         } else {
             searchCriteria = 'rating';
         }
+        if (geoObj.searchOrder) {
+            searchOrder = geoObj.searchOrder;
+        } else {
+            searchOrder = 'desc';
+        }
         if (newQueryURL) {
             queryURL = newQueryURL;
         } else {
-            queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
+            queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&order=" + searchOrder + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
         }
+        console.log(queryURL);
         $.ajax({url: queryURL, method: 'GET'})
         .then(function(response) {
             var name;
@@ -151,7 +170,7 @@ var compute = {
             }
             if (response.restaurants.length === 20 && compute.resultCounter < 22) {
                 compute.resultCounter += 20;
-                var newQuery = "https://developers.zomato.com/api/v2.1/search?start=" + compute.resultCounter + "&lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
+                var newQuery = "https://developers.zomato.com/api/v2.1/search?start=" + compute.resultCounter + "&lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&order=" + searchOrder + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
                 compute.getRest(geoObj, newQuery);
             } else {
                 compute.resultCounter = 1;
@@ -438,16 +457,17 @@ $(document).ready(function() {
         var addressObj = compute.getAddress();
         var zipObj = compute.getZip();
         var searchCriteria = compute.getSearchCriteria();
+        var searchOrder = compute.getSearchOrder();
         if (zipObj === 'invalid') {
             console.log('invalid zip code');
         } else if (zipObj === 'empty' && addressObj === 'empty') {
             console.log('zip code and address field empty');
         } else if (zipObj && typeof zipObj === 'object') {
             render.clearInput();
-            compute.getGeo(zipObj, searchCriteria);
+            compute.getGeo(zipObj, searchCriteria, searchOrder);
         } else {
             render.clearInput();
-            compute.getGeo(addressObj, searchCriteria);
+            compute.getGeo(addressObj, searchCriteria, searchOrder);
         }
 
         return false;
