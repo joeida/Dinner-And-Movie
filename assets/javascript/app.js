@@ -328,49 +328,53 @@ var db = {
 };
 
 
-$('#submit').on('click', function() {
+$(document).ready(function() {
 
-    render.clearRestTable();
-    var addressObj = compute.getAddress();
-    var zipObj = compute.getZip();
-    var searchCriteria = compute.getSearchCriteria();
-    if (zipObj === 'invalid') {
-        console.log('invalid zip code');
-    } else if (zipObj === 'empty' && addressObj === 'empty') {
-        console.log('zip code and address field empty');
-    } else if (zipObj && typeof zipObj === 'object') {
-        render.clearInput();
-        compute.getGeo(zipObj, searchCriteria);
-    } else {
-        render.clearInput();
-        compute.getGeo(addressObj, searchCriteria);
-    }
+    $('#submit').on('click', function() {
 
-    return false;
+        render.clearRestTable();
+        var addressObj = compute.getAddress();
+        var zipObj = compute.getZip();
+        var searchCriteria = compute.getSearchCriteria();
+        if (zipObj === 'invalid') {
+            console.log('invalid zip code');
+        } else if (zipObj === 'empty' && addressObj === 'empty') {
+            console.log('zip code and address field empty');
+        } else if (zipObj && typeof zipObj === 'object') {
+            render.clearInput();
+            compute.getGeo(zipObj, searchCriteria);
+        } else {
+            render.clearInput();
+            compute.getGeo(addressObj, searchCriteria);
+        }
 
-});
+        return false;
 
-$('#restaurantOutput').on('click', '.addRestaurant', function() {
-    var name = $(this).attr('data-name');
-    var location = $(this).attr('data-location');
-    var cuisine = $(this).attr('data-cuisine');
-    var rating = $(this).attr('data-rating');
-    var priceRange = $(this).attr('data-priceRange');
-    var link = $(this).attr('data-link');
-    var restObj = {
-        name: name,
-        location: location,
-        cuisine: cuisine,
-        rating: rating,
-        priceRange: priceRange,
-        link: link
-    };
-    db.setRest(restObj);
-});
+    });
 
-$('#restChoiceOutput').on('click', '.removeRest', function() {
-    db.removeRest();
-    render.clearMapOutput();
+    $('#restaurantOutput').on('click', '.addRestaurant', function() {
+        var name = $(this).attr('data-name');
+        var location = $(this).attr('data-location');
+        var cuisine = $(this).attr('data-cuisine');
+        var rating = $(this).attr('data-rating');
+        var priceRange = $(this).attr('data-priceRange');
+        var link = $(this).attr('data-link');
+        var restObj = {
+            name: name,
+            location: location,
+            cuisine: cuisine,
+            rating: rating,
+            priceRange: priceRange,
+            link: link
+        };
+        db.setRest(restObj);
+    });
+
+    $('#restChoiceOutput').on('click', '.removeRest', function() {
+        db.removeRest();
+        render.clearMapOutput();
+    });
+
 });
 
 database.ref('/restaurant').on("value", function(snapshot) {
