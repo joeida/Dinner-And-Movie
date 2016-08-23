@@ -1,12 +1,3 @@
-// Initialize Firebase
-var config = {
-    apiKey: "AIzaSyChEpHft8Prp9izbllvR5Ilkkedq7XLvXE",
-    authDomain: "dinner-and-movie.firebaseapp.com",
-    databaseURL: "https://dinner-and-movie.firebaseio.com",
-    storageBucket: "dinner-and-movie.appspot.com",
-};
-firebase.initializeApp(config);
-
 var database = firebase.database();
 
 // Compute Values
@@ -150,7 +141,6 @@ var compute = {
         } else {
             queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&order=" + searchOrder + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
         }
-        console.log(queryURL);
         $.ajax({url: queryURL, method: 'GET'})
         .then(function(response) {
             var name;
@@ -522,32 +512,32 @@ $(document).ready(function() {
 
     });
 
-// SELECT
-    $('select').material_select();
+// // SELECT
+//     $('select').material_select();
 
-// CAROUSEL
-    $('.carousel').carousel();
-    $('.carousel-slider').slider({full_width: true});
+// // CAROUSEL
+//     $('.carousel').carousel();
+//     $('.carousel-slider').slider({full_width: true});
 
- // MODAL
-    $('.modal-trigger').leanModal();
+//  // MODAL
+//     $('.modal-trigger').leanModal();
 });
           
-$('#modal1').openModal();
-$('#modal1').closeModal();
+// $('#modal1').openModal();
+// $('#modal1').closeModal();
 
-// SMOOTH SCROLLING
-$(function() {
-    $('a[href*="#"]:not([href="#"])').click(function() {
-        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-            var target = $(this.hash);
-            target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-        if (target.length) {
-            $('html, body').animate({
-            scrollTop: target.offset().top
-                }, 1000);
-            return false;
-            }
-        }
-    });
-});
+// // SMOOTH SCROLLING
+// $(function() {
+//     $('a[href*="#"]:not([href="#"])').click(function() {
+//         if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+//             var target = $(this.hash);
+//             target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+//         if (target.length) {
+//             $('html, body').animate({
+//             scrollTop: target.offset().top
+//                 }, 1000);
+//             return false;
+//             }
+//         }
+//     });
+// });
