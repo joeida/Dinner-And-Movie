@@ -40,7 +40,7 @@ function displayMovie() {
 
 function findMovie(movieZip){
 	var date = moment().format("YYYY-MM-DD");
-	var onConnectQueryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + date + "&zip=" + movieZip + "&api_key=" + apiKey3;
+	var onConnectQueryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + date + "&zip=" + movieZip + "&api_key=" + apiKey2;
 	
 	$.ajax({url: onConnectQueryURL, method: 'GET'})
 	.done(function(response){
@@ -138,6 +138,7 @@ function findShowtimes(movie){
 		var snapshot = snapshot.val();
 		var movieTitle = snapshot.title;
 		var date = snapshot.date;
+		date = moment(date, "YYYY-MM-DD").format("dddd, MMMM DD, YYYY");
 		var time = snapshot.time;
 		var time = time
 		var theater = snapshot.theater;
@@ -153,10 +154,10 @@ function findShowtimes(movie){
 			$("#showtimeContainer").append(showtimeBlock);
 			$("#showtimeContainer").append(showtimeButton);
 			$("#movieContainer").hide();
+			findPoster(movieTitle);
 		}; 
 	});						
 };
-
 
 function findAddress(showtime){
 	var title = showtime.title;
@@ -175,20 +176,27 @@ function findAddress(showtime){
 		var selectionBlock = $("<h3>" + title + "</h3>" + date + "<br>" + time + "<br>" + theater + "<br>" + theaterAddress + "<br>");
 		$("#selectionContainer").append(selectionBlock);
 		$("#showtimeContainer").hide();
+		database.ref('/movieChoice').set({
+					title: title,
+					date: date,
+					time: time,
+					theater: theater,
+					address: theaterAddress
+				});
 	});
 };
 
 function findPoster(movieTitle){
-	var movie = movieTitle.toLowercase();
-	movie = movie.split(' ').join('');
-	console.log(movie);
-	
-	var TMDBQueryURL = "http://api.themoviedb.org/3/search/" + movie + "?api_key=69ab51287c6662e8557a3456899a4efb";
-
-	$.ajax({url: TMDBQueryURL, method: 'GET'})
+	var OMDBQueryURL = "http://www.omdbapi.com/?t=" + movieTitle + "&y=2016&plot=short&r=json";
+	$.ajax({url: OMDBQueryURL, method: 'GET'})
 	.done(function(response){
-		var posterURL = "https://image.tmdb.org/t/p/original/" + response.poster_path;
-		console.log(response.poster_path);
+		console.log(response["Poster"]);
+		if (response["Poster"]){
+			var posterURL = response["Poster"];
+		}
+		else {
+			var posterURL = "../images/noposter.jpg";
+		}
 		$("#movieImage").attr('src', posterURL);
 	});
 };
