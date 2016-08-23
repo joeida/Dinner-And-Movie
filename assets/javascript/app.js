@@ -29,7 +29,6 @@ $("#movieContainer").on("click", ".movie", function(){
 
 $("#showtimeContainer").on("click", ".showtime", function(){
 	var showtime = $(this).data(showtime);
-	console.log(showtime);
 	findAddress(showtime);
 });
 
@@ -50,6 +49,7 @@ function findMovie(movieZip){
 			var movieTitle;
 			if (response[i].title){
 				movieTitle = response[i].title;
+				//findPoster(movieTitle);
 			}
 			else {
 				movieTitle = "Untitled";
@@ -142,12 +142,13 @@ function findShowtimes(movie){
 		var time = time
 		var theater = snapshot.theater;
 		if (movieTitle == movie.title){
-			var showtimeBlock = $("<h3>" + movieTitle + "</h3>" + time + "<br>" + theater + "</br>");
+			var showtimeBlock = $("<h3>" + movieTitle + "</h3>" + date + "<br>" + time + "<br>" + theater + "</br>");
 			var showtimeButton = $("<button>");
 			showtimeButton.text("Select Showtime");
 			showtimeButton.addClass("showtime");
 			showtimeButton.attr("data-title", movieTitle);
 			showtimeButton.attr("data-theater", theater);
+			showtimeButton.attr("data-date", date);
 			showtimeButton.attr("data-time", time);
 			$("#showtimeContainer").append(showtimeBlock);
 			$("#showtimeContainer").append(showtimeButton);
@@ -156,16 +157,13 @@ function findShowtimes(movie){
 	});						
 };
 
-function displaySelection(showtime){
-	
-	findAddress(theater);
-	console.log(theaterAddress);
-}
 
 function findAddress(showtime){
-	//console.log(showtime);
+	var title = showtime.title;
+	var date = showtime.date;
+	var time = showtime.time
 	var theater = showtime.theater;
-	//console.log(theater);
+
 	var googleQueryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + theater + "&type=movie_theater&key=AIzaSyBCXM-2P4McxM6KX4Nr4dURfIYOVSUKhPo";
 
 	$.ajax({
@@ -174,14 +172,18 @@ function findAddress(showtime){
 	})
 	.done(function(response){
 		var theaterAddress = response.results[0].formatted_address;
-		console.log(theaterAddress);
-		return theaterAddress;
+		var selectionBlock = $("<h3>" + title + "</h3>" + date + "<br>" + time + "<br>" + theater + "<br>" + theaterAddress + "<br>");
+		$("#selectionContainer").append(selectionBlock);
+		$("#showtimeContainer").hide();
 	});
 };
 
-function findPoster(){
-	var movie = "cafesociety";
-	var TMDBQueryURL = "http://api.themoviedb.org/search/" + movie + "?api_key=69ab51287c6662e8557a3456899a4efb";
+function findPoster(movieTitle){
+	var movie = movieTitle.toLowercase();
+	movie = movie.split(' ').join('');
+	console.log(movie);
+	
+	var TMDBQueryURL = "http://api.themoviedb.org/3/search/" + movie + "?api_key=69ab51287c6662e8557a3456899a4efb";
 
 	$.ajax({url: TMDBQueryURL, method: 'GET'})
 	.done(function(response){
@@ -190,4 +192,3 @@ function findPoster(){
 		$("#movieImage").attr('src', posterURL);
 	});
 };
-
