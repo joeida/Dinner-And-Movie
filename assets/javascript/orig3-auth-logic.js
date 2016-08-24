@@ -3,7 +3,7 @@
 userId = '';
 
 function signedInDisplay() {
-	$(".form-signin").html("<h6>You are signed in</h6><button type='submit' class='waves-effect waves-light red lighten-3 btn col s12' id='btnSignOut'>Log Out</button>");
+    $(".form-signin").html("<h2 style='color:white;'>You are signed in</h2><button type='submit' class='waves-effect waves-light red lighten-3 btn col s12' id='btnSignOut'>Log Out</button>");
 }
 
 function signedOutDisplay() {
@@ -27,24 +27,8 @@ function signedOutDisplay() {
 }
 
 function emailVerifyDisplay() {
-	// $(".form-signin").html("<h1>Please Verify Email to continue.</h2><p>If you've already verified your email, please click on the button below.</p><button id='email_confirmed' class='btn btn-lg btn-primary btn-block'>Email Confirmed</button>");
+    // $(".form-signin").html("<h1>Please Verify Email to continue.</h2><p>If you've already verified your email, please click on the button below.</p><button id='email_confirmed' class='btn btn-lg btn-primary btn-block'>Email Confirmed</button>");
   $(".form-signin").html("<h2>Please Verify Email to continue.</h2><p>If you've already verified your email, please click on the button below.</p><button id='email_confirmed' type='submit' class='waves-effect waves-light red lighten-3 btn col s12'>Email Confirmed</button><button type='submit' class='waves-effect waves-light red lighten-3 btn col s12' id='btnSignOut'>Log Out</button>");
-}
-
-function appPageLoad() {
-  sessionStorage.setItem("appPageLoaded", "true");
-  if (window.location.href != "file:///Users/joeida/Bootcamp/Project/Dinner-And-Movie/app.html") {
-    window.location = "../Dinner-And-Movie/app.html";
-  }
-  
-}
-
-function loginPageLoad() {
-  sessionStorage.setItem("appPageLoaded", "false");
-  if (window.location.href != "file:///Users/joeida/Bootcamp/Project/Dinner-And-Movie/index.html") {
-    window.location = "../Dinner-And-Movie/index.html";
-  }
-  
 }
 
 function toggleSignIn() {
@@ -52,7 +36,7 @@ function toggleSignIn() {
     // [START signout]
     firebase.auth().signOut();
     // [END signout]
-    loginPageLoad();
+    reloadPage();
   } else {
     var email = $("#email_input").val();
     var password = $("#password_input").val();
@@ -69,7 +53,7 @@ function toggleSignIn() {
     // [START authwithemail]
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(function(response) {
-      appPageLoad();
+      reloadPage();
     })
     .catch(function(error) {
       // Handle Errors here.
@@ -89,7 +73,7 @@ function toggleSignIn() {
 }
 
 function reloadPage() {
-	location.reload();
+    location.reload();
 }
 /**
  * Handles the sign up button press.
@@ -125,8 +109,8 @@ function handleSignUp() {
     console.log(error);
     // [END_EXCLUDE]
   }).then(function(result){
-  	console.log("sending Email Verification");
-  	sendEmailVerification();
+    console.log("sending Email Verification");
+    sendEmailVerification();
   });
   // [END createwithemail]
 }
@@ -148,39 +132,39 @@ function sendEmailVerification() {
 
 var initApp = function() {
 
-	firebase.auth().onAuthStateChanged(function(user) {
-	  if (user) {
-	  	console.log(user);
-	    // User is signed in.
-	    $("#btnSignOut").removeClass("hide");
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        console.log(user);
+        // User is signed in.
+        $("#btnSignOut").removeClass("hide");
       console.log(user.emailVerified);
-	    user.getToken().then(function(accessToken) {
+        user.getToken().then(function(accessToken) {
 
-	    	if (!user.emailVerified) {
+            if (!user.emailVerified) {
           console.log('verify email');
           emailVerifyDisplay();
         } else {
           console.log('user found');
           userId = user.uid;
-        	signedInDisplay();
-        }   	
+            signedInDisplay();
+        }       
 
 
-	  	});
-	  } else {
-	    // User is signed out.
+        });
+      } else {
+        // User is signed out.
       console.log('displayed signed out');
-	    signedOutDisplay();
-	    $("#btnSignOut").addClass("hide");
-	  }
-	}, function(error) {
-	  console.log(error);
-	});
+        signedOutDisplay();
+        $("#btnSignOut").addClass("hide");
+      }
+    }, function(error) {
+      console.log(error);
+    });
 
-	$(document).on("click", "#btnSignIn", toggleSignIn);
-	$(document).on("click", "#btnSignOut", toggleSignIn);
-	$(document).on("click", "#btnSignUp", handleSignUp);
-	$(document).on("click", "#email_confirmed", reloadPage);
+    $(document).on("click", "#btnSignIn", toggleSignIn);
+    $(document).on("click", "#btnSignOut", toggleSignIn);
+    $(document).on("click", "#btnSignUp", handleSignUp);
+    $(document).on("click", "#email_confirmed", reloadPage);
 }
 
 window.onload = function() {
