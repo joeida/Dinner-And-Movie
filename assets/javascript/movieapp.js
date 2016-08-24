@@ -19,6 +19,8 @@ $('#zipInput').on('click', function(){
 	$('#zipCode').val('');
 	$("#movieContainer").empty();
 	findMovie(movieZip);
+	$("#backbutton1").hide();
+	$("#backbutton2").hide();
 	$("#movieContainer").show();
 	$("#showtimeContainer").hide();
 	$("#selectionContainer").hide();
@@ -29,6 +31,8 @@ $("#movieContainer").on("click", ".movie", function(){
 	var movie = $(this).data(movie);
 	$("#showtimeContainer").empty();
 	findShowtimes(movie);
+	$("#backbutton1").show();
+	$("#backbutton2").hide();
 	$("#movieContainer").hide();
 	$("#showtimeContainer").show();
 	$("#selectionContainer").hide();
@@ -38,11 +42,28 @@ $("#showtimeContainer").on("click", ".showtime", function(){
 	var showtime = $(this).data(showtime);
 	$("#selectionContainer").empty();
 	findAddress(showtime);
+	$("#backbutton1").hide();
+	$("#backbutton2").show();
 	$("#movieContainer").hide();
 	$("#showtimeContainer").hide();
 	$("#selectionContainer").show();
 });
 
+$("#backbutton1").on("click", function(){
+	$("#backbutton1").hide();
+	$("#backbutton2").hide();
+	$("#movieContainer").show();
+	$("#showtimeContainer").hide();
+	$("#selectionContainer").hide();
+});
+
+$("#backbutton2").on("click", function(){
+	$("#backbutton1").show();
+	$("#backbutton2").hide();
+	$("#movieContainer").hide();
+	$("#showtimeContainer").show();
+	$("#selectionContainer").hide();
+});
 
 function displayMovie() {
 	var movieBlock = $("<div>");
@@ -200,13 +221,17 @@ function findPoster(movieTitle){
 	var OMDBQueryURL = "http://www.omdbapi.com/?t=" + movieTitle + "&y=2016&plot=short&r=json";
 	$.ajax({url: OMDBQueryURL, method: 'GET'})
 	.done(function(response){
-		console.log(response["Poster"]);
 		if (response["Poster"]){
 			var posterURL = response["Poster"];
 		}
 		else {
 			var posterURL = "../images/noposter.jpg";
-		}
+		};
 		$("#movieImage").attr('src', posterURL);
 	});
 };
+
+$(document).ready(function(){
+	$("#backbutton1").hide();
+	$("#backbutton2").hide();
+});
