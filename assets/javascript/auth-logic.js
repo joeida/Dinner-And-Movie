@@ -1,14 +1,9 @@
 // Initialize Firebase
 
-var $emailInput = $("#email_input");
-var $passwordInput = $("#password_input");
-var $signInBtn= $("#btnSignIn");
-var $signOutBtn = $("#btnSignOut");
-var $signUpBtn = $("#btnSignUp");
+userId = '';
 
-
-function signedInDisplay(displayName) {
-	$(".form-signin").html(displayName + " is signed in");
+function signedInDisplay() {
+	$(".form-signin").html("You are signed in");
 }
 
 function signedOutDisplay() {
@@ -32,6 +27,7 @@ function toggleSignIn() {
     // [START signout]
     firebase.auth().signOut();
     // [END signout]
+    reloadPage();
   } else {
     var email = $("#email_input").val();
     var password = $("#password_input").val();
@@ -46,7 +42,11 @@ function toggleSignIn() {
     }
     // Sign in with email and pass.
     // [START authwithemail]
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(function(response) {
+      reloadPage();
+    })
+    .catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -120,51 +120,6 @@ function sendEmailVerification() {
   })
   // [END sendemailverification]
 }
-function sendPasswordReset() {
-  var email = $("#email_input").val();
-  // [START sendpasswordemail]
-  firebase.auth().sendPasswordResetEmail(email).then(function() {
-    // Password Reset Email Sent!
-    // [START_EXCLUDE]
-    alert('Password Reset Email Sent!');
-    // [END_EXCLUDE]
-  }).catch(function(error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // [START_EXCLUDE]
-    if (errorCode == 'auth/invalid-email') {
-      alert(errorMessage);
-    } else if (errorCode == 'auth/user-not-found') {
-      alert(errorMessage);
-    }
-    console.log(error);
-    // [END_EXCLUDE]
-  });
-  // [END sendpasswordemail];
-}
-
-function addDisplayNameToUser() {
-	var displayNameValue = $("#display_name_input").val();
-
-	if (displayNameValue.length < 4) {
-	    alert('Please enter an display name with at least 4 characters.');
-	    return;
-	}
-
-	var user = firebase.auth().currentUser;
-
-	user.updateProfile({
-	  displayName: displayNameValue
-	}).then(function(result){
-		signedInDisplay(user.displayName);
-    afterAuth(user.uid, user.displayName);
-	})
-}
-
-function userDisplayNameCreation() {
-	$(".form-signin").html('<input id="display_name_input" type="text" class="form-control" name="displayName" placeholder="Display Name" autofocus="" /><button id="btnDisplayName" class="btn btn-lg btn-primary btn-block">Choose Display Name</button> ');
-}
 
 var initApp = function() {
 
@@ -173,30 +128,23 @@ var initApp = function() {
 	  	console.log(user);
 	    // User is signed in.
 	    $("#btnSignOut").removeClass("hide");
-      console.log('signed in');
-      console.log(user.uid);
-      console.log(user.displayName);
+      console.log(user.emailVerified);
 	    user.getToken().then(function(accessToken) {
 
 	    	if (!user.emailVerified) {
           console.log('verify email');
           emailVerifyDisplay();
-        } else if (user.displayName !== null) {
+        } else {
           console.log('user found');
-        	signedInDisplay(user.displayName);
-        	afterAuth(user.uid, user.displayName);
-        }	else {
-          console.log('create display name');
-        	userDisplayNameCreation();
+          userId = user.uid;
+        	signedInDisplay();
         }   	
 
 
 	  	});
 	  } else {
 	    // User is signed out.
-      // removePlayer(uid);
       console.log('displayed signed out');
-      removePlayer(user);
 	    signedOutDisplay();
 	    $("#btnSignOut").addClass("hide");
 	  }
@@ -207,7 +155,6 @@ var initApp = function() {
 	$(document).on("click", "#btnSignIn", toggleSignIn);
 	$(document).on("click", "#btnSignOut", toggleSignIn);
 	$(document).on("click", "#btnSignUp", handleSignUp);
-	$(document).on("click", "#btnDisplayName", addDisplayNameToUser);
 	$(document).on("click", "#email_confirmed", reloadPage);
 }
 

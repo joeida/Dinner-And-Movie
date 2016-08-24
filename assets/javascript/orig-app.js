@@ -397,62 +397,43 @@ var render = {
 var db = {
     // Write restaurant object to database restaurant reference object
     setRest: function(restObj) {
-        var restExists = false;
-        database.ref('/restaurant').once("value", function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-                if (childSnapshot.val().userId === restObj.userId) {
-                    var key = childSnapshot.key;
-                    database.ref('/restaurant/' + key).remove();
-                    database.ref('/restaurant').push(restObj);
-                    restExists = true;
-                }
-            });
-        });
-        if (restExists === false) {
-            database.ref('/restaurant').push(restObj);
-        }
+        database.ref('/restaurant').set(restObj);
     },
 
     // Cause database change on page load to initiate map render
     setRestOnLoad: function () {
         database.ref('/restaurant').once("value", function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-                if (childSnapshot.val().userId === userId) {
-                    var name = childSnapshot.val().name;
-                    var location = childSnapshot.val().location;
-                    var cuisine = childSnapshot.val().cuisine;
-                    var rating = childSnapshot.val().rating;
-                    var priceRange = childSnapshot.val().priceRange;
-                    var link = childSnapshot.val().link;
-                    var restObj = {
-                        name: name,
-                        location: location,
-                        cuisine: cuisine,
-                        rating: rating,
-                        priceRange: priceRange,
-                        link: link,
-                        userId: userId
-                    };
-                    var key = childSnapshot.key;
-                    database.ref('/restaurant/' + key).remove();
-                    database.ref('/restaurant').push(restObj);
-                }
-            });
+            if (snapshot.val() !== null) {
+                var name = snapshot.val().name;
+                var location = snapshot.val().location;
+                var cuisine = snapshot.val().cuisine;
+                var rating = snapshot.val().rating;
+                var priceRange = snapshot.val().priceRange;
+                var link = snapshot.val().link;
+                var restClearObj = {
+                    name: name,
+                    location: location,
+                    cuisine: cuisine,
+                    rating: rating,
+                    priceRange: priceRange,
+                };
+                var restObj = {
+                    name: name,
+                    location: location,
+                    cuisine: cuisine,
+                    rating: rating,
+                    priceRange: priceRange,
+                    link: link
+                };
+                database.ref('/restaurant').set(restClearObj);
+                database.ref('/restaurant').set(restObj);
+            }
         });
     },
 
     // Remove restaurant object from database upon clicking the restaurant remove button in itinerary
     removeRest: function() {
-        database.ref('/restaurant').once("value", function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-                if (childSnapshot.val().userId === userId) {
-                    var key = childSnapshot.key;
-                    database.ref('/restaurant/' + key).remove();
-                    render.clearRestChoice();
-                    render.clearMapOutput();
-                }
-            });
-        });
+        database.ref('/restaurant').remove();
     }
 };
 
@@ -497,8 +478,7 @@ $(document).ready(function() {
             cuisine: cuisine,
             rating: rating,
             priceRange: priceRange,
-            link: link,
-            userId: userId
+            link: link
         };
         db.setRest(restObj);
     });
@@ -511,26 +491,24 @@ $(document).ready(function() {
 
     // Process values upon changes in the restaurant database reference object
     database.ref('/restaurant').on("value", function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-            if (childSnapshot.val().userId === userId) {
-                render.clearRestChoice();
-                var name = childSnapshot.val().name;
-                var location = childSnapshot.val().location;
-                var cuisine = childSnapshot.val().cuisine;
-                var rating = childSnapshot.val().rating;
-                var priceRange = childSnapshot.val().priceRange;
-                var link = childSnapshot.val().link;
-                render.displayRestChoice(name, location, cuisine, rating, priceRange, link);
-                if (compute.startAddress) {
-                    render.displayRestDistanceMap(compute.startAddress, location);
-                } else {
-                    render.displayRestMap(location);
-                }
+        if (snapshot.val() !== null) {
+            render.clearRestChoice();
+            var name = snapshot.val().name;
+            var location = snapshot.val().location;
+            var cuisine = snapshot.val().cuisine;
+            var rating = snapshot.val().rating;
+            var priceRange = snapshot.val().priceRange;
+            var link = snapshot.val().link;
+            render.displayRestChoice(name, location, cuisine, rating, priceRange, link);
+            if (compute.startAddress) {
+                render.displayRestDistanceMap(compute.startAddress, location);
             } else {
-                render.clearRestChoice();
-                render.clearMapOutput();
+                render.displayRestMap(location);
             }
-        });
+        } else {
+            render.clearRestChoice();
+            render.clearMapOutput();
+        }
 
     });
 

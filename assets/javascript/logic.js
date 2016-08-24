@@ -1,9 +1,5 @@
 
 // Set up refs for Database endpoints
-var db = firebase.database();
-var playersRef = db.ref('/players');
-var roomsRef = db.ref('/channels');
-var amOnline = db.ref('/.info/connected');
 var playerChoiceHTML = false;
 
 // ** Used to generate empty rooms ** 
