@@ -26,6 +26,25 @@ function signedOutDisplay() {
             );
 }
 
+function signedOutDisplayEmail() {
+  $(".form-signin").html('<h1> Welcome! </h1>' +
+            '<div class="input-field col s6">' +
+            '<form>' +
+            '<label class="active" for="username">Email Address</label></label>' +
+            '<input id="email_input" type="text" class="validate">' +
+            '</div>' +
+            '<div class="input-field col s6">' +
+            '<label class="active" for="password">Password</label>' +
+            '<input id="password_input" type="password" class="validate">' +
+            '</div>' +
+            '<button type="submit" class="waves-effect waves-light red lighten-3 btn col s12" id="btnSignIn">Log In</button>' +
+            '<button type="submit" class="waves-effect waves-light red lighten-3 btn col s12 hide" id="btnSignOut">Log Out</button>' +
+            '</form>' +
+            '</div>' +
+            '</div>'
+            );
+}
+
 function emailVerifyDisplay() {
 	// $(".form-signin").html("<h1>Please Verify Email to continue.</h2><p>If you've already verified your email, please click on the button below.</p><button id='email_confirmed' class='btn btn-lg btn-primary btn-block'>Email Confirmed</button>");
   $(".form-signin").html("<h2>Please Verify Email to continue.</h2><p>If you've already verified your email, please click on the button below.</p><button id='email_confirmed' type='submit' class='waves-effect waves-light red lighten-3 btn col s12'>Email Confirmed</button><button type='submit' class='waves-effect waves-light red lighten-3 btn col s12' id='btnSignOut'>Log Out</button>");
@@ -180,7 +199,7 @@ var initApp = function() {
 	$(document).on("click", "#btnSignIn", toggleSignIn);
 	$(document).on("click", "#btnSignOut", toggleSignIn);
 	$(document).on("click", "#btnSignUp", handleSignUp);
-	$(document).on("click", "#email_confirmed", reloadPage);
+	$(document).on("click", "#email_confirmed", signedOutDisplayEmail);
 }
 
 window.onload = function() {
