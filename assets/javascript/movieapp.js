@@ -15,21 +15,32 @@ apiKey3 = "9vu3zjqxjwg49mm9p72mqjau"
 
 $('#zipInput').on('click', function(){
 	var movieZip = $('#zipCode').val().trim();
-	database.ref().remove();
+	database.ref('/movieOptions').remove();
 	$('#zipCode').val('');
-	
+	$("#movieContainer").empty();
 	findMovie(movieZip);
+	$("#movieContainer").show();
+	$("#showtimeContainer").hide();
+	$("#selectionContainer").hide();
 	return false;
 });
 
 $("#movieContainer").on("click", ".movie", function(){
 	var movie = $(this).data(movie);
+	$("#showtimeContainer").empty();
 	findShowtimes(movie);
+	$("#movieContainer").hide();
+	$("#showtimeContainer").show();
+	$("#selectionContainer").hide();
 });
 
 $("#showtimeContainer").on("click", ".showtime", function(){
 	var showtime = $(this).data(showtime);
+	$("#selectionContainer").empty();
 	findAddress(showtime);
+	$("#movieContainer").hide();
+	$("#showtimeContainer").hide();
+	$("#selectionContainer").show();
 });
 
 
@@ -40,8 +51,8 @@ function displayMovie() {
 
 function findMovie(movieZip){
 	var date = moment().format("YYYY-MM-DD");
-	var onConnectQueryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + date + "&zip=" + movieZip + "&api_key=" + apiKey2;
-	
+	var onConnectQueryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + date + "&zip=" + movieZip + "&api_key=" + apiKey1;
+	//if using lat/long, phrasing is: lat=34.0736&lng=-118.4004
 	$.ajax({url: onConnectQueryURL, method: 'GET'})
 	.done(function(response){
 		for (var i = 0; i < 25; i++){
@@ -121,7 +132,7 @@ function findMovie(movieZip){
 					theater = "No Theater";
 				};
 
-				database.ref().push({
+				database.ref('/movieOptions').push({
 					title: movieTitle,
 					date: date,
 					time: movieTime,
@@ -133,7 +144,7 @@ function findMovie(movieZip){
 };
 
 function findShowtimes(movie){			
-	var data = database.ref();
+	var data = database.ref('/movieOptions');
 	data.on("child_added", function(snapshot){
 		var snapshot = snapshot.val();
 		var movieTitle = snapshot.title;
@@ -153,7 +164,6 @@ function findShowtimes(movie){
 			showtimeButton.attr("data-time", time);
 			$("#showtimeContainer").append(showtimeBlock);
 			$("#showtimeContainer").append(showtimeButton);
-			$("#movieContainer").hide();
 			findPoster(movieTitle);
 		}; 
 	});						
@@ -182,7 +192,7 @@ function findAddress(showtime){
 					time: time,
 					theater: theater,
 					address: theaterAddress
-				});
+		});
 	});
 };
 
