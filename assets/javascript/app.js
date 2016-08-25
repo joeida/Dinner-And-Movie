@@ -39,7 +39,7 @@ var compute = {
 
     // Get zip code, verify format, and return appropriate value
     getZip: function() {
-        var zip = $('#zip').val().trim();
+        var zip = $('#zipCode').val().trim();
         var zipValid = /^\d{5}$/;
         if (zip.match(zipValid)) { 
             var zipObj = {
@@ -282,8 +282,8 @@ var render = {
         iframe.attr('style', 'border:0');
         iframe.attr('src', queryURL);
         iframe.attr('allowfullscreen');
-        $('#mapOutput').append(iframe);
-        $('#mapOutput').append(blankP);
+        $('#mapOutputModal').append(iframe);
+        $('#mapOutputModal').append(blankP);
     },
 
     // Display chosen restaurant in itinerary output field on html page
@@ -353,11 +353,11 @@ var render = {
         buttonTd.css('padding', '0 0 10px 0');
         buttonTd.html(choiceBtn);
         buttonTr.append(buttonTd);
-        $('#restChoiceOutput').append(nameTr);
-        $('#restChoiceOutput').append(locationTr);
-        $('#restChoiceOutput').append(cuisineTr);
-        $('#restChoiceOutput').append(infoTr);
-        $('#restChoiceOutput').append(buttonTr);
+        $('#restaurantOputputModal').append(nameTr);
+        $('#restaurantOputputModal').append(locationTr);
+        $('#restaurantOputputModal').append(cuisineTr);
+        $('#restaurantOputputModal').append(infoTr);
+        $('#restaurantOputputModal').append(buttonTr);
       //FRONT END: Added this for dialogue
         Materialize.toast('Restaurant in Itinerary!', 4000);
     },
@@ -506,10 +506,6 @@ $(document).ready(function() {
 
 // SELECT
     $('select').material_select();
-// CAROUSEL
-    // $('.carousel').carousel();
-    // $('.carousel-slider').slider({full_width: true});
-
  // MODAL
     $('.modal-trigger').leanModal();
 });
