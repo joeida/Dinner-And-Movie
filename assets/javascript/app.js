@@ -256,7 +256,6 @@ var render = {
 
     // Display google map of initial query location to location of chosen restaurant
     displayRestDistanceMap: function(origin, destination) {
-        render.clearMapOutput();
         var queryBegin = 'https://www.google.com/maps/embed/v1/directions?key=AIzaSyD5L9bqnVgrw-XfE1nZbhREaDukQJVPDQs&';
         var queryOrigin = 'origin=' + origin.split(', ').join('+') + '&';
         var destinationList = destination.split(', ').join('+');
@@ -272,13 +271,12 @@ var render = {
         iframe.attr('style', 'border:0');
         iframe.attr('src', queryURL);
         iframe.attr('allowfullscreen');
-        $('#mapOutput').append(iframe);
+        $('#mapOutput').html(iframe);
         $('#mapOutput').append(blankP);
     },
 
     // Display google map of location of restaurant chosen when no initial location is available
     displayRestMap: function(destination) {
-        render.clearMapOutput();
         var queryBegin = 'https://www.google.com/maps/embed/v1/search?key=AIzaSyD5L9bqnVgrw-XfE1nZbhREaDukQJVPDQs&q='
         var destinationList = destination.split(', ').join('+');
         var queryDestination = destinationList.split(' ').join('+');
@@ -292,7 +290,7 @@ var render = {
         iframe.attr('style', 'border:0');
         iframe.attr('src', queryURL);
         iframe.attr('allowfullscreen');
-        $('#mapOutput').append(iframe);
+        $('#mapOutput').html(iframe);
         $('#mapOutput').append(blankP);
     },
 
@@ -391,12 +389,6 @@ var render = {
     // Clear map output field before each map render
     clearMapOutput: function() {
         $('#mapOutput').empty();
-    },
-
-    loginPageLoad: function() {
-      if (window.location.href != "file:///Users/joeida/Bootcamp/Project/Dinner-And-Movie/index.html") {
-        window.location = "../Dinner-And-Movie/index.html";
-      }
     }
 
 };
