@@ -4,6 +4,7 @@ var database = firebase.database();
 var compute = {
 
     startAddress: '',
+    destinationAddress: '',
     resultCounter: 1,
 
     // Get address in form of street, city, and state and return address object
@@ -478,8 +479,10 @@ $(document).ready(function() {
             var searchOrder = compute.getSearchOrder();
             if (zipObj === 'invalid') {
                 console.log('invalid zip code');
+                alert('Please enter a valid zip code!');
             } else if (zipObj === 'empty' && addressObj === 'empty') {
                 console.log('zip code and address field empty');
+                alert('Please enter a valid zip code or address, city, state!')
             } else if (zipObj && typeof zipObj === 'object') {
                 render.clearInput();
                 compute.getGeo(zipObj, searchCriteria, searchOrder);
@@ -488,7 +491,7 @@ $(document).ready(function() {
                 compute.getGeo(addressObj, searchCriteria, searchOrder);
             }
         }
-        
+
         return false;
 
     });
