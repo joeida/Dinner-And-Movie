@@ -20,74 +20,92 @@
   <meta charset="UTF-8">
 </head>
 <body>
+
   <video autoplay loop muted  id="background">   
         <source src="assets/Video/background.mp4" type="video/mp4">
   </video>
 
-<header>
-<div class ="headercontainer">
 
-  <div class="headerinput">
+<!-- Logo -->
+	<div class="center-align logo">
+			<img class="logo" src="assets/images/logo.png">
+	</div>
+
+<div class="row form">
+  <form>
+  <div class="col s6">
     <input class ="inputbox" type="text" id="address" placeholder="Address">
-  <!-- Zip ID: zip -->
+  <!-- Zip ID: zipCode -->
     <input class ="inputbox" type="number" id="zipCode" placeholder="Zip">
     <!-- Zip ID: city -->
     <input class ="inputbox" type="text" id="city" placeholder="City">
     <!-- Address ID: state-->
     <input class ="inputbox" type="text" id="state" placeholder="State">
-  </div>
+   </div>
 
-  <div class="headerselect">
+  <div class="col s6">
+         <!-- ID: searchCriteria -->
             <select id="searchCriteria">
               <option>Rating</option>
               <option>Cost</option>
               <option>Distance</option>
             </select>
-  </div>
-
-  <div class="searchselect">
+        <!-- ID: searchOrder -->
             <select id="searchOrder">
                  <option>High</option>
                  <option>Low</option>
            </select>
-            
+
+             <div class="headerbutton">
+      <!-- Submit Button ID: submit -->
+      <button class="red lighten-3 btn" type="submit" id="submit"> <i class="material-icons">input</i> Submit </button>
+    </form>
   </div>
-  <div class="headerbutton">
-      <button class="red lighten-3 btn" type="submit" id="zipInput"> <i class="material-icons">input</i> Submit </button>
   </div>
 </div>
-</header>
 
-<!-- Michelles Parts -->
-<!-- Logo -->
-	<div class="center-align logo">
-			<img class="logo" src="assets/images/logo.png">
-	</div>
 <div class="container">
 <!-- Restaurant Output -->
 <a name="restaurantOutputDiv"></a> 
   <div class="outputDiv">
     <h5> Pick a restaurant </h5>
+<!-- restaurantOutput id:RestaurantOutput -->
+<!-- Where to put the results from the query -->
     <div class="restaurantOutput" id="restaurantOutput">
     </div>
 </div>
 
 
-<!-- Movie -->
+ <!--Movie Output !-->
 <a name="movieOutputDiv"></a> 
-<div class="outputDiv">
-	<!-- First Stage -->
-	<div id="stageOneMovie">
-	</div>
-	<!-- Second Stage -->
-	<div id="stageTwoMovie">
-	</div>
+ <div class="outputDiv"> 
+  <div class="row movieDiv">
+    <div class="phases col s6">
+      <h5 class="movieIntro"> Choose Your Movie </h5>
+      <div class="phase1">
+      <!-- ID:movieContainer -->
+        <div class="movieNames" id="movieContainer">
+        <!-- ID:movielist -->
+            <div class="div-movielist"></div>
+        </div>
+      </div>
 
-	</div>
+      <h5 class="movieIntro"> Choose Your Showtime </h5>
+      <div class="phase2">
+       <!-- ID:showtimeContainer -->
+         <div id="showtimeContainer"></div>
+        <!-- ID:selectionContainer -->
+         <div id="selectionContainer"></div>
+      </div>
+     </div>
 
+     <div class="moviepicture col s6">
+          <img class="movieImg" id="movieImage">
+            <div class="movieRated" id="movieRating"> </div>
+      </div>
+    </div>   
+  </div>
 </div>
-
-
 
 <!-- Side scroll -->
 <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
@@ -110,15 +128,18 @@
      	<div class="row">
      		<div class="movieRestoModal col s6">
      		<!--RESTO ID: restaurantOputputModal -->
+        <!-- Where to output chosen restaurant -->
      				<div class="restaurantOuputModal" id="restChoiceOutput">
      				resto
      				</div>
-     		<!-- MOVIE ID: moiveOutputModal -->
+     		<!-- MOVIE ID: movieOutputModal -->
+        <!-- Where to output chosen movie and theatre -->
      				<div class="movieOutputModal" id="movieOutputModal">
      				movie
      				</div>
      		</div>
      		<!-- MAP ID: mapOutputModal -->
+        <!-- Where to put MAP location of both movie and theatre -->
      		<div class="mapOutputModal col s6" id="mapOutputModal">
      		</div>
      	</div>
