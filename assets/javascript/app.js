@@ -358,6 +358,8 @@ var render = {
         $('#restChoiceOutput').append(cuisineTr);
         $('#restChoiceOutput').append(infoTr);
         $('#restChoiceOutput').append(buttonTr);
+      //FRONT END: Added this for dialogue
+        Materialize.toast('Restaurant in Itinerary!', 4000);
     },
 
     // Clear input fields after submitting request
@@ -504,18 +506,14 @@ $(document).ready(function() {
 
 // SELECT
     $('select').material_select();
-
 // CAROUSEL
-    $('.carousel').carousel();
-    $('.carousel-slider').slider({full_width: true});
+    // $('.carousel').carousel();
+    // $('.carousel-slider').slider({full_width: true});
 
  // MODAL
     $('.modal-trigger').leanModal();
 });
           
-$('#modal1').openModal();
-$('#modal1').closeModal();
-
 // SMOOTH SCROLLING
 $(function() {
     $('a[href*="#"]:not([href="#"])').click(function() {
