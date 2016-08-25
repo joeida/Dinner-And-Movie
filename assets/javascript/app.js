@@ -467,24 +467,28 @@ $(document).ready(function() {
 
     // Process address input upon clicking the submit button
     $('#submit').on('click', function() {
-
-        render.clearRestTable();
-        var addressObj = compute.getAddress();
-        var zipObj = compute.getZip();
-        var searchCriteria = compute.getSearchCriteria();
-        var searchOrder = compute.getSearchOrder();
-        if (zipObj === 'invalid') {
-            console.log('invalid zip code');
-        } else if (zipObj === 'empty' && addressObj === 'empty') {
-            console.log('zip code and address field empty');
-        } else if (zipObj && typeof zipObj === 'object') {
-            render.clearInput();
-            compute.getGeo(zipObj, searchCriteria, searchOrder);
+        var checkUser = sessionStorage.getItem('appPageLoaded');
+        if (!checkUser || checkUser === 'false') {
+            window.location = "index.html";
         } else {
-            render.clearInput();
-            compute.getGeo(addressObj, searchCriteria, searchOrder);
+            render.clearRestTable();
+            var addressObj = compute.getAddress();
+            var zipObj = compute.getZip();
+            var searchCriteria = compute.getSearchCriteria();
+            var searchOrder = compute.getSearchOrder();
+            if (zipObj === 'invalid') {
+                console.log('invalid zip code');
+            } else if (zipObj === 'empty' && addressObj === 'empty') {
+                console.log('zip code and address field empty');
+            } else if (zipObj && typeof zipObj === 'object') {
+                render.clearInput();
+                compute.getGeo(zipObj, searchCriteria, searchOrder);
+            } else {
+                render.clearInput();
+                compute.getGeo(addressObj, searchCriteria, searchOrder);
+            }
         }
-
+        
         return false;
 
     });
@@ -517,13 +521,6 @@ $(document).ready(function() {
 
     // Process values upon changes in the restaurant database reference object
     database.ref('/restaurant').on("value", function(snapshot) {
-        // var checkUser = sessionStorage.getItem('appPageLoaded');
-        // if (checkUser === 'false') {
-        //     console.log('it is false');
-        //     // window.location = "../index.html"
-        // } else {
-        //     console.log('it is true');
-        // }
         snapshot.forEach(function(childSnapshot) {
             if (childSnapshot.val().userId === userId) {
                 render.clearRestChoice();

@@ -52,12 +52,12 @@ function emailVerifyDisplay() {
 
 function appPageLoad() {
   sessionStorage.setItem("appPageLoaded", "true");
-  window.location = "file:///Users/joeida/Bootcamp/Project/Dinner-And-Movie/app.html";
+  window.location = "app.html";
 }
 
 function loginPageLoad() {
   sessionStorage.setItem("appPageLoaded", "false");
-    window.location = "file:///Users/joeida/Bootcamp/Project/Dinner-And-Movie/index.html";
+  window.location = "index.html";
 }
 
 function toggleSignIn() {
