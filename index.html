@@ -2,12 +2,10 @@
 <html>
 <head>
 	<title></title>
-
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">        
-  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-  <!-- Materialize CSS -->
+  <link rel="stylesheet" href="assets/css/login.css"></style>
+<!-- Materialize CSS -->
   <link rel="stylesheet" href="assets/css/materialize/css/materialize.css">
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="assets/javascript/jquery-3.1.0.min.js"></script>
   <!-- Materialize JS -->
   <script src="assets/css/materialize/js/materialize.js"></script>
   <!-- Firebase -->
@@ -16,120 +14,57 @@
   <script type="text/javascript" src="assets/javascript/app.js"></script>
   <!-- Front-End JS -->
   <script type="text/javascript" src="assets/javascript/front-end.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta charset="UTF-8">
+  
 </head>
 <body>
-  <video autoplay loop muted  id="background">   
-        <source src="assets/Video/background.mp4" type="video/mp4">
-  </video>
-
-<header>
-<div class ="headercontainer">
-
-<div class="headerinput">
-   <input class ="inputbox" type="text" id="address" placeholder="Address">
- <!-- Zip ID: zip -->
-   <input class ="inputbox" type="number" id="zip" placeholder="Zip">
-   <!-- Zip ID: city -->
-   <input class ="inputbox" type="text" id="city" placeholder="City">
-   <!-- Address ID: state-->
-   <input class ="inputbox" type="text" id="state" placeholder="State">
-</div>
-<div class="searchselect">
-        <select id="searchCriteria">
-            <option>Rating</option>
-            <option>Cost</option>
-            <option>Distance</option>
-        </select>
-</div>
-<div class="searchselect">
-        <select id="searchOrder">
-                 <option>High</option>
-                 <option>Low</option>
-        </select>
-</div>
-<div class="headerbutton">
-     <button class="red lighten-3 btn" type="submit" id="submit"> <i class="material-icons">input</i> Submit </button>
-</div>
-</div>
-</header>
-
-<!-- Michelles Parts -->
-<!-- Logo -->
-	<div class="center-align logo">
-			<img class="logo" src="assets/images/logo.png">
-	</div>
+<video autoplay loop muted  id="background">  
+        <source src="assets/video/background2.mp4" type="video/mp4">
+</video>
 <div class="container">
-<!-- Restaurant Output -->
-<a name="restaurantOutputDiv"></a> 
-  <div class="outputDiv">
-    <h5> Pick a restaurant </h5>
-    <div class="restaurantOutput" id="restaurantOutput">
-    </div>
-</div>
+	 <div class="login-form card">
+		<div class="center-align"> 
+               <img class="logo center-align" src="assets/images/logo.png"> 
+    	<!-- LOG IN -->
+    	<form>
+    		<!-- USERNAME ID: username -->
+        <div class="input-field">
+    		    <label class="active" for="username">Username</label>
+     		 	<input id="username" type="text" class="validate">
+     			</div>
+
+     		<div class="input-field">
+          		 <!-- PASSWORD ID: password -->
+     		 	<label class="active" for="password">Password</label>
+     		 	<input id="password" type="password" class="validate">
+    		</div>
+               <!-- SUBMIT ID:login -->
+    		<button type="submit" class="waves-effect waves-light red lighten-3 btn col s12" id="login">Log In</button>
+    		</form> 
+
+        <hr>
+        <hr>
+
+      <!-- REGISTER -->
+        <form>
+        <!-- USERNAME id:usernameReg -->
+        <div class="input-field">
+            <label class="active" for="username">Username</label>
+          <input id="usernameReg" type="text" class="validate">
+          </div>
+
+        <div class="input-field">
+          <!-- PASSWORD id:passwordReg -->
+          <label class="active" for="password">Password</label>
+          <input id="passwordReg" type="password" class="validate">
+        </div>
+          <!-- SUBMIT ID: register -->
+        <button type="submit" class="waves-effect waves-light red lighten-3 btn col s12" id="register">Register</button>
+        </form> 
 
 
-<!-- Movie -->
-<a name="movieOutputDiv"></a> 
-<div class="outputDiv">
-	<!-- First Stage -->
-	<div id="stageOneMovie">
 	</div>
-	<!-- Second Stage -->
-	<div id="stageTwoMovie">
 	</div>
-
-	</div>
-
 </div>
-
-
-
-<!-- Side scroll -->
-<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-    <a class="btn-floating btn-large red lighten-3">
-      <i class="large material-icons">star</i>
-    </a>
-    <ul>
-       <li><a class="btn-floating teal lighten-2" href="#restaurantOutputDiv"><i class="material-icons">store</i></a></li>
-       <li><a class="btn-floating teal lighten-2" href="#movieOutputDiv"><i class="material-icons">theaters</i></a></li>
-       <li><a class="btn-floating teal lighten-2 modal-trigger" href="#modal1"><i class="material-icons">library_add</i></a></li>
-    </ul>
- </div>
-
-
-<!-- Itinerary -->
-<div id="modal1" class="modal bottom-sheet">
-<div class="row">
-   <div class="modal-content">
-     <div class="outputsChoices col s12">
-     	<div class="row">
-     		<div class="movieRestoModal col s6">
-     		<!--RESTO ID: restaurantOputputModal -->
-     				<div class="restaurantOuputModal" id="restChoiceOutput">
-     				resto
-     				</div>
-     		<!-- MOVIE ID: moiveOutputModal -->
-     				<div class="movieOutputModal" id="movieOutputModal">
-     				movie
-     				</div>
-     		</div>
-     		<!-- MAP ID: mapOutputModal -->
-     		<div class="mapOutputModal col s6" id="mapOutputModal">
-     		</div>
-     	</div>
-     </div>
-    </div>
-</div>
-
-</div>
-
-<!-- Logout ID: logout -->
-  <div class="logoutLink">
-    <h4 class="center-align"><a href="#" class="logout" id="logout"> Log Out </a></h4>
-  </div>
 
 </body>
-
 </html>
