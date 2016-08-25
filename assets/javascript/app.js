@@ -390,6 +390,12 @@ var render = {
     // Clear map output field before each map render
     clearMapOutput: function() {
         $('#mapOutput').empty();
+    },
+
+    loginPageLoad: function() {
+      if (window.location.href != "file:///Users/joeida/Bootcamp/Project/Dinner-And-Movie/index.html") {
+        window.location = "../Dinner-And-Movie/index.html";
+      }
     }
 
 };
@@ -511,6 +517,13 @@ $(document).ready(function() {
 
     // Process values upon changes in the restaurant database reference object
     database.ref('/restaurant').on("value", function(snapshot) {
+        // var checkUser = sessionStorage.getItem('appPageLoaded');
+        // if (checkUser === 'false') {
+        //     console.log('it is false');
+        //     // window.location = "../index.html"
+        // } else {
+        //     console.log('it is true');
+        // }
         snapshot.forEach(function(childSnapshot) {
             if (childSnapshot.val().userId === userId) {
                 render.clearRestChoice();

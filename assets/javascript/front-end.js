@@ -1,18 +1,10 @@
-$(document).ready(function () {
+$(document).ready(function(){
 // SELECT
     $('select').material_select();
-
-// CAROUSEL
-    $('.carousel').carousel();
-    $('.carousel-slider').slider({full_width: true});
-
  // MODAL
     $('.modal-trigger').leanModal();
 });
-
-$('#modal1').openModal();
-$('#modal1').closeModal();
-
+          
 // SMOOTH SCROLLING
 $(function() {
     $('a[href*="#"]:not([href="#"])').click(function() {

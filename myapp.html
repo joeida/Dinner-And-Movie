@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dinner and a Movie</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <!-- JQuery -->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+        <!-- Bootstrap CSS -->
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+
+        <!-- Custom Material JavaScript -->
+        <script src="assets/javascript/material.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">        
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+    </head>
+
+    <body>
+        
+    <!-- Game Header -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-header">
+                    <h1>Dinner and A Movie</h1>
+                </div><!-- end page-header -->
+            </div><!-- end col-sm-12 -->
+        </div><!-- end row -->
+
+        <div class="wrapper">
+            <div class="form-signin">       
+                <h2 class="form-signin-heading">Please login</h2>
+                <input id="email_input" type="text" class="form-control" name="username" placeholder="Email Address" required="" autofocus="" />
+                <input id="password_input" type="password" class="form-control" name="password" placeholder="Password" required=""/>      
+                <label class="checkbox">
+                    <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
+                </label>
+                <button id="btnSignIn" class="btn btn-lg btn-primary btn-block">Login</button>   
+                <button id="btnSignUp" class="btn btn-lg btn-primary btn-block">Sign Up</button>
+            </div>
+<!--             <div id="sign_out_btn_container">
+                <button id="btnSignOut" class="btn btn-lg btn-primary btn-block hide">Log Out</button>  
+            </div>
+ -->        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div id=restChoiceOutput></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div id=mapOutput></div>
+            </div>
+        </div>
+
+        <!-- Train Schedule Output Panel -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Output</strong></h3>
+                    </div><!-- end panel-heading -->
+                    <div class="panel-body">
+                        <table id='restaurantOutput'>
+                            <!-- Train Schedule Panel Heading -->
+                        </table><!-- end table -->
+                        <div id='restaurantChoice'>
+                            
+                        </div>
+                    </div><!-- end panel-body -->
+                </div><!-- end panel -->
+            </div><!-- end col-sm-12 -->
+        </div><!-- end row -->
+
+        <!-- Train Input Panel -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Find A Restaurant</strong></h3>
+                    </div><!-- end panel-heading -->
+                    <div class="panel-body">
+
+                    <!-- Entry Form -->
+                    <form>
+                        <div class="form-group">
+                            <label for="">Address</label>
+                            <input type="text" class="form-control" id="address">
+                        </div><!-- end form-group -->
+
+                        <div class="form-group">
+                            <label for="">City</label>
+                            <input type="text" class="form-control" id="city">
+                        </div><!-- end form-group -->
+
+                        <div class="form-group">
+                            <label for="">State</label>
+                            <input type="text" class="form-control" id="state">
+                        </div><!-- end form-group -->
+
+                        <div class="form-group">
+                            <label for="">Zip</label>
+                            <input type="text" class="form-control" id="zip">
+                        </div><!-- end form-group -->
+
+                         <div class="form-group">
+                            <label for="sel1">Search Criteria:</label>
+                            <select class="form-control" id="searchCriteria">
+                                <option>Rating</option>
+                                <option>Cost</option>
+                                <option>Distance</option>
+                            </select>
+                        </div>
+
+                         <div class="form-group">
+                            <label for="sel1">Search Order:</label>
+                            <select class="form-control" id="searchOrder">
+                                <option>High</option>
+                                <option>Low</option>
+                            </select>
+                        </div>
+
+                        <br>
+
+                        <button type="submit" class="red lighten-3 btn" id="submit"> <i class="material-icons">input</i> Submit</button>
+                    </form><!-- end form -->
+
+                    <br>
+
+                    </div><!-- end panel-body -->
+                </div><!-- end panel -->
+            </div><!-- end col-sm-12 -->
+        </div><!-- end row -->
+
+        <!-- Bootstrap Javascript -->
+        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> -->
+
+        <!-- Firebase -->
+        <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+
+        <!-- Custom javascript -->
+        <script src="assets/javascript/creds.js"></script>
+        <!-- <script src="assets/javascript/logic.js"></script> -->
+        <script src="assets/javascript/auth-logic.js"></script>
+        <script type="text/javascript" src="assets/javascript/app.js"></script>
+
+    </body>
+
+
+</html>

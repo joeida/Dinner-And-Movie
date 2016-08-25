@@ -52,18 +52,12 @@ function emailVerifyDisplay() {
 
 function appPageLoad() {
   sessionStorage.setItem("appPageLoaded", "true");
-  if (window.location.href != "file:///Users/joeida/Bootcamp/Project/Dinner-And-Movie/app.html") {
-    window.location = "../Dinner-And-Movie/app.html";
-  }
-  
+  window.location = "file:///Users/joeida/Bootcamp/Project/Dinner-And-Movie/app.html";
 }
 
 function loginPageLoad() {
   sessionStorage.setItem("appPageLoaded", "false");
-  if (window.location.href != "file:///Users/joeida/Bootcamp/Project/Dinner-And-Movie/index.html") {
-    window.location = "../Dinner-And-Movie/index.html";
-  }
-  
+    window.location = "file:///Users/joeida/Bootcamp/Project/Dinner-And-Movie/index.html";
 }
 
 function toggleSignIn() {
