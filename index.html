@@ -21,48 +21,33 @@
         <source src="assets/video/background2.mp4" type="video/mp4">
 </video>
 <div class="container">
-	 <div class="login-form card">
+<div class="login-form card">
+  <div class="form-signin">
 		<div class="center-align"> 
                <img class="logo center-align" src="assets/images/logo.png"> 
     	<!-- LOG IN -->
     	<form>
-    		<!-- USERNAME ID: username -->
+    		<!-- USERNAME ID: email -->
         <div class="input-field">
-    		    <label class="active" for="username">Username</label>
-     		 	<input id="username" type="text" class="validate">
+    		    <label class="active" for="email">Email</label>
+     		 	<input id="email" type="text" class="validate">
      			</div>
 
      		<div class="input-field">
-          		 <!-- PASSWORD ID: password -->
+         <!-- PASSWORD ID: password -->
      		 	<label class="active" for="password">Password</label>
      		 	<input id="password" type="password" class="validate">
     		</div>
-               <!-- SUBMIT ID:login -->
-    		<button type="submit" class="waves-effect waves-light red lighten-3 btn col s12" id="login">Log In</button>
-    		</form> 
-
-        <hr>
-        <hr>
-
-      <!-- REGISTER -->
-        <form>
-        <!-- USERNAME id:usernameReg -->
-        <div class="input-field">
-            <label class="active" for="username">Username</label>
-          <input id="usernameReg" type="text" class="validate">
-          </div>
-
-        <div class="input-field">
-          <!-- PASSWORD id:passwordReg -->
-          <label class="active" for="password">Password</label>
-          <input id="passwordReg" type="password" class="validate">
-        </div>
-          <!-- SUBMIT ID: register -->
-        <button type="submit" class="waves-effect waves-light red lighten-3 btn col s12" id="register">Register</button>
-        </form> 
-
-
-	</div>
+      <!-- SUBMIT ID:login -->
+    		<button type="submit" class="waves-effect waves-light red lighten-3 btn" id="login">Log In</button>
+      <!-- REGISTER --> 
+           <!-- SUBMIT ID: register -->
+        <button type="submit" class="waves-effect waves-light red lighten-3 btn" id="register">Register</button> 
+           <!-- LOG OUT ID: logout -->
+        <button type="submit" class="waves-effect waves-light red lighten-3 btn hide" id="logout">Log Out</button>    
+      </form> 
+  	</div>
+  </div>
 	</div>
 </div>
 

@@ -20,7 +20,7 @@
 }
 .login-form{
     margin-top:300px;
-    height:900px;
+    height:600px;
 	}
 
 .input-field{
@@ -29,6 +29,9 @@
 .card{
 	background: rgba(0, 0, 0, 0.9) !IMPORTANT;
 	}
+#login{
+    width:127px;
+}
 h1,input{
 		color:white;
 	}
