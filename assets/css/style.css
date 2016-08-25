@@ -3,6 +3,19 @@ body{
     padding:0;
 }
 
+
+/*RESPONSIVE*/
+@media screen and (max-width: 780px) {
+    .container {
+        width:100% !IMPORTANT;
+    }
+}
+
+.formDiv input{
+   display:inline-block;
+   clear:both;
+}
+
 #background {
     position: fixed;
     top: 50%;
@@ -15,9 +28,32 @@ body{
     -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
     background: no-repeat;
-    background-size: cover;
+    background: no-repeat;
+    background-size:cover;
 }
 
+header{
+   background: rgba(0, 0, 0, 0.8);
+   color:white;
+   z-index: 200;
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   padding: 10px 0;
+   box-shadow: 0 1px 3px 0 rgba(64,70,77,0.3);
+}
+
+.logout{
+    color:white;
+}
+
+
+.logo{
+    margin-top:80px;
+    margin-bottom:150px;
+    height:250px;
+}
 /*INPUT FIELDS*/
 #movie, #restaurant{
 	width:650px;
@@ -27,43 +63,37 @@ body{
 	width:100px;
 }
 
-#searchcriteria{
-    width:100px;
-    padding:0;
-}
-
 #state,#city{
     width:100px;
 }
 
 #address{
     width:500px;
-}
-
-.formDiv{
-	background: rgba(0, 0, 0, 0.9);
-    color: #fff;
-	width:100%;
-    position:fixed;
     margin:0;
 }
 
-.outputDiv{
-	margin-bottom:100px;
-	background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-	padding:100px;
-	height:500px;
+input {
+   line-height: normal;
+   max-width: 200px;
 }
 
 /*OUTPUTS*/
-.restaurantOutput{
-    overflow:scroll;
+.outputDiv{
+    margin-top:100px;
+	margin-bottom:50px;
+	background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+	padding:100px;
+	height:600px;
+    width:100%;
 }
 
-.movieOutput{
-    overflow:scroll;
+.restaurantOutput{
+       height:400px;
+       overflow:auto;
+       overflow:scroll;
 }
+
 
 .bottom-sheet{
     height:600px;
@@ -72,7 +102,7 @@ body{
 }
 
 .input-field{
-    width:50px;
+    width:60px;
     margin:0px !IMPORTANT;
     position:relative;
 }
@@ -82,3 +112,140 @@ body{
 	background-color:black !IMPORTANT;
 
 }
+
+/*MODALS*/
+.outputsChoices{
+    width:100%;
+    height:300px;
+}
+.movieRestoModal{
+    width:60%;   
+    height:350px;
+}
+.movieOutputModal{
+    width:100%;
+    height:150px;
+}
+.restaurantOuputModal{
+    width:100%;
+    height:150px;
+}
+.mapOutputModal{
+    height:300px;
+    width:35%;
+}
+
+
+/*Michelles Changes*/
+div.outputs {
+   margin: 0 10px 20px 0;
+   margin-left: 2%;
+   padding: 30px;
+   width: 100%;
+   max-width: 650px;
+   float: left;
+   border: 1px solid #ddd;
+   height:100%;
+}
+
+div.map {
+   margin: 0 10px 20px 0;
+   margin-left: 2%;
+   padding: 30px;
+   width: 100%;
+   max-width: 500px;
+   float: right;
+   border: 1px solid #ddd;
+   height:100%;
+}
+
+div.phase2 {
+   margin: 0 10px 20px 0;
+   margin-left: 2%;
+   padding: 30px;
+   width: 100%;
+   max-width: 650px;
+   float: left;
+   border: 1px solid #ddd;
+   height:50%;
+   overflow: auto;
+   overflow-x:hidden;
+
+}
+
+input {
+   line-height: normal;
+   max-width: 200px;
+}
+
+.input-field {
+   margin-top: 1rem;
+   max-width: 40px
+}
+
+
+.select-wrapper {
+   position: absolute;
+    max-width: 40px; 
+}
+
+.select-style {
+   position:relative;
+   border: 1px solid #ccc;
+   width: 120px;
+   border-radius: 3px;
+   overflow: hidden;
+   background: #fafafa  url("img/icon-select.png") no-repeat 90% 50%;
+}
+
+.select-style select {
+   padding: 5px 8px;
+   width: 100%;
+   border: none;
+   box-shadow: none;
+   background: transparent;
+   background-image: none;
+   -webkit-appearance: none;
+}
+
+.select-style select:focus {
+   outline: none;
+}
+
+.headerinput {
+   margin-left: 2%;
+   display: block;
+   float:left;
+
+}
+
+
+.headerselect{
+   margin-left:1%;
+   display: block;
+   float:left;
+}
+
+.inputbox {
+   width:20px;
+}
+
+input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {
+width: 100px;;
+}
+
+.headerbutton{
+   float:right;
+   margin-right:2%;
+}
+
+.headerselect {
+   color:red;
+}
+
+.searchselect {
+   display: block;
+   float: right;
+   color:red;
+}
+
