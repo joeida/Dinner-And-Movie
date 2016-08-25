@@ -136,116 +136,95 @@ input {
 }
 
 
-/*Michelles Changes*/
-div.outputs {
-   margin: 0 10px 20px 0;
-   margin-left: 2%;
-   padding: 30px;
-   width: 100%;
-   max-width: 650px;
-   float: left;
-   border: 1px solid #ddd;
-   height:100%;
+
+/*---------------------------headers---*/
+header {
+    background: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 0;
+    box-shadow: 0 1px 3px 0 rgba(64,70,77,0.3);
+    z-index: 1;
 }
 
-div.map {
-   margin: 0 10px 20px 0;
-   margin-left: 2%;
-   padding: 30px;
-   width: 100%;
-   max-width: 500px;
-   float: right;
-   border: 1px solid #ddd;
-   height:100%;
-}
-
-div.phase2 {
-   margin: 0 10px 20px 0;
-   margin-left: 2%;
-   padding: 30px;
-   width: 100%;
-   max-width: 650px;
-   float: left;
-   border: 1px solid #ddd;
-   height:50%;
-   overflow: auto;
-   overflow-x:hidden;
-
-}
-
-input {
-   line-height: normal;
-   max-width: 200px;
-}
-
-.input-field {
-   margin-top: 1rem;
-   max-width: 40px
-}
-
-
-.select-wrapper {
-   position: absolute;
-    max-width: 40px; 
-}
-
-.select-style {
-   position:relative;
-   border: 1px solid #ccc;
-   width: 120px;
-   border-radius: 3px;
-   overflow: hidden;
-   background: #fafafa  url("img/icon-select.png") no-repeat 90% 50%;
-}
-
-.select-style select {
-   padding: 5px 8px;
-   width: 100%;
-   border: none;
-   box-shadow: none;
-   background: transparent;
-   background-image: none;
-   -webkit-appearance: none;
-}
-
-.select-style select:focus {
-   outline: none;
-}
 
 .headerinput {
-   margin-left: 2%;
-   display: block;
-   float:left;
-
+    margin-left: 2%;
+    display: block;
+    float:left;
 }
 
 
 .headerselect{
-   margin-left:1%;
-   display: block;
-   float:left;
-}
-
-.inputbox {
-   width:20px;
-}
-
-input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {
-width: 100px;;
-}
-
-.headerbutton{
-   float:right;
-   margin-right:2%;
-}
-
-.headerselect {
-   color:red;
+    display: block;
+    float: left;
+    margin: 0 5px 0 5px;
+    color: red;
 }
 
 .searchselect {
-   display: block;
-   float: right;
-   color:red;
+    display: block;
+    position: relative;
+    color: red;
+    float: left;
 }
 
+.inputbox {
+    width:20px;
+    color:white;
+}
+
+
+.select-wrapper {
+    width: 100px;
+}
+.select-style {
+    position:relative;
+    border: 1px solid #ccc;
+    width: 120px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fafafa url("img/icon-select.png") no-repeat 90% 50%;
+}
+
+.select-wrapper input.select-dropdown {
+    text-align: center;
+}
+
+
+.select-style select {
+    padding: 5px 8px;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+}
+
+.select-style select:focus {
+    outline: none;
+}
+
+input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {
+width: 180px;
+
+}
+
+.headerbutton{
+    float:left;
+    margin-right:2%;
+}
+
+.red.lighten-3 {
+    background-color: #EF9A9A !important;
+    margin-top: 7px;
+    margin-left: 4px;
+}
+
+
+
+
+/*----------headers---*/
