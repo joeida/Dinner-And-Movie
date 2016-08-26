@@ -9,6 +9,9 @@ var movieTitle = "";
 var movieTime = "";
 var movieTheater = "";
 var movieDate = "";
+var addressR;
+var addressM;
+var posterURL;
 
 
 //API keys for OnConnect.
@@ -20,16 +23,9 @@ apiKey4 = "adf7jebmw23v6yjr6f6qcqsf"
 //When enter zip, find movies, clear database, empty anything that was in movieContainer.
 //Hide unneeded buttons and containers.
 $('#submit').on('click', function(){
-	//var movieZip = $('#zipCode').val().trim();
 	database.ref('/movieOptions').remove();
 	$("#movieContainer").empty();
-	//findMovie(movieZip);
-	//$('#zipCode').val('');
-	$("#backbutton1").hide();
-	$("#backbutton2").hide();
-	$("#movieContainer").show();
-	$("#showtimeContainer").hide();
-	$("#selectionContainer").hide();
+
 	return false;
 });
 
@@ -39,11 +35,7 @@ $("#movieContainer").on("click", ".movie", function(){
 	var movie = $(this).data(movie);
 	$("#showtimeContainer").empty();
 	findShowtimes(movie);
-	$("#backbutton1").show();
-	$("#backbutton2").hide();
-	$("#movieContainer").hide();
-	$("#showtimeContainer").show();
-	$("#selectionContainer").hide();
+	
 });
 
 //When click on showtime choice, find address of theater, empty selectionContainer.
@@ -59,36 +51,15 @@ $("#showtimeContainer").on("click", ".showtime", function(){
 			});	
 	$("#selectionContainer").empty();
 	findAddress(showtime);
-	$("#backbutton1").hide();
-	$("#backbutton2").show();
-	$("#movieContainer").hide();
-	$("#showtimeContainer").hide();
-	$("#selectionContainer").show();
+	
 });
 
-//Back button that allows you to pick a different movie.
-$("#backbutton1").on("click", function(){
-	$("#backbutton1").hide();
-	$("#backbutton2").hide();
-	$("#movieContainer").show();
-	$("#showtimeContainer").hide();
-	$("#selectionContainer").hide();
-});
-
-//Back button that allows you to pick a different showtime.
-$("#backbutton2").on("click", function(){
-	$("#backbutton1").show();
-	$("#backbutton2").hide();
-	$("#movieContainer").hide();
-	$("#showtimeContainer").show();
-	$("#selectionContainer").hide();
-});
 
 //Take zip code and query OnConnect for movies playing nearby. Store movie info in each button.
 //Disply movie info. Also get showtimes for each movie for later display.
 function findMovie(lat, lng){
 	var date = moment().format("YYYY-MM-DD");
-	var onConnectQueryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + date + "&lat=" + lat + "&lng=" + lng + "&api_key=" + apiKey1;
+	var onConnectQueryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + date + "&lat=" + lat + "&lng=" + lng + "&api_key=" + apiKey4;
 	$.ajax({url: onConnectQueryURL, method: 'GET'})
 	.done(function(response){
 		for (var i = 0; i < 25; i++){
@@ -199,8 +170,6 @@ function findShowtimes(movie){
 			showtimeButton.attr("data-time", movieTime);
 			$("#showtimeContainer").append(showtimeBlock);
 			$("#showtimeContainer").append(showtimeButton);
-			console.log(showtimeContainer)
-			console.log(findPoster)
 			findPoster(movieTitle);
 		};
 	});						
@@ -223,6 +192,7 @@ function findAddress(showtime){
 function callbackAddress(results, status) {
   	if (status == google.maps.places.PlacesServiceStatus.OK) {
     	theaterAddress = results[0].formatted_address;
+    	addressM = theaterAddress;
     	displaySelection(theaterAddress);
     };
  };
@@ -234,10 +204,20 @@ function callbackAddress(results, status) {
 		movieTitle = choiceSnapshot.title;
 		movieDate = choiceSnapshot.date;
 		movieTime = choiceSnapshot.time;
-		movieTheater = choiceSnapshot.theater;	
- 		var selectionBlock = $("<h3>" + movieTitle + "</h3>" + movieDate + "<br>" + movieTime + "<br>" + movieTheater + "<br>" + theaterAddress + "<br>");
-		$("#selectionContainer").html(selectionBlock);
- 		$("#showtimeContainer").hide();
+		movieTheater = choiceSnapshot.theater;
+		var movieSelectionModal = $("<table id='movieSelectionModal'>");
+		var selectionImageContainer = $("<td class='imageMovieModal'>");
+		var selectionImage = $("<img id='posterImage'>");
+		$("#posterImage").attr('src', posterURL);
+		$("#imageMovieModal").append(selectionImage);
+ 		var selectionDetailsContainer = $("<td class='detailsMovieModal'>");
+ 		var selectionDetails = $("<ul class='selectionDetails'>");
+ 		$("#selectionDetails").append("<li>" + movieTitle + "</li><li>" + movieDate + "</li><li>" + movieTime + "</li><li>" + movieTheater + "</li><li>" + theaterAddress + "</li>");
+		$("#detailsMovieModal").append(selectionDetails);
+		$("#movieSelectionModal").append(selectionImageContainer);
+		$("#movieSelectionModal").append(selectionDetailsContainer);
+		$("#movieOutputModal").append(movieSelectionModal);
+
     	database.ref('/movieChoice').set({
 			title: movieTitle,
 			date: movieDate,
@@ -254,16 +234,12 @@ function findPoster(movieTitle){
 	$.ajax({url: OMDBQueryURL, method: 'GET'})
 	.done(function(response){
 		if (response["Poster"]){
-			var posterURL = response["Poster"];
+			posterURL = response["Poster"];
 		}
 		else {
-			var posterURL = "../images/noposter.jpg";
+			posterURL = "assets/images/noposter.jpg";
 		};
 		$("#movieImage").attr('src', posterURL);
 	});
 };
 
-$(document).ready(function(){
-	$("#backbutton1").hide();
-	$("#backbutton2").hide();
-});
