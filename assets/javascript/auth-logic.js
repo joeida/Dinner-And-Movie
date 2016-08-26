@@ -85,6 +85,7 @@ function toggleSignIn() {
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(function(response) {
       appPageLoad();
+      db.setRestOnLoad();
     })
     .catch(function(error) {
       // Handle Errors here.
