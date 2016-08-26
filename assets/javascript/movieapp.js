@@ -53,7 +53,8 @@ $("#showtimeContainer").on("click", ".showtime", function(){
 				title: showtime.title,
 				date: showtime.date,
 				time: showtime.time,
-				theater: showtime.theater
+				theater: showtime.theater,
+				userId: userId
 			});	
 	$("#selectionContainer").empty();
 	findAddress(showtime);
@@ -205,7 +206,7 @@ function findShowtimes(movie){
 };
 function findAddress(showtime){	
 
-  	var losfeliz = new google.maps.LatLng(34.1063,-118.2848);
+  	var latlng = new google.maps.LatLng(lati,long);
 	var map = new google.maps.Map(document.getElementById('mapdiv'), {
    
     });
