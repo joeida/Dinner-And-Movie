@@ -1,5 +1,4 @@
-var lati;
-var long;
+
 var database = firebase.database();
 
 //Creating needed global variables.
@@ -12,6 +11,8 @@ var movieDate = "";
 var addressR;
 var addressM;
 var posterURL;
+var lati;
+var long;
 
 
 //API keys for OnConnect.
@@ -210,19 +211,20 @@ function callbackAddress(results, status) {
  		$("#selectionDetails").append("<li>" + movieTitle + "</li><li>" + movieDate + "</li><li>" + movieTime + "</li><li>" + movieTheater + "</li><li>" + theaterAddress + "</li>");
 		$("#movieOutputModal").append(movieSelectionModal);
 
-    	database.ref('/movieChoice').set({
+		database.ref('/movieChoice').set({
 			title: movieTitle,
 			date: movieDate,
 			time: movieTime,
 			theater: movieTheater,
 			address: theaterAddress,
 			userId: userId
-		});  	
+		});  
+  	
 	});
 };
 
 function findPoster(movieTitle){
-	var OMDBQueryURL = "http://www.omdbapi.com/?t=" + movieTitle + "&y=2016&plot=short&r=json";
+	var OMDBQueryURL = "https://www.omdbapi.com/?t=" + movieTitle + "&y=2016&plot=short&r=json";
 	$.ajax({url: OMDBQueryURL, method: 'GET'})
 	.done(function(response){
 		if (response["Poster"]){
