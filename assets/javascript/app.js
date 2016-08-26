@@ -1,6 +1,3 @@
-var lati;
-var long;
-
 // Compute Values
 var compute = {
 
