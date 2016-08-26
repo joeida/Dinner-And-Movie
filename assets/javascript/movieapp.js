@@ -17,10 +17,12 @@ var movieTheater = "";
 var movieDate = "";
 
 //API keys for OnConnect.
-apiKey1 = "w2v7bscpkzmezeny47ueqsau"
-apiKey2 = "93dvq9k3hx7ahh997jb5tyd2"
-apiKey3 = "9vu3zjqxjwg49mm9p72mqjau"
-apiKey4 = "adf7jebmw23v6yjr6f6qcqsf"
+var apiKey1 = "w2v7bscpkzmezeny47ueqsau";
+var apiKey2 = "93dvq9k3hx7ahh997jb5tyd2";
+var apiKey3 = "9vu3zjqxjwg49mm9p72mqjau";
+var apiKey4 = "adf7jebmw23v6yjr6f6qcqsf";
+var apiKey5 = "7afj6yz44x2peghddthkzqbu";
+var apiKey6 = "nn7vmrm4fjyqy56h5rm5ze4y";
 
 //When enter zip, find movies, clear database, empty anything that was in movieCntainer.
 //Hide unneeded buttons and containers.
@@ -136,7 +138,6 @@ function findMovie(movieZip){
 			};
 			var longDescription = response[i].longDescription;
 			
-
 			var movieButton = $("<button>");
 			movieButton.text("Find Showtimes");
 			movieButton.addClass("movie");
