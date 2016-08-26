@@ -549,7 +549,9 @@ $(document).ready(function() {
                 var priceRange = childSnapshot.val().priceRange;
                 var link = childSnapshot.val().link;
                 render.displayRestChoice(name, location, cuisine, rating, priceRange, link);
-                if (compute.startAddress) {
+                if (addressM) {
+                    render.displayRestDistanceMap(location, addressM);
+                } else if (compute.startAddress) {
                     render.displayRestDistanceMap(compute.startAddress, location);
                 } else {
                     render.displayRestMap(location);

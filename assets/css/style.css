@@ -43,6 +43,9 @@ h1,input{
     background-size:cover;
 }
 
+h5,h6{
+    color:#80cbc4;
+}
 
 .logo{
     margin-top:80px;
