@@ -1,3 +1,5 @@
+var lati;
+var long;
 var database = firebase.database();
 
 //Creating needed global variables.
