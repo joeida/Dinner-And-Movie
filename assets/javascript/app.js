@@ -1,6 +1,3 @@
-var lati;
-var long;
-
 // Compute Values
 var compute = {
 
@@ -416,7 +413,7 @@ var db = {
         }
     },
 
-    // Cause database change on page load to initiate map render
+    // Cause database change on page load to initiate map render for restaurant database
     setRestOnLoad: function () {
         database.ref('/restaurant').once("value", function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
@@ -439,6 +436,30 @@ var db = {
                     var key = childSnapshot.key;
                     database.ref('/restaurant/' + key).remove();
                     database.ref('/restaurant').push(restObj);
+                }
+            });
+        });
+    },
+
+    // Cause database change on page load to initiate map render for movie database
+    setMovieOnLoad: function () {
+        database.ref('/movieChoice').once("value", function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                if (childSnapshot.val().userId === userId) {
+                    var date = childSnapshot.val().date;
+                    var theater = childSnapshot.val().theater;
+                    var time = childSnapshot.val().time;
+                    var title = childSnapshot.val().title;
+                    var movieObj = {
+                        date: date,
+                        theater: theater,
+                        time: time,
+                        title: title,
+                        userId: userId
+                    };
+                    var key = childSnapshot.key;
+                    database.ref('/movieChoice/' + key).remove();
+                    database.ref('/movieChoice').push(movieObj);
                 }
             });
         });
@@ -474,11 +495,9 @@ $(document).ready(function() {
             var searchCriteria = compute.getSearchCriteria();
             var searchOrder = compute.getSearchOrder();
             if (zipObj === 'invalid') {
-                console.log('invalid zip code');
-                alert('Please enter a valid zip code!');
+                Materialize.toast('Please enter a valid zip code!', 4000);
             } else if (zipObj === 'empty' && addressObj === 'empty') {
-                console.log('zip code and address field empty');
-                alert('Please enter a valid zip code or address, city, state!')
+                Materialize.toast('Please enter a valid zip code or address, city, state!', 4000);
             } else if (zipObj && typeof zipObj === 'object') {
                 render.clearInput();
                 compute.getGeo(zipObj, searchCriteria, searchOrder);
