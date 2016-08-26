@@ -1,3 +1,6 @@
+var lati;
+var long;
+
 // Compute Values
 var compute = {
 
@@ -97,6 +100,9 @@ var compute = {
         .then(function(response) {
             var lat = response.results[0].geometry.location.lat;
             var lng = response.results[0].geometry.location.lng;
+            lati = lat;
+            long = lng;
+            findMovie(lat, lng);
             var address = response.results[0].formatted_address;
             compute.startAddress = address;
             db.setRestOnLoad();
