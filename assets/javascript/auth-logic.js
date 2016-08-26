@@ -8,19 +8,19 @@ function signedInDisplay() {
 }
 
 function signedOutDisplay() {
-  $(".form-signin").html('<h1> Welcome! </h1>' +
-            '<div class="input-field col s6">' +
+  $(".form-signin").html('<img class="logo" src="assets/images/logo.png">' +
+            '<div class="input-field">' +
             '<form>' +
-            '<label class="active" for="username">Email Address</label></label>' +
-            '<input id="email_input" type="text" class="validate">' +
+            '<label class="active" for="email">Email</label>' +
+            '<input id="email" type="text" class="validate" style="color:white;">' +
             '</div>' +
-            '<div class="input-field col s6">' +
+            '<div class="input-field col">' +
             '<label class="active" for="password">Password</label>' +
-            '<input id="password_input" type="password" class="validate">' +
+            '<input id="password" type="password" class="validate" style="color:white;">' +
             '</div>' +
-            '<button type="submit" class="waves-effect waves-light red lighten-3 btn col s12" id="btnSignIn">Log In</button>' +
-            '<button type="submit" class="waves-effect waves-light red lighten-3 btn col s12" id="btnSignUp">Sign Up</button>' +
-            '<button type="submit" class="waves-effect waves-light red lighten-3 btn col s12 hide" id="btnSignOut">Log Out</button>' +
+            '<button type="submit" class="waves-effect waves-light red lighten-3 btn" id="login">Log In</button>' +
+            '<button type="submit" class="waves-effect waves-light red lighten-3 btn" id="register">Register</button>' +
+            '<button type="submit" class="waves-effect waves-light red lighten-3 btn hide" id="logout">Log Out</button>' +
             '</form>' +
             '</div>' +
             '</div>'
@@ -28,18 +28,18 @@ function signedOutDisplay() {
 }
 
 function signedOutDisplayEmail() {
-  $(".form-signin").html('<h1> Welcome! </h1>' +
-            '<div class="input-field col s6">' +
+  $(".form-signin").html('<img class="logo" src="assets/images/logo.png">' +
+            '<div class="input-field>' +
             '<form>' +
-            '<label class="active" for="username">Email Address</label></label>' +
-            '<input id="email_input" type="text" class="validate">' +
+            '<label class="active" for="email">Email</label>' +
+            '<input id="email" type="text" class="validate" style="color:white;">'+
             '</div>' +
-            '<div class="input-field col s6">' +
+            '<div class="input-field col">' +
             '<label class="active" for="password">Password</label>' +
-            '<input id="password_input" type="password" class="validate">' +
+            '<input id="password" type="password" class="validate" style="color:white;">' +
             '</div>' +
-            '<button type="submit" class="waves-effect waves-light red lighten-3 btn col s12" id="btnSignIn">Log In</button>' +
-            '<button type="submit" class="waves-effect waves-light red lighten-3 btn col s12 hide" id="btnSignOut">Log Out</button>' +
+            '<button type="submit" class="waves-effect waves-light red lighten-3 btn" id="login">Log In</button>' +
+            '<button type="submit" class="waves-effect waves-light red lighten-3 btn" id="logout">Log Out</button>' +
             '</form>' +
             '</div>' +
             '</div>'

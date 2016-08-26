@@ -31,7 +31,7 @@ var compute = {
 
     // Get zip code, verify format, and return appropriate value
     getZip: function() {
-        var zip = $('#zip').val().trim();
+        var zip = $('#zipCode').val().trim();
         var zipValid = /^\d{5}$/;
         if (zip.match(zipValid)) { 
             var zipObj = {
