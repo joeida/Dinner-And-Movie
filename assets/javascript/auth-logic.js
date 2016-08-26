@@ -29,17 +29,17 @@ function signedOutDisplay() {
 
 function signedOutDisplayEmail() {
   $(".form-signin").html('<img class="logo" src="assets/images/logo.png">' +
-            '<div class="input-field>' +
+            '<div class="input-field">' +
             '<form>' +
             '<label class="active" for="email">Email</label>' +
-            '<input id="email" type="text" class="validate" style="color:white;">'+
+            '<input id="email" type="text" class="validate" style="color:white;">' +
             '</div>' +
             '<div class="input-field col">' +
             '<label class="active" for="password">Password</label>' +
             '<input id="password" type="password" class="validate" style="color:white;">' +
             '</div>' +
             '<button type="submit" class="waves-effect waves-light red lighten-3 btn" id="login">Log In</button>' +
-            '<button type="submit" class="waves-effect waves-light red lighten-3 btn" id="logout">Log Out</button>' +
+            '<button type="submit" class="waves-effect waves-light red lighten-3 btn hide" id="logout">Log Out</button>' +
             '</form>' +
             '</div>' +
             '</div>'
@@ -169,9 +169,9 @@ var initApp = function() {
           emailVerifyDisplay();
         } else {
           userId = user.uid;
-        	signedInDisplay();
           db.setRestOnLoad();
           db.setMovieOnLoad();
+          signedInDisplay();
         }   	
 
 
@@ -179,7 +179,6 @@ var initApp = function() {
 	  } else {
 	    // User is signed out.
 	    signedOutDisplay();
-	    $("#logout").addClass("hide");
 	  }
 	}, function(error) {
 	  console.log(error);
