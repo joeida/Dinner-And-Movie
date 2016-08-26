@@ -1,11 +1,3 @@
-var config = {
-    apiKey: "AIzaSyA843-SLudIotSIbgl0I6QwUsYvJVKY9Kg",
-   authDomain: "dinner-and-a-movie-4fba2.firebaseapp.com",
-   databaseURL: "https://dinner-and-a-movie-4fba2.firebaseio.com",
-    storageBucket: "dinner-and-a-movie-4fba2.appspot.com",
-  };
-  firebase.initializeApp(config);
-
 var database = firebase.database();
 
 //Creating needed global variables.

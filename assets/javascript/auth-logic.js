@@ -4,7 +4,7 @@ var userId = '';
 var emailConfirmed = undefined;
 
 function signedInDisplay() {
-	$(".form-signin").html("<h6>You are signed in</h6><button type='submit' class='waves-effect waves-light red lighten-3 btn col s12' id='btnSignOut'>Log Out</button>");
+	$(".form-signin").html("<h6>You are signed in</h6><button type='submit' class='waves-effect waves-light red lighten-3 btn col s12' id='logout'>Log Out</button>");
 }
 
 function signedOutDisplay() {
