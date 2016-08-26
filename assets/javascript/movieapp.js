@@ -205,18 +205,10 @@ function callbackAddress(results, status) {
 		movieDate = choiceSnapshot.date;
 		movieTime = choiceSnapshot.time;
 		movieTheater = choiceSnapshot.theater;
-		var movieSelectionModal = $("<table id='movieSelectionModal'>");
-		var selectionImageContainer = $("<td class='imageMovieModal'>");
-		var selectionImage = $("<img id='posterImage'>");
-		$("#posterImage").attr('src', posterURL);
-		$("#imageMovieModal").append(selectionImage);
- 		var selectionDetailsContainer = $("<td class='detailsMovieModal'>");
- 		var selectionDetails = $("<ul class='selectionDetails'>");
+
+		var movieSelectionModal = $("<ul id='selectionDetails'>");
  		$("#selectionDetails").append("<li>" + movieTitle + "</li><li>" + movieDate + "</li><li>" + movieTime + "</li><li>" + movieTheater + "</li><li>" + theaterAddress + "</li>");
-		$("#detailsMovieModal").append(selectionDetails);
-		$("#movieSelectionModal").append(selectionImageContainer);
-		$("#movieSelectionModal").append(selectionDetailsContainer);
-		$("#movieOutputModal").append(movieSelectionModal);
+		$("#movieOutputModal").html(movieSelectionModal);
 
     	database.ref('/movieChoice').set({
 			title: movieTitle,
