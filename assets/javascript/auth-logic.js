@@ -49,7 +49,7 @@ function signedOutDisplayEmail() {
 
 function emailVerifyDisplay() {
 	// $(".form-signin").html("<h1>Please Verify Email to continue.</h2><p>If you've already verified your email, please click on the button below.</p><button id='email_confirmed' class='btn btn-lg btn-primary btn-block'>Email Confirmed</button>");
-  $(".form-signin").html("<h2>Please Verify Email to continue.</h2><p>If you've already verified your email, please click on the button below.</p><button id='email_confirmed' type='submit' class='waves-effect waves-light red lighten-3 btn col s12'>Email Confirmed</button><button type='submit' class='waves-effect waves-light red lighten-3 btn col s12' id='btnSignOut'>Log Out</button>");
+  $(".form-signin").html("<h2>Please Verify Email to continue.</h2><p>If you've already verified your email, please click on the button below.</p><button id='email_confirmed' type='submit' class='waves-effect waves-light red lighten-3 btn col s12'>Email Confirmed</button><button type='submit' class='waves-effect waves-light red lighten-3 btn col s12' id='logout'>Log Out</button>");
 }
 
 function appPageLoad() {
@@ -69,8 +69,8 @@ function toggleSignIn() {
     // [END signout]
     loginPageLoad();
   } else {
-    var email = $("#email_input").val();
-    var password = $("#password_input").val();
+    var email = $("#email").val();
+    var password = $("#password").val();
     
     if (email.length < 4) {
       alert('Please enter an email address.');
@@ -111,8 +111,8 @@ function reloadPage() {
  */
 function handleSignUp() {
 
-  var email = $("#email_input").val();
-  var password = $("#password_input").val();
+  var email = $("#email").val();
+  var password = $("#password").val();
 
   console.log(email, password);
 
@@ -167,7 +167,7 @@ var initApp = function() {
 	  if (user) {
 	  	console.log(user);
 	    // User is signed in.
-	    $("#btnSignOut").removeClass("hide");
+	    $("#logout").removeClass("hide");
       console.log(user.emailVerified);
 	    user.getToken().then(function(accessToken) {
 
@@ -186,15 +186,15 @@ var initApp = function() {
 	    // User is signed out.
       console.log('displayed signed out');
 	    signedOutDisplay();
-	    $("#btnSignOut").addClass("hide");
+	    $("#logout").addClass("hide");
 	  }
 	}, function(error) {
 	  console.log(error);
 	});
 
-	$(document).on("click", "#btnSignIn", toggleSignIn);
-	$(document).on("click", "#btnSignOut", toggleSignIn);
-	$(document).on("click", "#btnSignUp", handleSignUp);
+	$(document).on("click", "#login", toggleSignIn);
+	$(document).on("click", "#logout", toggleSignIn);
+	$(document).on("click", "#register", handleSignUp);
 	$(document).on("click", "#email_confirmed", signedOutDisplayEmail);
 }
 
