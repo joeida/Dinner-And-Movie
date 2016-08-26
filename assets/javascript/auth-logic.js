@@ -169,9 +169,9 @@ var initApp = function() {
           emailVerifyDisplay();
         } else {
           userId = user.uid;
-        	signedInDisplay();
           db.setRestOnLoad();
           db.setMovieOnLoad();
+          signedInDisplay();
         }   	
 
 
@@ -179,7 +179,6 @@ var initApp = function() {
 	  } else {
 	    // User is signed out.
 	    signedOutDisplay();
-	    $("#logout").addClass("hide");
 	  }
 	}, function(error) {
 	  console.log(error);
