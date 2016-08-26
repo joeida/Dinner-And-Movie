@@ -208,7 +208,7 @@ function callbackAddress(results, status) {
 
 		var movieSelectionModal = $("<ul id='selectionDetails'>");
  		$("#selectionDetails").append("<li>" + movieTitle + "</li><li>" + movieDate + "</li><li>" + movieTime + "</li><li>" + movieTheater + "</li><li>" + theaterAddress + "</li>");
-		$("#movieOutputModal").html(movieSelectionModal);
+		$("#movieOutputModal").append(movieSelectionModal);
 
     	database.ref('/movieChoice').set({
 			title: movieTitle,
