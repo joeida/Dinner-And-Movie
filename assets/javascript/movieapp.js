@@ -1,10 +1,3 @@
-var config = {
-    apiKey: "AIzaSyA843-SLudIotSIbgl0I6QwUsYvJVKY9Kg",
-   authDomain: "dinner-and-a-movie-4fba2.firebaseapp.com",
-   databaseURL: "https://dinner-and-a-movie-4fba2.firebaseio.com",
-    storageBucket: "dinner-and-a-movie-4fba2.appspot.com",
-  };
-  firebase.initializeApp(config);
 
 var database = firebase.database();
 
@@ -16,8 +9,6 @@ var movieTime = "";
 var movieTheater = "";
 var movieDate = "";
 
-console.log("showtimeContainer")
-
 
 //API keys for OnConnect.
 apiKey1 = "w2v7bscpkzmezeny47ueqsau"
@@ -25,14 +16,14 @@ apiKey2 = "93dvq9k3hx7ahh997jb5tyd2"
 apiKey3 = "9vu3zjqxjwg49mm9p72mqjau"
 apiKey4 = "adf7jebmw23v6yjr6f6qcqsf"
 
-//When enter zip, find movies, clear database, empty anything that was in movieCntainer.
+//When enter zip, find movies, clear database, empty anything that was in movieContainer.
 //Hide unneeded buttons and containers.
-$('#zipInput').on('click', function(){
-	var movieZip = $('#zipCode').val().trim();
+$('#submit').on('click', function(){
+	//var movieZip = $('#zipCode').val().trim();
 	database.ref('/movieOptions').remove();
 	$("#movieContainer").empty();
-	findMovie(movieZip);
-	$('#zipCode').val('');
+	//findMovie(movieZip);
+	//$('#zipCode').val('');
 	$("#backbutton1").hide();
 	$("#backbutton2").hide();
 	$("#movieContainer").show();
@@ -93,10 +84,9 @@ $("#backbutton2").on("click", function(){
 
 //Take zip code and query OnConnect for movies playing nearby. Store movie info in each button.
 //Disply movie info. Also get showtimes for each movie for later display.
-function findMovie(movieZip){
+function findMovie(lat, lng){
 	var date = moment().format("YYYY-MM-DD");
-	var onConnectQueryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + date + "&zip=" + movieZip + "&api_key=" + apiKey1;
-	//if using lat/long, phrasing is: lat=34.0736&lng=-118.4004
+	var onConnectQueryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + date + "&lat=" + lat + "&lng=" + lng + "&api_key=" + apiKey1;
 	$.ajax({url: onConnectQueryURL, method: 'GET'})
 	.done(function(response){
 		for (var i = 0; i < 25; i++){
@@ -179,7 +169,8 @@ function findMovie(movieZip){
 					title: movieTitle,
 					date: movieDate,
 					time: movieTime,
-					theater: movieTheater
+					theater: movieTheater,
+					userId: userId
 				});
 			};
 		};
@@ -216,12 +207,10 @@ function findAddress(showtime){
 
   	var losfeliz = new google.maps.LatLng(34.1063,-118.2848);
 	var map = new google.maps.Map(document.getElementById('mapdiv'), {
-     	//center: losfeliz,
+   
     });
 
 	var request = {
-    	// location: losfeliz,
-    	// radius: '500',
     	query: showtime.theater,
     	type: 'movie_theater'
   	};
@@ -245,9 +234,6 @@ function callbackAddress(results, status) {
 		movieTime = choiceSnapshot.time;
 		movieTheater = choiceSnapshot.theater;	
  		var selectionBlock = $("<h3>" + movieTitle + "</h3>" + movieDate + "<br>" + movieTime + "<br>" + movieTheater + "<br>" + theaterAddress + "<br>");
-				
-						console.log("test")
-						console.log(selectionContainer)
 		$("#selectionContainer").html(selectionBlock);
  		$("#showtimeContainer").hide();
     	database.ref('/movieChoice').set({
@@ -255,7 +241,8 @@ function callbackAddress(results, status) {
 			date: movieDate,
 			time: movieTime,
 			theater: movieTheater,
-			address: theaterAddress
+			address: theaterAddress,
+			userId: userId
 		});  	
 	});
 };
