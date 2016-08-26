@@ -1,7 +1,7 @@
 // Initialize Firebase
 
-userId = '';
-emailConfirmed = false;
+var userId = '';
+var emailConfirmed = undefined;
 
 function signedInDisplay() {
 	$(".form-signin").html("<h6>You are signed in</h6><button type='submit' class='waves-effect waves-light red lighten-3 btn col s12' id='btnSignOut'>Log Out</button>");
@@ -63,7 +63,7 @@ function loginPageLoad() {
 }
 
 function toggleSignIn() {
-  if (firebase.auth().currentUser && emailConfirmed === false) {
+  if (firebase.auth().currentUser && emailConfirmed === undefined) {
     // [START signout]
     firebase.auth().signOut();
     // [END signout]
