@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <link rel="stylesheet" href="assets/css/login.css"></style>
+<!-- Materialize CSS -->
+  <link rel="stylesheet" href="assets/css/materialize/css/materialize.css">
+  <script type="text/javascript" src="assets/javascript/jquery-3.1.0.min.js"></script>
+  <!-- Materialize JS -->
+  <script src="assets/css/materialize/js/materialize.js"></script>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+  <!-- Back-End JS -->
+  <script type="text/javascript" src="assets/javascript/app.js"></script>
+  <!-- Front-End JS -->
+  <script type="text/javascript" src="assets/javascript/front-end.js"></script>
+  
+</head>
+<body>
+<video autoplay loop muted  id="background">  
+        <source src="assets/video/background2.mp4" type="video/mp4">
+</video>
+<div class="container">
+<div class="login-form card">
+  <div class="form-signin">
+		<div class="center-align"> 
+               <img class="logo center-align" src="assets/images/logo.png"> 
+    	<!-- LOG IN -->
+    	<form>
+    		<!-- USERNAME ID: email -->
+        <div class="input-field">
+    		    <label class="active" for="email">Email</label>
+     		 	<input id="email" type="text" class="validate">
+     			</div>
+
+     		<div class="input-field">
+         <!-- PASSWORD ID: password -->
+     		 	<label class="active" for="password">Password</label>
+     		 	<input id="password" type="password" class="validate">
+    		</div>
+      <!-- SUBMIT ID:login -->
+    		<button type="submit" class="waves-effect waves-light red lighten-3 btn" id="login">Log In</button>
+      <!-- REGISTER --> 
+           <!-- SUBMIT ID: register -->
+        <button type="submit" class="waves-effect waves-light red lighten-3 btn" id="register">Register</button> 
+           <!-- LOG OUT ID: logout -->
+        <button type="submit" class="waves-effect waves-light red lighten-3 btn hide" id="logout">Log Out</button>    
+      </form> 
+  	</div>
+  </div>
+	</div>
+</div>
+
+</body>
+</html>
