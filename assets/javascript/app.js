@@ -1,5 +1,3 @@
-var database = firebase.database();
-
 // Compute Values
 var compute = {
 
@@ -271,8 +269,8 @@ var render = {
         iframe.attr('style', 'border:0');
         iframe.attr('src', queryURL);
         iframe.attr('allowfullscreen');
-        $('#mapOutput').html(iframe);
-        $('#mapOutput').append(blankP);
+        $('#mapOutputModal').html(iframe);
+        $('#mapOutputModal').append(blankP);
     },
 
     // Display google map of location of restaurant chosen when no initial location is available
@@ -290,8 +288,8 @@ var render = {
         iframe.attr('style', 'border:0');
         iframe.attr('src', queryURL);
         iframe.attr('allowfullscreen');
-        $('#mapOutput').html(iframe);
-        $('#mapOutput').append(blankP);
+        $('#mapOutputModal').html(iframe);
+        $('#mapOutputModal').append(blankP);
     },
 
     // Display chosen restaurant in itinerary output field on html page
@@ -361,11 +359,11 @@ var render = {
         buttonTd.css('padding', '0 0 10px 0');
         buttonTd.html(choiceBtn);
         buttonTr.append(buttonTd);
-        $('#restChoiceOutput').append(nameTr);
-        $('#restChoiceOutput').append(locationTr);
-        $('#restChoiceOutput').append(cuisineTr);
-        $('#restChoiceOutput').append(infoTr);
-        $('#restChoiceOutput').append(buttonTr);
+        $('#restaurantOutputModal').append(nameTr);
+        $('#restaurantOutputModal').append(locationTr);
+        $('#restaurantOutputModal').append(cuisineTr);
+        $('#restaurantOutputModal').append(infoTr);
+        $('#restaurantOutputModal').append(buttonTr);
     },
 
     // Clear input fields after submitting request
@@ -383,12 +381,12 @@ var render = {
 
     // Clear itinerary restaurant choice field before each output render
     clearRestChoice: function() {
-        $('#restChoiceOutput').empty();
+        $('#restaurantOutputModal').empty();
     },
 
     // Clear map output field before each map render
     clearMapOutput: function() {
-        $('#mapOutput').empty();
+        $('#mapOutputModal').empty();
     }
 
 };
@@ -509,7 +507,7 @@ $(document).ready(function() {
     });
 
     // Process remove restaurant button upon clicking on the specific restaurant in the generated restaurant itinerary location
-    $('#restChoiceOutput').on('click', '.removeRest', function() {
+    $('#restaurantOutputModal').on('click', '.removeRest', function() {
         db.removeRest();
         render.clearMapOutput();
     });
