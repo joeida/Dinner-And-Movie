@@ -166,6 +166,10 @@ var initApp = function() {
 	    user.getToken().then(function(accessToken) {
 
 	    	if (!user.emailVerified) {
+          console.log(window.location.href);
+          if (window.location.href != "https://enigmatic-gorge-23147.herokuapp.com/index.html") {
+            window.location = "index.html";
+          }
           emailVerifyDisplay();
         } else {
           userId = user.uid;
