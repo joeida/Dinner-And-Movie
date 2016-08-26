@@ -73,11 +73,11 @@ function toggleSignIn() {
     var password = $("#password").val();
     
     if (email.length < 4) {
-      alert('Please enter an email address.');
+      Materialize.toast('Please enter an email address.', 4000);
       return;
     }
     if (password.length < 4) {
-      alert('Please enter a password.');
+      Materialize.toast('Please enter a password.', 4000);
       return;
     }
     // Sign in with email and pass.
@@ -85,7 +85,6 @@ function toggleSignIn() {
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(function(response) {
       appPageLoad();
-      db.setRestOnLoad();
     })
     .catch(function(error) {
       // Handle Errors here.
@@ -93,9 +92,9 @@ function toggleSignIn() {
       var errorMessage = error.message;
       // [START_EXCLUDE]
       if (errorCode === 'auth/wrong-password') {
-        alert('Wrong password.');
+        Materialize.toast('Wrong password.', 4000);
       } else {
-        alert(errorMessage);
+        Materialize.toast(errorMessage, 4000);
       }
       console.log(error);
       // [END_EXCLUDE]
@@ -115,14 +114,12 @@ function handleSignUp() {
   var email = $("#email").val();
   var password = $("#password").val();
 
-  console.log(email, password);
-
   if (email.length < 4) {
-    alert('Please enter an email address.');
+    Materialize.toast('Please enter an email address.', 4000);
     return;
   }
   if (password.length < 4) {
-    alert('Please enter a password.');
+    Materialize.toast('Please enter a password.', 4000);
     return;
   }
 
@@ -134,14 +131,13 @@ function handleSignUp() {
     var errorMessage = error.message;
     // [START_EXCLUDE]
     if (errorCode == 'auth/weak-password') {
-      alert('The password is too weak.');
+      Materialize.toast('The password is too weak.', 4000);
     } else {
-      alert(errorMessage);
+      Materialize.toast(errorMessage, 4000);
     }
     console.log(error);
     // [END_EXCLUDE]
   }).then(function(result){
-  	console.log("sending Email Verification");
   	sendEmailVerification();
   });
   // [END createwithemail]
@@ -151,12 +147,11 @@ function handleSignUp() {
  */
 
 function sendEmailVerification() {
-  console.log('got email method');
   // [START sendemailverification]
   firebase.auth().currentUser.sendEmailVerification().then(function() {
     // Email Verification sent!
     // [START_EXCLUDE]
-    alert('Email Verification Sent!');
+    Materialize.toast('Email Verification Sent!', 4000);
     // [END_EXCLUDE]
   })
   // [END sendemailverification]
@@ -166,26 +161,23 @@ var initApp = function() {
 
 	firebase.auth().onAuthStateChanged(function(user) {
 	  if (user) {
-	  	console.log(user);
 	    // User is signed in.
 	    $("#logout").removeClass("hide");
-      console.log(user.emailVerified);
 	    user.getToken().then(function(accessToken) {
 
 	    	if (!user.emailVerified) {
-          console.log('verify email');
           emailVerifyDisplay();
         } else {
-          console.log('user found');
           userId = user.uid;
         	signedInDisplay();
+          db.setRestOnLoad();
+          db.setMovieOnLoad();
         }   	
 
 
 	  	});
 	  } else {
 	    // User is signed out.
-      console.log('displayed signed out');
 	    signedOutDisplay();
 	    $("#logout").addClass("hide");
 	  }
