@@ -12,17 +12,26 @@
   <script src="assets/css/materialize/js/materialize.js"></script>
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
-  <!-- Back-End JS -->
+  <!-- Back-End JS 
   <script type="text/javascript" src="assets/javascript/app.js"></script>
-  <!-- Front-End JS -->
+   Front-End JS 
   <script type="text/javascript" src="assets/javascript/front-end.js"></script>
+  -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta charset="UTF-8">
+
+  <!--Eric Movie Function -->
+
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  -->
+ 
+
+
 </head>
 <body>
 
   <video autoplay loop muted  id="background">   
-        <source src="assets/video/background.mp4" type="video/mp4">
+        <source src="assets/Video/background.mp4" type="video/mp4">
   </video>
 
 
@@ -31,43 +40,15 @@
 			<img class="logo" src="assets/images/logo.png">
 	</div>
 
-<div class="row form">
-  <form onsubmit="return false">
-  <div class="col s6">
-  <!-- Address ID:address -->
-    <input class ="inputbox" type="text" id="address" placeholder="Address">
-  <!-- Zip ID: zipCode -->
-    <input class ="inputbox" type="number" id="zipCode" placeholder="Zip">
-    <!-- City ID: city -->
-    <input class ="inputbox" type="text" id="city" placeholder="City">
-    <!-- State ID: state-->
-    <input class ="inputbox" type="text" id="state" placeholder="State">
-   </div>
 
-  <div class="col s6">
-         <!-- ID: searchCriteria -->
-            <select id="searchCriteria">
-              <option>Rating</option>
-              <option>Cost</option>
-              <option>Distance</option>
-            </select>
-        <!-- ID: searchOrder -->
-            <select id="searchOrder">
-                 <option>High</option>
-                 <option>Low</option>
-           </select>
 
-             <div class="headerbutton">
-      <!-- Submit Button ID: submit -->
-      <button class="red lighten-3 btn" type="submit" id="submit"> <i class="material-icons">input</i> Submit </button>
-    </form>
-  </div>
-  </div>
-</div>
+  <form>
+    <label for="zipCode">Enter Zip Code</label>
+    <input type="text" id="zipCode" name="zip" required>
+    <input id="zipInput" type="submit" value="Enter">
+  </form>
 
-<!-- Logout Class: form-signin -->
-  <div class="form-signin">
-  </div>
+
 
 <div class="container">
 <!-- Restaurant Output -->
@@ -107,6 +88,7 @@
      <div class="moviepicture col s6">
           <img class="movieImg" id="movieImage">
             <div class="movieRated" id="movieRating"> </div>
+            <div id="mapdiv"></div>
       </div>
     </div>   
   </div>
@@ -134,13 +116,13 @@
      		<div class="movieRestoModal col s6">
      		<!--RESTO ID: restaurantOputputModal -->
         <!-- Where to output chosen restaurant -->
-     				<div class="restaurantOuputModal" id="restaurantOutputModal">
-     				Chosen Restaurant
+     				<div class="restaurantOuputModal" id="restaurantOputputModal">
+     				resto
      				</div>
      		<!-- MOVIE ID: movieOutputModal -->
         <!-- Where to output chosen movie and theatre -->
      				<div class="movieOutputModal" id="movieOutputModal">
-     				Chosen Movie
+     				movie
      				</div>
      		</div>
      		<!-- MAP ID: mapOutputModal -->
@@ -154,8 +136,17 @@
 
 </div>
 
-
+<!-- Logout ID: logout -->
+  <div class="logoutLink">
+    <h4 class="center-align"><a href="#" class="logout" id="logout"> Log Out </a></h4>
+  </div>
 
 </body>
+ 
+ <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCXM-2P4McxM6KX4Nr4dURfIYOVSUKhPo&libraries=places"></script>
+  <script src="moment.js"></script>
+  <script type="text/javascript" src="assets/javascript/app.js"></script>
+  <script type="text/javascript" src="assets/javascript/front-end.js"></script>
+  <script src="movieapp.js"></script>
 
 </html>

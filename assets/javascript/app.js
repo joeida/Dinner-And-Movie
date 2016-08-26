@@ -1,10 +1,21 @@
-var database = firebase.database();
+// Initialize Firebase
+//var config = {
+//    apiKey: "AIzaSyChEpHft8Prp9izbllvR5Ilkkedq7XLvXE",
+ //   authDomain: "dinner-and-movie.firebaseapp.com",
+   // databaseURL: "https://dinner-and-movie.firebaseio.com",
+   // storageBucket: "dinner-and-movie.appspot.com",
+//};
+//firebase.initializeApp(config);
+
+//var database = firebase.database();
+
+
+
 
 // Compute Values
 var compute = {
 
     startAddress: '',
-    destinationAddress: '',
     resultCounter: 1,
 
     // Get address in form of street, city, and state and return address object
@@ -31,7 +42,7 @@ var compute = {
 
     // Get zip code, verify format, and return appropriate value
     getZip: function() {
-        var zip = $('#zip').val().trim();
+        var zip = $('#zipCode').val().trim();
         var zipValid = /^\d{5}$/;
         if (zip.match(zipValid)) { 
             var zipObj = {
@@ -59,20 +70,9 @@ var compute = {
         }
     },
 
-    // Translate chosen search criteria into required value needed in API to sort results correctly
-    getSearchOrder: function() {
-        var searchOrder = $('#searchOrder').val().trim();
-        if (searchOrder === 'High') {
-            return 'desc';
-        }
-        if (searchOrder === 'Low') {
-            return 'asc';
-        }
-    },
-
     // Using address and search criteria, use Google Geo API to get Latitude and Longitude of location chosen
     // After results obtained, run get Restaurant method which queries zomato restaurant search API based on geo location
-    getGeo: function (addressObj, searchCriteria, searchOrder) {
+    getGeo: function (addressObj, searchCriteria) {
         var query = '';
         var queryList = [];
         var addressList = addressObj.addressList;
@@ -106,8 +106,7 @@ var compute = {
             var geoObj = {
                 lat: lat,
                 lng: lng,
-                searchCriteria: searchCriteria,
-                searchOrder: searchOrder
+                searchCriteria: searchCriteria
             };
             return geoObj;
         })
@@ -125,22 +124,16 @@ var compute = {
         var lat = geoObj.lat;
         var lng = geoObj.lng;
         var searchCriteria;
-        var searchOrder;
         var queryURL;
         if (geoObj.searchCriteria) {
             searchCriteria = geoObj.searchCriteria;
         } else {
             searchCriteria = 'rating';
         }
-        if (geoObj.searchOrder) {
-            searchOrder = geoObj.searchOrder;
-        } else {
-            searchOrder = 'desc';
-        }
         if (newQueryURL) {
             queryURL = newQueryURL;
         } else {
-            queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&order=" + searchOrder + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
+            queryURL = "https://developers.zomato.com/api/v2.1/search?lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
         }
         $.ajax({url: queryURL, method: 'GET'})
         .then(function(response) {
@@ -161,7 +154,7 @@ var compute = {
             }
             if (response.restaurants.length === 20 && compute.resultCounter < 22) {
                 compute.resultCounter += 20;
-                var newQuery = "https://developers.zomato.com/api/v2.1/search?start=" + compute.resultCounter + "&lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&order=" + searchOrder + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
+                var newQuery = "https://developers.zomato.com/api/v2.1/search?start=" + compute.resultCounter + "&lat=" + lat + "&lon=" + lng + "&radius=1000&sort=" + searchCriteria + "&apikey=4e48375b934f553b68f4409de5bdf9bb";
                 compute.getRest(geoObj, newQuery);
             } else {
                 compute.resultCounter = 1;
@@ -256,6 +249,7 @@ var render = {
 
     // Display google map of initial query location to location of chosen restaurant
     displayRestDistanceMap: function(origin, destination) {
+        render.clearMapOutput();
         var queryBegin = 'https://www.google.com/maps/embed/v1/directions?key=AIzaSyD5L9bqnVgrw-XfE1nZbhREaDukQJVPDQs&';
         var queryOrigin = 'origin=' + origin.split(', ').join('+') + '&';
         var destinationList = destination.split(', ').join('+');
@@ -271,12 +265,13 @@ var render = {
         iframe.attr('style', 'border:0');
         iframe.attr('src', queryURL);
         iframe.attr('allowfullscreen');
-        $('#mapOutput').html(iframe);
+        $('#mapOutput').append(iframe);
         $('#mapOutput').append(blankP);
     },
 
     // Display google map of location of restaurant chosen when no initial location is available
     displayRestMap: function(destination) {
+        render.clearMapOutput();
         var queryBegin = 'https://www.google.com/maps/embed/v1/search?key=AIzaSyD5L9bqnVgrw-XfE1nZbhREaDukQJVPDQs&q='
         var destinationList = destination.split(', ').join('+');
         var queryDestination = destinationList.split(' ').join('+');
@@ -290,8 +285,8 @@ var render = {
         iframe.attr('style', 'border:0');
         iframe.attr('src', queryURL);
         iframe.attr('allowfullscreen');
-        $('#mapOutput').html(iframe);
-        $('#mapOutput').append(blankP);
+        $('#mapOutputModal').append(iframe);
+        $('#mapOutputModal').append(blankP);
     },
 
     // Display chosen restaurant in itinerary output field on html page
@@ -361,11 +356,13 @@ var render = {
         buttonTd.css('padding', '0 0 10px 0');
         buttonTd.html(choiceBtn);
         buttonTr.append(buttonTd);
-        $('#restChoiceOutput').append(nameTr);
-        $('#restChoiceOutput').append(locationTr);
-        $('#restChoiceOutput').append(cuisineTr);
-        $('#restChoiceOutput').append(infoTr);
-        $('#restChoiceOutput').append(buttonTr);
+        $('#restaurantOputputModal').append(nameTr);
+        $('#restaurantOputputModal').append(locationTr);
+        $('#restaurantOputputModal').append(cuisineTr);
+        $('#restaurantOputputModal').append(infoTr);
+        $('#restaurantOputputModal').append(buttonTr);
+      //FRONT END: Added this for dialogue
+        Materialize.toast('Restaurant in Itinerary!', 4000);
     },
 
     // Clear input fields after submitting request
@@ -396,62 +393,43 @@ var render = {
 var db = {
     // Write restaurant object to database restaurant reference object
     setRest: function(restObj) {
-        var restExists = false;
-        database.ref('/restaurant').once("value", function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-                if (childSnapshot.val().userId === restObj.userId) {
-                    var key = childSnapshot.key;
-                    database.ref('/restaurant/' + key).remove();
-                    database.ref('/restaurant').push(restObj);
-                    restExists = true;
-                }
-            });
-        });
-        if (restExists === false) {
-            database.ref('/restaurant').push(restObj);
-        }
+        database.ref('/restaurant').set(restObj);
     },
 
     // Cause database change on page load to initiate map render
     setRestOnLoad: function () {
         database.ref('/restaurant').once("value", function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-                if (childSnapshot.val().userId === userId) {
-                    var name = childSnapshot.val().name;
-                    var location = childSnapshot.val().location;
-                    var cuisine = childSnapshot.val().cuisine;
-                    var rating = childSnapshot.val().rating;
-                    var priceRange = childSnapshot.val().priceRange;
-                    var link = childSnapshot.val().link;
-                    var restObj = {
-                        name: name,
-                        location: location,
-                        cuisine: cuisine,
-                        rating: rating,
-                        priceRange: priceRange,
-                        link: link,
-                        userId: userId
-                    };
-                    var key = childSnapshot.key;
-                    database.ref('/restaurant/' + key).remove();
-                    database.ref('/restaurant').push(restObj);
-                }
-            });
+            if (snapshot.val() !== null) {
+                var name = snapshot.val().name;
+                var location = snapshot.val().location;
+                var cuisine = snapshot.val().cuisine;
+                var rating = snapshot.val().rating;
+                var priceRange = snapshot.val().priceRange;
+                var link = snapshot.val().link;
+                var restClearObj = {
+                    name: name,
+                    location: location,
+                    cuisine: cuisine,
+                    rating: rating,
+                    priceRange: priceRange,
+                };
+                var restObj = {
+                    name: name,
+                    location: location,
+                    cuisine: cuisine,
+                    rating: rating,
+                    priceRange: priceRange,
+                    link: link
+                };
+                database.ref('/restaurant').set(restClearObj);
+                database.ref('/restaurant').set(restObj);
+            }
         });
     },
 
     // Remove restaurant object from database upon clicking the restaurant remove button in itinerary
     removeRest: function() {
-        database.ref('/restaurant').once("value", function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-                if (childSnapshot.val().userId === userId) {
-                    var key = childSnapshot.key;
-                    database.ref('/restaurant/' + key).remove();
-                    render.clearRestChoice();
-                    render.clearMapOutput();
-                }
-            });
-        });
+        database.ref('/restaurant').remove();
     }
 };
 
@@ -460,28 +438,21 @@ $(document).ready(function() {
 
     // Process address input upon clicking the submit button
     $('#submit').on('click', function() {
-        var checkUser = sessionStorage.getItem('appPageLoaded');
-        if (!checkUser || checkUser === 'false') {
-            window.location = "index.html";
+
+        render.clearRestTable();
+        var addressObj = compute.getAddress();
+        var zipObj = compute.getZip();
+        var searchCriteria = compute.getSearchCriteria();
+        if (zipObj === 'invalid') {
+            console.log('invalid zip code');
+        } else if (zipObj === 'empty' && addressObj === 'empty') {
+            console.log('zip code and address field empty');
+        } else if (zipObj && typeof zipObj === 'object') {
+            render.clearInput();
+            compute.getGeo(zipObj, searchCriteria);
         } else {
-            render.clearRestTable();
-            var addressObj = compute.getAddress();
-            var zipObj = compute.getZip();
-            var searchCriteria = compute.getSearchCriteria();
-            var searchOrder = compute.getSearchOrder();
-            if (zipObj === 'invalid') {
-                console.log('invalid zip code');
-                alert('Please enter a valid zip code!');
-            } else if (zipObj === 'empty' && addressObj === 'empty') {
-                console.log('zip code and address field empty');
-                alert('Please enter a valid zip code or address, city, state!')
-            } else if (zipObj && typeof zipObj === 'object') {
-                render.clearInput();
-                compute.getGeo(zipObj, searchCriteria, searchOrder);
-            } else {
-                render.clearInput();
-                compute.getGeo(addressObj, searchCriteria, searchOrder);
-            }
+            render.clearInput();
+            compute.getGeo(addressObj, searchCriteria);
         }
 
         return false;
@@ -502,8 +473,7 @@ $(document).ready(function() {
             cuisine: cuisine,
             rating: rating,
             priceRange: priceRange,
-            link: link,
-            userId: userId
+            link: link
         };
         db.setRest(restObj);
     });
@@ -516,27 +486,45 @@ $(document).ready(function() {
 
     // Process values upon changes in the restaurant database reference object
     database.ref('/restaurant').on("value", function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-            if (childSnapshot.val().userId === userId) {
-                render.clearRestChoice();
-                var name = childSnapshot.val().name;
-                var location = childSnapshot.val().location;
-                var cuisine = childSnapshot.val().cuisine;
-                var rating = childSnapshot.val().rating;
-                var priceRange = childSnapshot.val().priceRange;
-                var link = childSnapshot.val().link;
-                render.displayRestChoice(name, location, cuisine, rating, priceRange, link);
-                if (compute.startAddress) {
-                    render.displayRestDistanceMap(compute.startAddress, location);
-                } else {
-                    render.displayRestMap(location);
-                }
+        if (snapshot.val() !== null) {
+            render.clearRestChoice();
+            var name = snapshot.val().name;
+            var location = snapshot.val().location;
+            var cuisine = snapshot.val().cuisine;
+            var rating = snapshot.val().rating;
+            var priceRange = snapshot.val().priceRange;
+            var link = snapshot.val().link;
+            render.displayRestChoice(name, location, cuisine, rating, priceRange, link);
+            if (compute.startAddress) {
+                render.displayRestDistanceMap(compute.startAddress, location);
             } else {
-                render.clearRestChoice();
-                render.clearMapOutput();
+                render.displayRestMap(location);
             }
-        });
+        } else {
+            render.clearRestChoice();
+            render.clearMapOutput();
+        }
 
     });
 
+// SELECT
+    $('select').material_select();
+ // MODAL
+    $('.modal-trigger').leanModal();
+});
+          
+// SMOOTH SCROLLING
+$(function() {
+    $('a[href*="#"]:not([href="#"])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+            var target = $(this.hash);
+            target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+        if (target.length) {
+            $('html, body').animate({
+            scrollTop: target.offset().top
+                }, 1000);
+            return false;
+            }
+        }
+    });
 });
