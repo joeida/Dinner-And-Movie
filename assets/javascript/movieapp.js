@@ -1,7 +1,6 @@
 
-var database = firebase.database();
-
 //Creating needed global variables.
+var database = firebase.database();
 var theaterAddress = "";
 var showtime = "";
 var movieTitle = "";
@@ -16,10 +15,10 @@ var long;
 
 
 //API keys and counter for OnConnect.
-var apiKey1 = "w2v7bscpkzmezeny47ueqsau"
+var apiKey1 = "adf7jebmw23v6yjr6f6qcqsf"
 var apiKey2 = "93dvq9k3hx7ahh997jb5tyd2"
 var apiKey3 = "9vu3zjqxjwg49mm9p72mqjau"
-var apiKey4 = "adf7jebmw23v6yjr6f6qcqsf"
+var apiKey4 = "w2v7bscpkzmezeny47ueqsau"
 var apiKey;
 var apiCounter = "";
 database.ref('/apicounter').once("value").then(function(snapshot) {
@@ -40,17 +39,15 @@ if (apiCounter > 147 && apiCounter < 197){
 	apiCounter = 0;
 };
 
-//When enter zip, find movies, clear database, empty anything that was in movieContainer.
-//Hide unneeded buttons and containers.
+//When enter address, clear database of movieOptions, empty anything that was in movieContainer.
 $('#submit').on('click', function(){
 	database.ref('/movieOptions').remove();
 	$("#movieContainer").empty();
-
+	apiCounter++
 	return false;
 });
 
 //When click on movie choice, find showtimes, empty anything that was in showtimeContainer.
-//Hide unneeded buttons and containers.
 $("#movieContainer").on("click", ".movie", function(){
 	var movie = $(this).data(movie);
 	$("#showtimeContainer").empty();
@@ -58,8 +55,7 @@ $("#movieContainer").on("click", ".movie", function(){
 	
 });
 
-//When click on showtime choice, find address of theater, empty selectionContainer.
-//Hide unneeded buttons and containers.
+//When click on showtime choice, set showtime data to database, find address of theater, empty selectionContainer.
 $("#showtimeContainer").on("click", ".showtime", function(){
 	var showtime = $(this).data(showtime);
 	database.ref('/movieChoice').set({
@@ -74,15 +70,13 @@ $("#showtimeContainer").on("click", ".showtime", function(){
 	
 });
 
-
-//Take zip code and query OnConnect for movies playing nearby. Store movie info in each button.
-//Disply movie info. Also get showtimes for each movie for later display.
+//Use lat and lng to query OnConnect for movies playing nearby. Store movie info in each button.
+//Disply movie info. Also get showtimes for each movie for later display. Push options to database.
 function findMovie(lat, lng){
 	var date = moment().format("YYYY-MM-DD");
 	var onConnectQueryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + date + "&lat=" + lat + "&lng=" + lng + "&api_key=" + apiKey4;
 	$.ajax({url: onConnectQueryURL, method: 'GET'})
 	.done(function(response){
-		apiCounter++
 		database.ref('/apicounter').set(apiCounter);
 		for (var i = 0; i < 25; i++){
 			var movie = response[i];
@@ -162,20 +156,8 @@ function findMovie(lat, lng){
 	});
 };
 
-function findPoster(movieTitle){
-	var OMDBQueryURL = "https://www.omdbapi.com/?t=" + movieTitle + "&y=2016&plot=short&r=json";
-	$.ajax({url: OMDBQueryURL, method: 'GET'})
-	.done(function(response){
-		if (response["Poster"]){
-			posterURL = response["Poster"];
-		}
-		else {
-			posterURL = "assets/images/noposter.jpg";
-		};
-		$("#movieImage").attr('src', posterURL);
-	});
-};
-
+//When user selects movie title, pull showtimes for that movie from what's stored in database.
+//Display in showtime container. Store movie info in the new button. Call poster funtion.
 function findShowtimes(movie){			
 	var data = database.ref('/movieOptions');
 	data.on("child_added", function(snapshot){
@@ -201,11 +183,26 @@ function findShowtimes(movie){
 	});						
 };
 
-function findAddress(showtime){	
+//Query OMDB to get poster image for movie options. If not poster, display "noposter" image.
+function findPoster(movieTitle){
+	var OMDBQueryURL = "https://www.omdbapi.com/?t=" + movieTitle + "&y=2016&plot=short&r=json";
+	$.ajax({url: OMDBQueryURL, method: 'GET'})
+	.done(function(response){
+		if (response["Poster"]){
+			posterURL = response["Poster"];
+		}
+		else {
+			posterURL = "assets/images/noposter.jpg";
+		};
+		$("#movieImage").attr('src', posterURL);
+	});
+};
 
+//Find address of theater for selection, using lati and long and name of theater.
+//Need to create map in order to get address, but set so map won't show.
+function findAddress(showtime){	
   	var latlng = new google.maps.LatLng(lati,long);
 	var map = new google.maps.Map(document.getElementById('mapdiv'), {
-   
     });
 	var request = {
     	query: showtime.theater,
@@ -214,7 +211,8 @@ function findAddress(showtime){
   	var service = new google.maps.places.PlacesService($('#mapdiv').get(0));
 	service.textSearch(request, callbackAddress);
 };
-		
+
+//Callback from findAddress that gives us the address. Pass it to displaySelection.		
 function callbackAddress(results, status) {
   	if (status == google.maps.places.PlacesServiceStatus.OK) {
     	theaterAddress = results[0].formatted_address;
@@ -223,6 +221,7 @@ function callbackAddress(results, status) {
     };
  };
 
+//Pull movie choice data from database. Display movie info and address. Set all variables incl address back in databse.
  function displaySelection(){
  	var choice = database.ref('/movieChoice');
 	choice.once("value", function(snapshot){
@@ -244,7 +243,6 @@ function callbackAddress(results, status) {
 			theater: movieTheater,
 			address: theaterAddress,
 			userId: userId
-		});  
-  	
+		});    	
 	});
 };
