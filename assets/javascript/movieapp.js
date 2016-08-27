@@ -226,6 +226,7 @@ function callbackAddress(results, status) {
  function displaySelection(){
  	var choice = database.ref('/movieChoice');
 	choice.once("value", function(snapshot){
+		db.setRestOnLoad();
 		var choiceSnapshot = snapshot.val();
 		movieTitle = choiceSnapshot.title;
 		movieDate = choiceSnapshot.date;
