@@ -446,11 +446,13 @@ var db = {
         database.ref('/movieChoice').once("value", function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 if (childSnapshot.val().userId === userId) {
+                    var address = childSnapshot.val().address;
                     var date = childSnapshot.val().date;
                     var theater = childSnapshot.val().theater;
                     var time = childSnapshot.val().time;
                     var title = childSnapshot.val().title;
                     var movieObj = {
+                        address: address,
                         date: date,
                         theater: theater,
                         time: time,
@@ -463,6 +465,32 @@ var db = {
                 }
             });
         });
+    },
+
+    getMovieOnLoad: function() {
+        database.ref('/movieChoice').once("value", function(snapshot) {
+            if (snapshot.val().userId === userId) {
+                var address = snapshot.val().address;
+                if (addressR) {
+                    console.log(addressR);
+                    console.log(address);
+                    render.displayRestDistanceMap(addressR, address);
+                    theaterAddress = address;
+                    displaySelection();
+                    db.setMovieAddress(address);
+                } else {
+                    render.displayRestMap(address);
+                    theaterAddress = address;
+                    displaySelection();
+                    db.setMovieAddress(address);
+                }
+            }
+        })
+    },
+
+    setMovieAddress: function(address) {
+        console.log(address);
+        addressM = address;
     },
 
     // Remove restaurant object from database upon clicking the restaurant remove button in itinerary
@@ -548,6 +576,7 @@ $(document).ready(function() {
                 var rating = childSnapshot.val().rating;
                 var priceRange = childSnapshot.val().priceRange;
                 var link = childSnapshot.val().link;
+                addressR = location;
                 render.displayRestChoice(name, location, cuisine, rating, priceRange, link);
                 if (addressM) {
                     render.displayRestDistanceMap(location, addressM);
