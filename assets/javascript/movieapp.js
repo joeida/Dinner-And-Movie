@@ -200,16 +200,18 @@ function callbackAddress(results, status) {
 
  function displaySelection(){
  	var choice = database.ref('/movieChoice');
-	choice.on("value", function(snapshot){
+	choice.once("value", function(snapshot){
 		var choiceSnapshot = snapshot.val();
+		console.log(choiceSnapshot);
+		console.log(theaterAddress);
 		movieTitle = choiceSnapshot.title;
 		movieDate = choiceSnapshot.date;
 		movieTime = choiceSnapshot.time;
 		movieTheater = choiceSnapshot.theater;
 
 		var movieSelectionModal = $("<ul id='selectionDetails'>");
- 		$("#selectionDetails").append("<li>" + movieTitle + "</li><li>" + movieDate + "</li><li>" + movieTime + "</li><li>" + movieTheater + "</li><li>" + theaterAddress + "</li>");
-		$("#movieOutputModal").append(movieSelectionModal);
+ 		movieSelectionModal.append("<li>" + movieTitle + "</li><li>" + movieDate + "</li><li>" + movieTime + "</li><li>" + movieTheater + "</li><li>" + theaterAddress + "</li>");
+		$("#movieOutputModal").html(movieSelectionModal);
 
 		database.ref('/movieChoice').set({
 			title: movieTitle,
