@@ -15,10 +15,10 @@ var long;
 
 
 //API keys and counter for OnConnect.
-var apiKey1 = "w2v7bscpkzmezeny47ueqsau"
+var apiKey1 = "adf7jebmw23v6yjr6f6qcqsf"
 var apiKey2 = "93dvq9k3hx7ahh997jb5tyd2"
 var apiKey3 = "9vu3zjqxjwg49mm9p72mqjau"
-var apiKey4 = "adf7jebmw23v6yjr6f6qcqsf"
+var apiKey4 = "w2v7bscpkzmezeny47ueqsau"
 var apiKey;
 var apiCounter = "";
 database.ref('/apicounter').once("value").then(function(snapshot) {
@@ -43,7 +43,7 @@ if (apiCounter > 147 && apiCounter < 197){
 $('#submit').on('click', function(){
 	database.ref('/movieOptions').remove();
 	$("#movieContainer").empty();
-
+	apiCounter++
 	return false;
 });
 
@@ -77,7 +77,6 @@ function findMovie(lat, lng){
 	var onConnectQueryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + date + "&lat=" + lat + "&lng=" + lng + "&api_key=" + apiKey4;
 	$.ajax({url: onConnectQueryURL, method: 'GET'})
 	.done(function(response){
-		apiCounter++
 		database.ref('/apicounter').set(apiCounter);
 		for (var i = 0; i < 25; i++){
 			var movie = response[i];
