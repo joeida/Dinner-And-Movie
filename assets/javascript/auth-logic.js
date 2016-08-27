@@ -174,7 +174,7 @@ var initApp = function() {
         } else {
           userId = user.uid;
           db.setRestOnLoad();
-          db.setMovieOnLoad();
+          db.getMovieOnLoad();
           signedInDisplay();
         }   	
 
