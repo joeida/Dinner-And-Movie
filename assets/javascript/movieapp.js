@@ -15,11 +15,30 @@ var lati;
 var long;
 
 
-//API keys for OnConnect.
-apiKey1 = "w2v7bscpkzmezeny47ueqsau"
-apiKey2 = "93dvq9k3hx7ahh997jb5tyd2"
-apiKey3 = "9vu3zjqxjwg49mm9p72mqjau"
-apiKey4 = "adf7jebmw23v6yjr6f6qcqsf"
+//API keys and counter for OnConnect.
+var apiKey1 = "w2v7bscpkzmezeny47ueqsau"
+var apiKey2 = "93dvq9k3hx7ahh997jb5tyd2"
+var apiKey3 = "9vu3zjqxjwg49mm9p72mqjau"
+var apiKey4 = "adf7jebmw23v6yjr6f6qcqsf"
+var apiKey;
+var apiCounter = "";
+database.ref('/apicounter').once("value").then(function(snapshot) {
+	apiCounter = snapshot.val();
+});
+
+if (apiCounter < 50){
+	apiKey = apiKey1;
+};
+if (apiCounter > 49 && apiCounter < 99){
+	apiKey = apiKey2;
+};
+if (apiCounter > 98 && apiCounter < 148){
+	apiKey = apiKey3;
+};
+if (apiCounter > 147 && apiCounter < 197){
+	apiKey = apiKey4;
+	apiCounter = 0;
+};
 
 //When enter zip, find movies, clear database, empty anything that was in movieContainer.
 //Hide unneeded buttons and containers.
@@ -63,6 +82,8 @@ function findMovie(lat, lng){
 	var onConnectQueryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + date + "&lat=" + lat + "&lng=" + lng + "&api_key=" + apiKey4;
 	$.ajax({url: onConnectQueryURL, method: 'GET'})
 	.done(function(response){
+		apiCounter++
+		database.ref('/apicounter').set(apiCounter);
 		for (var i = 0; i < 25; i++){
 			var movie = response[i];
 			var movieTitle;
@@ -117,26 +138,16 @@ function findMovie(lat, lng){
 			$("#movieContainer").append(movieBlock);
 			$("#movieContainer").append(movieButton);
 
-			for (var j = 0; j < 20; j++){
-				var showtime;
+
+			for (var j = 0; j < response[i].showtimes.length; j++){
+
 				if (response[i].showtimes[j]) {
 					showtime = response[i].showtimes[j].dateTime;
 					var dateTimeArray = showtime.split("T");
 					var movieDate = dateTimeArray[0];
 					var time = dateTimeArray[1];
 					var movieTime = moment(time, 'hh:mm').format("h:mm a");
-				}
-				else {
-					showtime = "No Showtime";
-					movieDate = "No Date";
-					movieTime = "No Showtime";
-				};
-				var movieTheater;
-				if (response[i].showtimes[j]) {
-					movieTheater = response[i].showtimes[j].theatre.name;
-				}
-				else {
-					movieTheater = "No Theater";
+					var movieTheater = response[i].showtimes[j].theatre.name;
 				};
 
 				database.ref('/movieOptions').push({
@@ -148,6 +159,20 @@ function findMovie(lat, lng){
 				});
 			};
 		};
+	});
+};
+
+function findPoster(movieTitle){
+	var OMDBQueryURL = "https://www.omdbapi.com/?t=" + movieTitle + "&y=2016&plot=short&r=json";
+	$.ajax({url: OMDBQueryURL, method: 'GET'})
+	.done(function(response){
+		if (response["Poster"]){
+			posterURL = response["Poster"];
+		}
+		else {
+			posterURL = "assets/images/noposter.jpg";
+		};
+		$("#movieImage").attr('src', posterURL);
 	});
 };
 
@@ -175,13 +200,13 @@ function findShowtimes(movie){
 		};
 	});						
 };
+
 function findAddress(showtime){	
 
   	var latlng = new google.maps.LatLng(lati,long);
 	var map = new google.maps.Map(document.getElementById('mapdiv'), {
    
     });
-
 	var request = {
     	query: showtime.theater,
     	type: 'movie_theater'
@@ -203,15 +228,13 @@ function callbackAddress(results, status) {
 	choice.once("value", function(snapshot){
 		db.setRestOnLoad();
 		var choiceSnapshot = snapshot.val();
-		console.log(choiceSnapshot);
-		console.log(theaterAddress);
 		movieTitle = choiceSnapshot.title;
 		movieDate = choiceSnapshot.date;
 		movieTime = choiceSnapshot.time;
 		movieTheater = choiceSnapshot.theater;
 
 		var movieSelectionModal = $("<ul id='selectionDetails'>");
- 		movieSelectionModal.append("<li>" + movieTitle + "</li><li>" + movieDate + "</li><li>" + movieTime + "</li><li>" + movieTheater + "</li><li>" + theaterAddress + "</li>");
+ 		movieSelectionModal.append("<li><strong>" + movieTitle + "</strong></li><li>" + movieDate + "</li><li>" + movieTime + "</li><li>" + movieTheater + "</li><li>" + theaterAddress + "</li>");
 		$("#movieOutputModal").html(movieSelectionModal);
 
 		database.ref('/movieChoice').set({
@@ -225,18 +248,3 @@ function callbackAddress(results, status) {
   	
 	});
 };
-
-function findPoster(movieTitle){
-	var OMDBQueryURL = "https://www.omdbapi.com/?t=" + movieTitle + "&y=2016&plot=short&r=json";
-	$.ajax({url: OMDBQueryURL, method: 'GET'})
-	.done(function(response){
-		if (response["Poster"]){
-			posterURL = response["Poster"];
-		}
-		else {
-			posterURL = "assets/images/noposter.jpg";
-		};
-		$("#movieImage").attr('src', posterURL);
-	});
-};
-
